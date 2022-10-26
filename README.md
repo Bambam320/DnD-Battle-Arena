@@ -1,7 +1,8 @@
 
-# University Project
+# Dungeon and Dragons Information and Battle Arena
 
-This is a single-page application that allows the user to look at a random selection of books available in the courses offered at the mini-school from the home page. There is functionality that allows creating an account with a teacher or student role as well as a login page to change the users' rights. There are two components, one for faculty members and one for students, that allow the user to display all books in all courses. The faculty members can assign questions to each book and the students can answer all assignments assigned to a book.
+This is a single-page application that allows the user to look through all the spells offered in the Dungeon and Dragons game. The spells can be added to pre-made characters available on the website or a newly created character, by the user. The characters can be placed in the arena where they will duke it out until there is
+only one victor. The spells can be removed from and added to a character to increase their chances of winning. 
   
 
 ## Table of Contents
@@ -45,7 +46,7 @@ This is a single-page application that allows the user to look at a random selec
 
   
 
-This is a SPA that simulates a learning experience on canvas or a similar online school. Clone the repository to your machine and run the node installation command below to install the necessary dependencies.
+This is a SPA that simulates a learning experience on canvas or a similar online school. Clone the repository to your machine and follow the steps below to install the necessary dependencies and run the application and server.
 ```js
 npm install
 ```
@@ -57,6 +58,7 @@ It is accessible through a local browser and the data is established on a local 
 ```js
 npm run server
 ```
+ADD RUBY COMMANS HERE FOR BUNDLE AND SERVER
 Now you're ready to learn or teach at an English program in a made-up school.
 
 Clone the repo [from Github here](https://github.com/Bambam320/phase-2-miniSchool-project)
@@ -385,6 +387,11 @@ setFormValues(defaultValues)
 
 This project uses the free API from [openLibrary](https://openlibrary.org/developers)
 
+D&D 5e API - The 5th Edition Dungeons and Dragons API
+https://www.dnd5eapi.co/api
+
+
+
 ## License
 
 MIT License
@@ -393,8 +400,6 @@ Copyright (c) 2022 Igor M.
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:  
 
 The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-  
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, E ,AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGE, S OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR  ,T OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
