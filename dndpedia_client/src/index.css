@@ -17,10 +17,11 @@ code {
   font-weight: bold;
   font-size: 1.5em;
   color: rgb(1, 4, 1);
-  text-shadow: 2px 2px red;
+  text-shadow: 1px 1px 4px red;
 }
 
 .gradient-text {
+  padding-top: 25px;
   background-image: linear-gradient(180deg, #ea2424, #000000, #ea2424);
   background-clip: text;
   color: transparent;

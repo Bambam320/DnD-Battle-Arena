@@ -44,7 +44,6 @@ function NavBar() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Outlet />
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -54,6 +53,12 @@ function NavBar() {
         anchor="left"
       >
         <div className={classes.toolbar} />
+        <List>
+          <ListItem button>
+            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/home">Home</Link>
+          </ListItem>
+        </List>
+        <Divider />
         <List>
           <ListItem button>
             <Link className='linkFont' style = {{ textDecoration: "none" }} to="/characters">Characters</Link>
@@ -73,10 +78,11 @@ function NavBar() {
         <Divider />
         <List>
           <ListItem button>
-            <Link className='linkfont' style = {{ textDecoration: "none" }} to="/fight">Fight</Link>
+            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/fight">Fight</Link>
           </ListItem>
         </List>
       </Drawer>
+      <Outlet />
     </div>
   );
 }
