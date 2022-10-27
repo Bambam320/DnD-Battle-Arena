@@ -1,7 +1,7 @@
 //functional imports
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom'
-import { LoggedUserContext } from './LoggedUserContext'
+import { LoggedContext } from './LoggedContext'
 
 
 //component and required file imports
@@ -16,12 +16,24 @@ import Fight from './Fight';
 
 
 function App() {
-  const [currentFighter, setCurrentFighter] = useState('')
+  const [myFighter, setMyFighter] = useState({
+    card: {
+      name: ''
+    }
+  })
+  const [opponent, setOpponent] = useState({
+    card: {
+      name: ''
+    }
+  })
+
+  console.log(opponent)
+  console.log(myFighter)
 
   //provides context to and route to entire app
   return (
-    <LoggedUserContext.Provider value={{ currentFighter, setCurrentFighter }}>
-      <Background />
+    <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter }}>
+        <Background />
         <Routes>
           <Route path="/" element={<NavBar />}>
             <Route index path="home/" element={<Home />} />
@@ -31,7 +43,7 @@ function App() {
             <Route path="fight/" element={<Fight />} />
           </Route>
         </Routes>
-        </LoggedUserContext.Provider>
+      </LoggedContext.Provider>
   )
 }
 

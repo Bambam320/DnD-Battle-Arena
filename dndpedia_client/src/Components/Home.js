@@ -15,14 +15,10 @@ function Home() {
   //displays the title and picture on the main page
   return (
     <div>
-      <Container style={{ marginTop: '80px', marginBottom: '100px', borderStyle: "solid", borderColor: "black", borderWidth: "10px"}}>
-        <Typography className='gradient-text' variant='h3' style={{ fontWeight: '800', textAlign: 'justify', marginBottom: '25px' }}>
-          Dungeon & Dragons Battle Arena
+      <Container style={{ margin: '-600px' }}>
+        <Typography>
+          Welcome to the Dungeon & Dragons Battle Arena. Take a look at some of the characters primed and ready for battle or create your own! Add spells to your characters to increase their power and lay waste to their enemies. When you're ready to battle, click the Fight link and cross your fingers.
         </Typography>
-      </Container>
-      <Container style={{ marginTop: '15px' }} >
-        <Grid container spacing={24} justifyContent="space-evenly" columnSpacing={24}>
-        </Grid>
       </Container>
     </div>
   )
