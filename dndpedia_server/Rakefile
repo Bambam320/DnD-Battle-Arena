@@ -22,3 +22,8 @@ task :console do
   ActiveRecord::Base.logger = Logger.new(STDOUT)
   Pry.start
 end
+
+desc "Restart tables"
+task :retry do
+  exec "bundle exec rake db:rollback db:rollback db:rollback db:migrate db:seed"
+end

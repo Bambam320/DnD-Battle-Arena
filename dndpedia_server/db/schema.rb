@@ -38,12 +38,12 @@ ActiveRecord::Schema.define(version: 2022_10_27_031515) do
     t.string "material"
     t.string "duration"
     t.string "casting_time"
-    t.string "level"
-    t.string "damage"
     t.string "classes"
+    t.integer "level"
+    t.integer "damage"
+    t.integer "character_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "character_id"
   end
 
 end

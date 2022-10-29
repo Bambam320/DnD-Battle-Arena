@@ -7,11 +7,11 @@ class CreateSpells < ActiveRecord::Migration[6.1]
       t.string :material
       t.string :duration
       t.string :casting_time
+      t.string :classes
       t.integer :level
       t.integer :damage
-      t.string :classes
-      t.timestamps
       t.integer :character_id
+      t.timestamps
     end
   end
 end
