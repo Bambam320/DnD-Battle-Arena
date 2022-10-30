@@ -15,11 +15,17 @@ import TextField from "@material-ui/core/TextField";
 function UpdateCharacter() {
   const { characters, setCharacters } = useContext(LoggedContext)
   const params = useParams()
+  const [characterTraits, setCharacterTraits] = useState({
+    name: "",
+    pet: "",
+    level: 0,
+    city: "",
+    avatar_url: "",
+    language: ""
+  })
+
   // stores the current character to be updated into variable card
   let card = characters.find((character) => character.id === parseInt(params.id))
-
-  const [character, setCharacter] = useState(card)
-
   // stores the id of the character to be used for params
   let id = card.id
 
@@ -28,18 +34,21 @@ function UpdateCharacter() {
   // the new copy of the character traits object and updates state so that the default values have the traits from
   // the character
   useEffect(() => {
-    let charObject = { ...character };
-    ['name', 'pet', 'level', 'city', 'avatar_url', 'language'].map((trait) => {
-      let traitValue = Object.entries(card).find((ele) => ele[0] === trait)[1]
-      charObject = { ...charObject, [trait]: traitValue }
+    let charObject = { ...characterTraits }
+    Object.entries(characterTraits).map((trait) => {
+      let traitName = Object.entries(card).find((ele) => ele[0] === trait[0])[0]
+      let traitValue = Object.entries(card).find((ele) => ele[0] === trait[0])[1]
+      charObject = { ...charObject, [traitName]: traitValue }
     })
-    setCharacter(charObject)
+    setCharacterTraits(charObject)
   }, [params.id])
 
+
   const handleInputChange = (e) => {
+    console.log(e.target)
     const { name, value } = e.target;
-    setCharacter({
-      ...character,
+    setCharacterTraits({
+      ...characterTraits,
       [name]: value,
     });
   };
@@ -52,22 +61,13 @@ function UpdateCharacter() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(character)
+      body: JSON.stringify(characterTraits)
     }
     fetch(server, patch)
       .then((r) => r.json())
-      .then((data) => updatedCharacter(data));
-  }
-
-  function updatedCharacter(character) {
-    let updatedCharacters = characters.map((char) => {
-      if (char.id === character.id) {
-        return character
-      } else {
-      return char
-      }
-    });
-    setCharacters(updatedCharacters)
+      .then((data) => {
+        console.log('data', data)
+      });
   }
 
   return (
@@ -94,7 +94,7 @@ function UpdateCharacter() {
               name="name"
               label="Name"
               type="text"
-              value={character.name}
+              value={characterTraits.name}
               onChange={handleInputChange}
             />
             <TextField
@@ -104,7 +104,7 @@ function UpdateCharacter() {
               name="language"
               label="Language"
               type="text"
-              value={character.language}
+              value={characterTraits.language}
               onChange={handleInputChange}
             />
             <TextField
@@ -114,7 +114,7 @@ function UpdateCharacter() {
               name="avatar_url"
               label="Avatar URL"
               type="text"
-              value={character.avatar_url}
+              value={characterTraits.avatar_url}
               onChange={handleInputChange}
             />
             <TextField
@@ -124,7 +124,7 @@ function UpdateCharacter() {
               name="city"
               label="City"
               type="text"
-              value={character.city}
+              value={characterTraits.city}
               onChange={handleInputChange}
             />
             <TextField
@@ -134,7 +134,7 @@ function UpdateCharacter() {
               name="pet"
               label="Pet"
               type="text"
-              value={character.pet}
+              value={characterTraits.pet}
               onChange={handleInputChange}
             />
             <TextField
@@ -144,7 +144,7 @@ function UpdateCharacter() {
               name="level"
               label="Level"
               type="text"
-              value={character.level}
+              value={characterTraits.level}
               onChange={handleInputChange}
             />
             <Button

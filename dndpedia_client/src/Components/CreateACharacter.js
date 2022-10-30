@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 import { LoggedContext } from "./LoggedContext";
 
 import Grid from "@material-ui/core/Grid";
@@ -22,6 +23,7 @@ function CreateACharacter() {
     language: ""
   };
   const [formValues, setFormValues] = useState(defaultValues);
+  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -43,8 +45,9 @@ function CreateACharacter() {
     }
     fetch(server, post)
       .then((r) => r.json())
-      .then((data) => setCharacters({...characters, data}));
+      .then((data) => setCharacters([...characters, data]));
     setFormValues(defaultValues)
+    navigate('/characters')
   };
 
 

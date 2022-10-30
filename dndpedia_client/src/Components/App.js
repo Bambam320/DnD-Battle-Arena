@@ -1,5 +1,5 @@
 //functional imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Outlet } from 'react-router-dom'
 import { LoggedContext } from './LoggedContext'
 
@@ -29,6 +29,12 @@ function App() {
     }
   })
   const [characters, setCharacters] = useState([])
+
+  useEffect(() => {
+    fetch('http://localhost:9292/characters')
+      .then((r) => r.json())
+      .then((data) => console.log(data))
+  }, [])
 
   //provides context to and route to entire app
   return (

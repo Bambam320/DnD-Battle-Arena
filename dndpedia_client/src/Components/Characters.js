@@ -9,18 +9,14 @@ import Grid from '@material-ui/core/Grid';
 function Characters() {
   const { characters, setCharacters } = useContext(LoggedContext)
 
-  useEffect(() => {
-    fetch('http://localhost:9292/characters')
-      .then((r) => r.json())
-      .then((data) => setCharacters(data))
-  }, [])
-
   function handleDeleteCharacter(id) {
     const newCharacters = characters.filter((character) => character.id != id)
     setCharacters(newCharacters)
   }
 
+
   const listCharacters = characters.map((singleCharacter) => {
+
     return (
       <React.Fragment key={singleCharacter.id} >
         <Grid item={4}>
