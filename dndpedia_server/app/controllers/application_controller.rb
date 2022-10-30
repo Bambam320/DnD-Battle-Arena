@@ -58,7 +58,7 @@ class ApplicationController < Sinatra::Base
       damage: params[:damage],
       character_id: params[:character_id]
     )
-    puts character.spells.last.damage
+    character.spells.last.to_json
   end
 
   delete '/characters/:id' do

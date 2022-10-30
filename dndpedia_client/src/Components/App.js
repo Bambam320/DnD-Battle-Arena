@@ -42,7 +42,7 @@ function App() {
 
   //provides context to and route to entire app
   return (
-    <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter, characters, setCharacters }}>
+    <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter, characters, setCharacters, spells, setSpells }}>
       <Background />
       <Routes>
         <Route path="/" element={<NavBar />}>

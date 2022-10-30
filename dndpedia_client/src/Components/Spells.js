@@ -10,9 +10,10 @@ import Switch from '@material-ui/core/Switch';
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Typography from '@material-ui/core/Typography';
+import Characters from "./Characters";
 
 function Spells() {
-  const { myFighter } = useContext(LoggedContext)
+  const { myFighter, spells, setSpells, setCharacters } = useContext(LoggedContext)
   const defaultValues = {
     name: "",
     description: "",
@@ -24,7 +25,7 @@ function Spells() {
     damage: 0,
     character_id: 0
   };
-  
+
   const [formValues, setFormValues] = useState(defaultValues);
   const [addToCharacter, setAddToCharacter] = useState(false);
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ function Spells() {
     console.log(myFighter.card.id)
     if (Object.keys(myFighter.card).length > 1) {
       setAddToCharacter(e.target.checked);
-      setFormValues({...formValues, character_id: myFighter.card.id})
+      setFormValues({ ...formValues, character_id: myFighter.card.id })
     } else {
       alert('You must select a champion first!')
     }
@@ -65,9 +66,14 @@ function Spells() {
     }
     fetch(server, post)
       .then((r) => r.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        setSpells([...spells, data])
+        let updatedCharacters = Characters.map
+        setCharacters
+      });
   };
 
+  console.log(spells)
 
   return (
     <Container style={{ marginTop: '-600px' }}>
@@ -175,7 +181,7 @@ function Spells() {
         </Grid>
         <Grid container justifyContent="center">
           <Grid item>
-            <FormGroup style={{marginTop: '50px'}}>
+            <FormGroup style={{ marginTop: '50px' }}>
               <FormControlLabel
                 control={
                   <Switch
