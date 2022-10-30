@@ -20,6 +20,16 @@ code {
   text-shadow: 1px 1px 4px red;
 }
 
+.characterFont {
+  font-family: Tahoma, sans-serif;
+  font-weight: bold;
+  font-size: 1.5em;
+  color: rgb(1, 4, 1);
+  text-shadow: 1px 1px 4px red;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
 .gradient-text {
   padding-top: 25px;
   background-image: linear-gradient(180deg, #ea2424, #000000, #ea2424);

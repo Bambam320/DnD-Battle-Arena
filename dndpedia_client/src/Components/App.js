@@ -1,6 +1,6 @@
 //functional imports
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import { LoggedContext } from './LoggedContext'
 
 
@@ -13,6 +13,8 @@ import Spells from './Spells';
 import Characters from './Characters'
 import CreateACharacter from './CreateACharacter';
 import Fight from './Fight';
+import CharacterSpells from './CharacterSpells'
+import UpdateCharacter from './UpdateCharacter';
 
 
 function App() {
@@ -26,24 +28,26 @@ function App() {
       name: ''
     }
   })
-
-  console.log(opponent)
-  console.log(myFighter)
+  const [characters, setCharacters] = useState([])
 
   //provides context to and route to entire app
   return (
-    <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter }}>
-        <Background />
-        <Routes>
-          <Route path="/" element={<NavBar />}>
-            <Route index path="home/" element={<Home />} />
-            <Route path="spells/" element={<Spells />} />
-            <Route path="characters/" element={<Characters />} />
-            <Route path="create_a_character/" element={<CreateACharacter />} />
-            <Route path="fight/" element={<Fight />} />
+    <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter, characters, setCharacters }}>
+      <Background />
+      <Routes>
+        <Route path="/" element={<NavBar />}>
+          <Route index element={<Home />} />
+          <Route path="characters/" element={<Characters />} >
+            <Route path=":id/spells" element={<CharacterSpells />} />
+            <Route path=":id/update" element={<UpdateCharacter />} />
           </Route>
-        </Routes>
-      </LoggedContext.Provider>
+          <Route path="spells/" element={<Spells />} />
+          <Route path="create_a_character/" element={<CreateACharacter />} />
+          <Route path="fight/" element={<Fight />} />
+        </Route>
+      </Routes>
+      
+    </LoggedContext.Provider>
   )
 }
 

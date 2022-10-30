@@ -24,6 +24,8 @@ function NavBar() {
   const { opponent, myFighter } = useContext(LoggedContext)
   const [ validFighter, setValidFighter ] = useState(false)
   const [ validOpponent, setValidOpponent ] = useState(false)
+  // console.log('fighter', myFighter)
+  // console.log('opponent', opponent)
 
   useEffect(() => {
     myFighter.card.name ? setValidFighter(true) : setValidFighter(false)
@@ -67,13 +69,13 @@ function NavBar() {
         <div className={classes.toolbar} />
         <List>
           <ListItem button>
-            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/home">Home</Link>
+            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/">Home</Link>
           </ListItem>
         </List>
         <Divider />
         <List>
           <ListItem button>
-            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/characters">Characters</Link>
+            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/characters/">Characters</Link>
           </ListItem>
         </List>
         <List>
@@ -96,17 +98,23 @@ function NavBar() {
         <Divider />
         <List>
           <ListItem>
-            <p className='characterFont'>{validFighter ? `Your champion: ${myFighter.card.name} has ${myFighter.card.attack_points + myFighter.card.spell_points} hitpoints` : `No champion has been selected` }</p>
+            <p className='characterFont'>{validFighter ? 
+              `Your champion: ${myFighter.card.name} has ${myFighter.card.attack_points + myFighter.card.spell_points} hit points` : 
+              `No champion has been selected` }
+            </p>
           </ListItem>
         </List>
         <Divider />
         <List>
           <ListItem>
-            <p className='characterFont'>{validOpponent ? `Your opponent is: ${opponent.card.name} has ${opponent.card.attack_points + opponent.card.spell_points} hitpoints` : `No opponent has been selected`}</p>
+            <p className='characterFont'>{validOpponent ?
+              `Your opponent: ${opponent.card.name} has ${opponent.card.attack_points + opponent.card.spell_points} hit points` : 
+              `No opponent has been selected`}
+            </p>
           </ListItem>
         </List>
       </Drawer>
-      <Outlet />
+              <Outlet /> 
     </div>
   );
 }
