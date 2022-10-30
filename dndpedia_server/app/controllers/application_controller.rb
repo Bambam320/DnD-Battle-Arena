@@ -45,6 +45,22 @@ class ApplicationController < Sinatra::Base
     new_character.to_json
   end
 
+  post '/spells' do
+    character = Character.find(10)
+    character.spells.create(
+      name: params[:name],
+      description: params[:description],
+      range: params[:range],
+      material: params[:material],
+      duration: params[:duration],
+      casting_time: params[:casting_time],
+      level: params[:level],
+      damage: params[:damage],
+      character_id: params[:character_id]
+    )
+    puts character.spells.last.damage
+  end
+
   delete '/characters/:id' do
     character = Character.find(params[:id])
     character.destroy
