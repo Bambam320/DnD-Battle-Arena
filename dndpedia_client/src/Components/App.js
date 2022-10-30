@@ -29,11 +29,15 @@ function App() {
     }
   })
   const [characters, setCharacters] = useState([])
+  const [spells, setSpells] = useState([])
 
   useEffect(() => {
     fetch('http://localhost:9292/characters')
       .then((r) => r.json())
-      .then((data) => console.log(data))
+      .then((everything) => {
+        setCharacters(everything.characters)
+        setSpells(everything.spells)
+      })
   }, [])
 
   //provides context to and route to entire app

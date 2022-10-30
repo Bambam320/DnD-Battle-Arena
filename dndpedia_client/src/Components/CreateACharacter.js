@@ -53,8 +53,8 @@ function CreateACharacter() {
 
   return (
     <Container style={{ marginTop: '-600px' }}>
-      <Typography variant="h3" style={{ fontWeight: 'bold', textAlign: 'center', marginTop: '-100px', marginBottom: '75px', color: '#ea2424', textShadow: '3px 3px 5px #000000' }}>
-        The training guild will provide your new character with weapons and training. Fill in the rest and add some spells.
+      <Typography variant="h3" style={{ fontWeight: 'bold', textAlign: 'center', marginTop: '-40px', marginBottom: '75px', color: '#ea2424', textShadow: '3px 3px 5px #000000' }}>
+        The training guild will provide your new character with weapons and training. First: Fill in your characters information and click submit. Second: Add your character as your champion in the characters page. Third: Go to the spells page and add spells to your champion.
       </Typography>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3} >

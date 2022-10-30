@@ -6,10 +6,13 @@ class ApplicationController < Sinatra::Base
   get '/characters' do
     all_characters = Character.all
     all_characters.each { |char| char.update(spell_points: char.spells.map { |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
-
+    character_json = all_characters.as_json(include: :spells)
     all_spells = Spell.all
-
-    return all_spells.to_json + all_characters.to_json(include: :spells)
+    spells_json = all_spells.as_json
+    get_hash = {}
+    get_hash[:characters] = character_json
+    get_hash[:spells] = spells_json
+    get_hash.to_json
   end
 
   post '/create_a_character' do
