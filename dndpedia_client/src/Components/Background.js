@@ -1,10 +1,13 @@
+// functional imports
 import React from 'react'
 
+// material ui components and necessary files
 import { Typography, Container } from '@material-ui/core';
 import image from '../images/arena_background.png'
 
 function Background() {
 
+  // sets the style of the background image
   const backgroundStyle = {
     backgroundImage: `url(${image})`,
     height: '100vh',
@@ -13,6 +16,7 @@ function Background() {
     backgroundRepeat: 'no-repeat',
   };
 
+  // returns the background image and a title that lives on every component of this SPA
   return (
     <div style={backgroundStyle}>
       <Container maxWidth={false} >
@@ -22,6 +26,6 @@ function Background() {
       </Container>
     </div>
   )
-}
+};
 
-export default Background
+export default Background;

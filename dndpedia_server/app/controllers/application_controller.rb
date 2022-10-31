@@ -70,7 +70,7 @@ class ApplicationController < Sinatra::Base
     character.to_json
   end
 
-  #this is going to be updated to return all characters
+  # the patch request from react provides an id through params and the character class update method changes the values for the appropriate attributes
   patch '/characters/:id' do
     character = Character.find(params[:id])
     character.update(
@@ -81,7 +81,7 @@ class ApplicationController < Sinatra::Base
       avatar_url: params[:avatar_url],
       language: params[:language]
     )
-    character.to_json
+    Character.all.to_json
   end
 
   # update a character with a new pre-existing spell and returns all characters

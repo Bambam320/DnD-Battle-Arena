@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button'
 import TextField from "@material-ui/core/TextField";
 
 function UpdateCharacter() {
-  
+
   // grabs characters and setCharacters from context
   const { characters, setCharacters } = useContext(LoggedContext)
 
@@ -48,7 +48,8 @@ function UpdateCharacter() {
     });
   };
 
-  // in these next two functions, the handleSubmit and the updatedCharacter need to be changed so that ruby provides the new characters and they're all updated
+  // The submit button fires a patch fetch to sinatra which provides it the current character with the updated attributes and returns all characters wherein the
+  // current character has been updated
   function handleSubmit(e) {
     e.preventDefault();
     let server = `http://localhost:9292/characters/${id}`
@@ -61,20 +62,10 @@ function UpdateCharacter() {
     }
     fetch(server, patch)
       .then((r) => r.json())
-      .then((data) => updatedCharacter(data));
+      .then((data) => setCharacters(data));
   }
 
-  function updatedCharacter(character) {
-    let updatedCharacters = characters.map((char) => {
-      if (char.id === character.id) {
-        return character
-      } else {
-      return char
-      }
-    });
-    setCharacters(updatedCharacters)
-  }
-
+  // renders a card similar to CharacterSpells with the updateable attributes and their current value in a text field and a submit button to fire the patch
   return (
     <Container style={{ margin: '-600px', marginLeft: 'auto', marginRight: 'auto' }}>
       <Card
@@ -165,11 +156,9 @@ function UpdateCharacter() {
             </Button>
           </form>
         </CardContent>
-
       </Card>
-
     </Container>
   )
-}
+};
 
 export default UpdateCharacter;
