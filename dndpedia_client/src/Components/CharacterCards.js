@@ -1,9 +1,9 @@
-//functional imports
+// functional imports
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
 
-//material imports
+// material ui imports
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -11,8 +11,9 @@ import Typography from '@material-ui/core/Typography';
 import { CardActionArea } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 
-
 function CharacterCards({ card, onDeleteCharacter }) {
+
+  // grabs the setter state function for the opponent and the fighter
   const { setOpponent, setMyFighter } = useContext(LoggedContext)
 
   //creates variables to store information from props to be used in displaying content
@@ -32,16 +33,18 @@ function CharacterCards({ card, onDeleteCharacter }) {
   let spellPoints = card.spell_points
   let imageUrl = card.avatar_url
 
+  // sets the myFighter and opponent state with the card for the character that is selected to be the one or the other
+  // prevents the link component in the whole card from firing when one of the buttons inside of it is clicked
   function handleAddMainFighter(e) {
     e.preventDefault()
     setMyFighter({ card })
   }
-
   function handleAddOpponentFighter(e) {
     e.preventDefault()
     setOpponent({ card })
   }
 
+  // fetches a delete url from sinatra to delete a character from the database, the returned JSON is not used and the onDeleteCharacter function is called
   function handleDeleteCharacter(e) {
     e.preventDefault()
     fetch(`http://localhost:9292/characters/${id}`, {
@@ -49,7 +52,8 @@ function CharacterCards({ card, onDeleteCharacter }) {
     });
     onDeleteCharacter(id)
   }
-  
+
+  // returns a card for each character
   return (
     <Card
       style={{
@@ -60,6 +64,7 @@ function CharacterCards({ card, onDeleteCharacter }) {
         borderColor: "red"
       }} variant="outlined"
     >
+      {/* The entire card is a link to that characters spell in the component CharacterSpells */}
       <CardActionArea component={Link} to={`/characters/${id}/spells`}>
         <CardMedia
           style={{ borderStyle: "solid", borderWidth: '5px', borderColor: "#dce04f" }}
@@ -70,6 +75,7 @@ function CharacterCards({ card, onDeleteCharacter }) {
           alt={name}
         />
         <CardContent>
+          {/* Listing out all of the information about the character */}
           <Typography variant="h6" component="em" style={{ fontWeight: 'bold' }}>
             {`Name: ${name}`}
           </Typography>
@@ -109,16 +115,18 @@ function CharacterCards({ card, onDeleteCharacter }) {
           <Typography>
             {`Spell attack power: ${spellPoints} points`}
           </Typography>
+          {/* Renders buttons for adding this character as your fighter or opponent, deleting this character or updating this character. */}
+          {/* The update character button is a link to this characters updatable traits. The link renders the UpdateCharacter component from app */}
           <Button onClick={handleAddMainFighter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginTop: "10px", marginBottom: "20px" }}>
             Set As My Character
           </Button>
           <Button onClick={handleAddOpponentFighter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginBottom: "20px" }}>
             Set As Opponent
           </Button>
-          <Button onClick={handleDeleteCharacter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginBottom: "20px"  }}>
+          <Button onClick={handleDeleteCharacter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginBottom: "20px" }}>
             Delete This Character
           </Button>
-          <Button component={Link} to={`/characters/${id}/update`} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold"}}>
+          <Button component={Link} to={`/characters/${id}/update`} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold" }}>
             Update This Character
           </Button>
         </CardContent>

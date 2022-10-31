@@ -3,9 +3,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import { LoggedContext } from './LoggedContext'
 import { Outlet, Link } from 'react-router-dom';
 
-//material imports
+//material ui imports
 import CssBaseline from '@material-ui/core/CssBaseline';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -13,22 +12,27 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 
 function NavBar() {
+
+  // grabs opponent and champion from context, the setter for this state is located in CharacterCards.js
   const { opponent, myFighter } = useContext(LoggedContext)
-  const [ validFighter, setValidFighter ] = useState(false)
-  const [ validOpponent, setValidOpponent ] = useState(false)
+
+  // Holds a boolean to determine if a valid fighter or opponent is held in state
+  const [validFighter, setValidFighter] = useState(false)
+  const [validOpponent, setValidOpponent] = useState(false)
   // console.log('fighter', myFighter)
   // console.log('opponent', opponent)
 
+  // On render and when myFighter is updated, this effect will set a state holding a boolean to true if a fighter is selected which displays the fighters information
+  // in the return statement blow. The same is true for both effects.
   useEffect(() => {
     myFighter.card.name ? setValidFighter(true) : setValidFighter(false)
   }, [myFighter])
-
   useEffect(() => {
     opponent.card.name ? setValidOpponent(true) : setValidOpponent(false)
   }, [opponent])
 
+  // styling for the drawer including color and width.
   const drawerWidth = 175;
-
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -44,12 +48,13 @@ function NavBar() {
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
   }));
-
+  // uses a variable classes to use styles
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {/* Drawer takes the styles and displays the links below */}
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -58,55 +63,59 @@ function NavBar() {
         }}
         anchor="left"
       >
+        {/* Lists links in the app */}
         <div className={classes.toolbar} />
         <List>
           <ListItem button>
-            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/">Home</Link>
+            <Link className='linkFont' style={{ textDecoration: "none" }} to="/">Home</Link>
           </ListItem>
         </List>
         <Divider />
         <List>
           <ListItem button>
-            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/characters/">Characters</Link>
+            <Link className='linkFont' style={{ textDecoration: "none" }} to="/characters/">Characters</Link>
           </ListItem>
         </List>
         <List>
           <ListItem button>
-            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/create_a_character">Create A Character</Link>
+            <Link className='linkFont' style={{ textDecoration: "none" }} to="/create_a_character">Create A Character</Link>
           </ListItem>
         </List>
         <Divider />
         <List>
           <ListItem button>
-            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/spells">Create And Add Spells</Link>
+            <Link className='linkFont' style={{ textDecoration: "none" }} to="/spells">Create And Add Spells</Link>
           </ListItem>
         </List>
         <Divider />
         <List>
           <ListItem button>
-            <Link className='linkFont' style = {{ textDecoration: "none" }} to="/fight">Fight</Link>
+            <Link className='linkFont' style={{ textDecoration: "none" }} to="/fight">Fight</Link>
           </ListItem>
         </List>
         <Divider />
         <List>
+          {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it displays that. */}
           <ListItem>
-            <p className='characterFont'>{validFighter ? 
-              `Your champion: ${myFighter.card.name} has ${myFighter.card.attack_points + myFighter.card.spell_points} hit points` : 
-              `No champion has been selected` }
+            <p className='characterFont'>{validFighter ?
+              `Your champion: ${myFighter.card.name} has ${myFighter.card.attack_points + myFighter.card.spell_points} hit points` :
+              `No champion has been selected`}
             </p>
           </ListItem>
         </List>
         <Divider />
         <List>
+          {/* a ternary operater checks if there is an opponent selected and presents that information but if no opponent is selected, it displays that. */}
           <ListItem>
             <p className='characterFont'>{validOpponent ?
-              `Your opponent: ${opponent.card.name} has ${opponent.card.attack_points + opponent.card.spell_points} hit points` : 
+              `Your opponent: ${opponent.card.name} has ${opponent.card.attack_points + opponent.card.spell_points} hit points` :
               `No opponent has been selected`}
             </p>
           </ListItem>
         </List>
       </Drawer>
-              <Outlet /> 
+      {/* Outlet lets the children of the parent route "/" to be rendered */}
+      <Outlet />
     </div>
   );
 }
