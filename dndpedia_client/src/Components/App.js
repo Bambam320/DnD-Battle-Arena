@@ -37,6 +37,7 @@ function App() {
       .then((everything) => {
         setCharacters(everything.characters)
         setSpells(everything.spells)
+        console.log('from app characters from useeffect', everything.characters)
       })
   }, [])
 

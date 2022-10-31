@@ -10,10 +10,14 @@ import Switch from '@material-ui/core/Switch';
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Typography from '@material-ui/core/Typography';
-import Characters from "./Characters";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 function Spells() {
-  const { myFighter, spells, setSpells, setCharacters } = useContext(LoggedContext)
+  const { myFighter, spells, setSpells, characters, setCharacters } = useContext(LoggedContext)
   const defaultValues = {
     name: "",
     description: "",
@@ -26,8 +30,11 @@ function Spells() {
     character_id: 0
   };
 
+  console.log('spells from spells on render', spells)
+
   const [formValues, setFormValues] = useState(defaultValues);
   const [addToCharacter, setAddToCharacter] = useState(false);
+  const [chosenSpell, setChosenSpell] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -54,9 +61,13 @@ function Spells() {
     }
   }
 
+  // give this a url with an id of the character and handle all this logic in ruby, just return the new set of spells and characters and update state
+  // this is what nancy meant by handling all the work in Ruby or doing the heavy lifting
+  
+  // Create
   function handleSubmit(e) {
     e.preventDefault();
-    const server = 'http://localhost:9292/spells'
+    const postServer = 'http://localhost:9292/spells'
     const post = {
       method: "POST",
       headers: {
@@ -68,12 +79,42 @@ function Spells() {
       .then((r) => r.json())
       .then((data) => {
         setSpells([...spells, data])
-        let updatedCharacters = Characters.map
-        setCharacters
+        let updatedCharacters = characters.map((char) => {
+          if (char.id === myFighter.card.id) {
+            myFighter.card.spells.push(data)
+            myFighter.card.spell_points = myFighter.card.spell_points + (data.level * data.damage * data.description.length)
+            return myFighter.card
+          } else {
+            return char
+          }
+        });
+        setCharacters(updatedCharacters)
       });
+
+      const patchServer = 'http://localhost:9292/'
+      const patch = {
+        method: "PATCH",
+        headers: {
+          "Contant-Type": "application/json",
+        },
+        body: JSON.stringify()
+      }
   };
 
-  console.log(spells)
+  const listSpells = spells.map((spell) => {
+    let id = spell.id
+    return (
+      <MenuItem key={id} value={id} name='jew'>{`Level ${spell.level} ${spell.name} spell casts ${spell.damage} damage points`}</MenuItem>
+    )
+  });
+
+  function handleSpellSelect(e) {
+    console.log('spell select from spells e.target', e.target.value)
+    let thisSpell = spells.find((spell) => spell.id === e.target.value)
+    setChosenSpell(thisSpell)
+  }
+
+
 
   return (
     <Container style={{ marginTop: '-600px' }}>
@@ -81,7 +122,12 @@ function Spells() {
         Create your new and fearsome spells here, O Great Wizard. Firstly, you may create new spells and add it to your champions repertoire or simply create a spell to add magical knowledge to our realm. Lastly, you may choose a spell from the sacred tomes and add it to your character to wield.
       </Typography>
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={3} >
+        <Grid container spacing={3}>
+          <Grid item xs={12} >
+            <Typography variant='h4' style={{ fontWeight: 'bold', textAlign: 'center', marginTop: '-40px', color: '#ea2424' }}>
+              Create a spell!
+            </Typography>
+          </Grid>
           <Grid item xs={3}>
             <TextField
               style={{ backgroundColor: 'white' }}
@@ -177,6 +223,38 @@ function Spells() {
               value={formValues.damage}
               onChange={handleInputChange}
             />
+          </Grid>
+          <Grid item xs={12} >
+            <Typography variant='h4' style={{ fontWeight: 'bold', textAlign: 'center', marginTop: '0px', color: '#ea2424' }}>
+              Choose an existing spell!
+            </Typography>
+
+
+
+
+
+
+
+            <FormControl variant="outlined" style={{minWidth: 600}}>
+              <InputLabel id="spell-select">Select A Spell</InputLabel>
+              <Select
+                labelId="spell-select"
+                id="spell-select"
+                value={chosenSpell}
+                onChange={handleSpellSelect}
+                label="chosenSpell"
+                name="spell"
+              >
+              {listSpells}
+              </Select>
+            </FormControl>
+
+
+
+
+
+
+
           </Grid>
         </Grid>
         <Grid container justifyContent="center">

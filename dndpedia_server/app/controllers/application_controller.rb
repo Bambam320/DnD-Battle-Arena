@@ -79,5 +79,11 @@ class ApplicationController < Sinatra::Base
     )
     character.to_json
   end
+
+  patch '/spells/:character_id/:spell_id' do
+    character = Character.find(params[:character_id])
+    character.spells << Spells.find(params[:spell_id])
+    character.to_json
+  end
   
 end
