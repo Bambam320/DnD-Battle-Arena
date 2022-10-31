@@ -50,8 +50,8 @@ function Spells() {
     });
   };
 
-  // change boolean for addToCharacter switch and add character id to formvalues
-  const handleChange = (e) => {
+  // This changes the boolean for the addToCharacter switch and adds character id to formvalues
+  const handleAddCharacterSwitchChange = (e) => {
     console.log(myFighter.card.id)
     if (Object.keys(myFighter.card).length > 1) {
       setAddToCharacter(e.target.checked);
@@ -63,11 +63,16 @@ function Spells() {
 
   // give this a url with an id of the character and handle all this logic in ruby, just return the new set of spells and characters and update state
   // this is what nancy meant by handling all the work in Ruby or doing the heavy lifting
-  
-  // Create
+
+  // set the ID of the character to 0 if no fighter has been selected or the id of the fighter if it has, let ruby read the valid id and add it to characters
+  // otherwise let ruby read a 0 and add the spell to the spells table only, it'll update spells and characters no matter what
+
+  // write the post and the patch constants, then write an if conditional, if a character is selected and a pre-existing spell is selected, run the patch,
+  // if a character is selected and a pre-existing spell is not selected, run the post. You have to add a lockout to the select menu if any of the formvalues
+  // have been changed, then you need to disable the formvalues if a spell has been selected.
   function handleSubmit(e) {
     e.preventDefault();
-    const postServer = 'http://localhost:9292/spells'
+    const server = 'http://localhost:9292/spells'
     const post = {
       method: "POST",
       headers: {
@@ -101,6 +106,7 @@ function Spells() {
       }
   };
 
+  // Renders a menu item for each spell in the spell dropdown
   const listSpells = spells.map((spell) => {
     let id = spell.id
     return (
@@ -108,13 +114,12 @@ function Spells() {
     )
   });
 
+  // Sets state with the selected spell from the drop down menu
   function handleSpellSelect(e) {
     console.log('spell select from spells e.target', e.target.value)
     let thisSpell = spells.find((spell) => spell.id === e.target.value)
     setChosenSpell(thisSpell)
   }
-
-
 
   return (
     <Container style={{ marginTop: '-600px' }}>
@@ -265,7 +270,7 @@ function Spells() {
                   <Switch
                     disabled={false}
                     checked={addToCharacter}
-                    onChange={handleChange}
+                    onChange={handleAddCharacterSwitchChange}
                     name="characterSwitch"
                   />
                 }

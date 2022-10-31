@@ -15,6 +15,7 @@ class ApplicationController < Sinatra::Base
     get_hash.to_json
   end
 
+  # create methods in the model files so that most of this is handled there, also ruby will return all the characters to make it easier on react
   post '/create_a_character' do
     level = params[:level]
     melee_weapon = Faker::Games::DnD.melee_weapon
@@ -45,6 +46,8 @@ class ApplicationController < Sinatra::Base
     new_character.to_json
   end
 
+  # this will get a character id params and if its 0, no character will be udpated, just a spell will be created and the spell and characters will be updated
+  # if the character id is an actual number, then the character will be updated as well and both spell and characters will be updated.
   post '/spells' do
     character = Character.find(10)
     character.spells.create(
@@ -67,6 +70,7 @@ class ApplicationController < Sinatra::Base
     character.to_json
   end
 
+  #this is going to be updated to return all characters
   patch '/characters/:id' do
     character = Character.find(params[:id])
     character.update(
@@ -80,6 +84,7 @@ class ApplicationController < Sinatra::Base
     character.to_json
   end
 
+  # update a character with a new pre-existing spell and returns all characters
   patch '/spells/:character_id/:spell_id' do
     character = Character.find(params[:character_id])
     character.spells << Spells.find(params[:spell_id])

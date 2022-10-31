@@ -44,6 +44,7 @@ function UpdateCharacter() {
     });
   };
 
+  // in these next two functions, the handleSubmit and the updatedCharacter need to be changed so that ruby provides the new characters and they're all updated
   function handleSubmit(e) {
     e.preventDefault();
     let server = `http://localhost:9292/characters/${id}`

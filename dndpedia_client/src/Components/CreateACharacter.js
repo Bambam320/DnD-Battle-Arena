@@ -33,6 +33,7 @@ function CreateACharacter() {
     });
   };
 
+  // change this so that ruby returns all the characters and we update state only once
   function handleSubmit(e) {
     e.preventDefault();
     const server = 'http://localhost:9292/create_a_character'
