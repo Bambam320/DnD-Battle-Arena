@@ -36,3 +36,7 @@ code {
   background-clip: text;
   color: transparent;
 }
+
+select:disabled {
+  background-color: black
+}
