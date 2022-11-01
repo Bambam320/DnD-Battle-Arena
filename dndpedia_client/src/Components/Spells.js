@@ -20,7 +20,7 @@ function Spells() {
 
   // grabs context from LoggedContext 
   const { myFighter, spells, setSpells, characters, setCharacters } = useContext(LoggedContext)
-  
+
   // sets defaultValues variable to hold an object containing keys that will be used to create the input fields for the spell
   const defaultValues = {
     name: "",
@@ -37,19 +37,6 @@ function Spells() {
   // sets a local state hook to hold the formValues from the user inputs. formValues is set to the default value
   const [formValues, setFormValues] = useState(defaultValues);
 
-  // holds state with logic that sets to true if a valid character is selected as champion and the user selects the spell to be added to the character
-  const [addToCharacter, setAddToCharacter] = useState(false);
-
-  // sets the local state with the spell chosen from the select menu, initially it is set to have a key of id equal to an empty string so that the select element
-  // can provide a default value to the list
-  const [chosenSpell, setChosenSpell] = useState({id: ''});
-
-  // select holds a boolean that controls the spell select drop down menu, if the spell form has been used, then the select menu is disabled
-  const [select, setSelect] = useState(false);
-
-  // textField holds a boolean that controls the spell form, if a spell has been seleced, the forms are disabled
-  const [textField, setTextField] = useState(false);
-
   // Takes in the user input to the text fields for creating a spell, it handles numbers and strings appropriately and controls the form by updating formValues
   const handleInputChange = (e) => {
     let { name, value } = e.target;
@@ -64,6 +51,9 @@ function Spells() {
     });
   };
 
+  // holds state with logic that sets to true if a valid character is selected as champion and the user selects the spell to be added to the character
+  const [addToCharacter, setAddToCharacter] = useState(false);
+
   // This changes the boolean for the addToCharacter state switch and adds character id to formvalues if a character is available and returns an error if the 
   // character is not available
   const handleAddCharacterSwitchChange = (e) => {
@@ -75,6 +65,19 @@ function Spells() {
       alert('You must select a champion first!')
     }
   }
+
+  // sets the local state with the spell chosen from the select menu, initially it is set to have a key of id equal to an empty string so that the select element
+  // can provide a default value to the list
+  const [chosenSpell, setChosenSpell] = useState({ id: '' });
+
+  // Sets state with the selected spell from the drop down menu
+  function handleSpellSelect(e) {
+    let thisSpell = spells.find((spell) => spell.id === e.target.value)
+    setChosenSpell(thisSpell)
+  }
+
+  // select holds a boolean that controls the spell select drop down menu, if the spell form has been used, then the select menu is disabled
+  const [select, setSelect] = useState(false);
 
   // effect is run every time the controlled form is changed and if their are any input values in the form, then the select state is set to true, this select state
   // will disable the select element below and prevent it from being used
@@ -88,6 +91,19 @@ function Spells() {
     setSelect(isSelected)
   }, [defaultValues])
 
+  // textField holds a boolean that controls the spell form, if a spell has been seleced, the forms are disabled
+  const [textField, setTextField] = useState(false);
+
+  useEffect(() => {
+    setTextField(Boolean(chosenSpell.id) ? true : false)
+  }, [chosenSpell])
+
+
+
+
+
+
+
   // give this a url with an id of the character and handle all this logic in ruby, just return the new set of spells and characters and update state
   // this is what nancy meant by handling all the work in Ruby or doing the heavy lifting
 
@@ -96,12 +112,10 @@ function Spells() {
 
   // write the post and the patch constants, then write an if conditional, if a character is selected and a pre-existing spell is selected, run the patch,
   // if a character is selected and a pre-existing spell is not selected, run the post. 
-  
-  // You have to add a lockout to the select menu if any of the formvalues
-  // have been changed, then you need to disable the formvalues if a spell has been selected.
   function handleSubmit(e) {
     e.preventDefault();
-    const server = 'http://localhost:9292/spells'
+    let id = myFighter.card.id
+    const server = `http://localhost:9292/spells/${id}`
     const post = {
       method: "POST",
       headers: {
@@ -111,29 +125,35 @@ function Spells() {
     }
     fetch(server, post)
       .then((r) => r.json())
-      .then((data) => {
-        setSpells([...spells, data])
-        let updatedCharacters = characters.map((char) => {
-          if (char.id === myFighter.card.id) {
-            myFighter.card.spells.push(data)
-            myFighter.card.spell_points = myFighter.card.spell_points + (data.level * data.damage * data.description.length)
-            return myFighter.card
-          } else {
-            return char
-          }
-        });
-        setCharacters(updatedCharacters)
-      });
+      .then((data) => console.log(data))
+      //   setSpells([...spells, data])
+      //   let updatedCharacters = characters.map((char) => {
+      //     if (char.id === myFighter.card.id) {
+      //       myFighter.card.spells.push(data)
+      //       myFighter.card.spell_points = myFighter.card.spell_points + (data.level * data.damage * data.description.length)
+      //       return myFighter.card
+      //     } else {
+      //       return char
+      //     }
+      //   });
+      //   setCharacters(updatedCharacters)
+      // });
 
-      const patchServer = 'http://localhost:9292/'
-      const patch = {
-        method: "PATCH",
-        headers: {
-          "Contant-Type": "application/json",
-        },
-        body: JSON.stringify()
-      }
+    // const patchServer = 'http://localhost:9292/'
+    // const patch = {
+    //   method: "PATCH",
+    //   headers: {
+    //     "Contant-Type": "application/json",
+    //   },
+    //   body: JSON.stringify()
+    // }
   };
+
+
+
+
+
+
 
   // Renders a menu item for each spell in the spell dropdown
   const listSpells = spells.map((spell) => {
@@ -142,12 +162,6 @@ function Spells() {
       <MenuItem key={id} value={id} name='jew'>{`Level ${spell.level} ${spell.name} spell casts ${spell.damage} damage points`}</MenuItem>
     )
   });
-
-  // Sets state with the selected spell from the drop down menu
-  function handleSpellSelect(e) {
-    let thisSpell = spells.find((spell) => spell.id === e.target.value)
-    setChosenSpell(thisSpell)
-  }
 
   return (
     <Container style={{ marginTop: '-600px' }}>
@@ -266,11 +280,12 @@ function Spells() {
             />
           </Grid>
           <Grid item xs={12} >
-            <Typography variant='h4' style={{ fontWeight: 'bold', textAlign: 'center', marginTop: '0px', color: '#ea2424' }}>
+            <Typography variant='h4' style={{ fontWeight: 'bold', textAlign: 'center', marginTop: '0px', marginBottom: '35px', color: '#ea2424' }}>
               Choose an existing spell!
             </Typography>
-            <FormControl variant="outlined" style={{minWidth: 600}}>
+            <FormControl variant="outlined" style={{ minWidth: 600 }}>
               <InputLabel id="spell-select">Select A Spell</InputLabel>
+              {/* The select elements value is controlled through chosenSpell state and will be disabled when spell forms have values */}
               <Select
                 disabled={select}
                 labelId="spell-select"
@@ -279,7 +294,7 @@ function Spells() {
                 onChange={handleSpellSelect}
                 label="chosenSpell"
               >
-              {listSpells}
+                {listSpells}
               </Select>
             </FormControl>
           </Grid>
@@ -289,6 +304,7 @@ function Spells() {
             <FormGroup style={{ marginTop: '50px' }}>
               <FormControlLabel
                 control={
+                  // The switch element provides a controlled state held logic to add a spell to a character or not
                   <Switch
                     disabled={false}
                     checked={addToCharacter}

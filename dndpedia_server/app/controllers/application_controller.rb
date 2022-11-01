@@ -3,15 +3,9 @@ require 'pry'
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
 
+  # grabs a hash from the Character model including the characters and their associated spells and all spells set as json
   get '/characters' do
-    all_characters = Character.all
-    all_characters.each { |char| char.update(spell_points: char.spells.map { |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
-    character_json = all_characters.as_json(include: :spells)
-    all_spells = Spell.all
-    spells_json = all_spells.as_json
-    get_hash = {}
-    get_hash[:characters] = character_json
-    get_hash[:spells] = spells_json
+    get_hash = Character.create_me_an_everything_hash
     get_hash.to_json
   end
 
@@ -48,20 +42,14 @@ class ApplicationController < Sinatra::Base
 
   # this will get a character id params and if its 0, no character will be udpated, just a spell will be created and the spell and characters will be updated
   # if the character id is an actual number, then the character will be updated as well and both spell and characters will be updated.
-  post '/spells' do
-    character = Character.find(10)
-    character.spells.create(
-      name: params[:name],
-      description: params[:description],
-      range: params[:range],
-      material: params[:material],
-      duration: params[:duration],
-      casting_time: params[:casting_time],
-      level: params[:level],
-      damage: params[:damage],
-      character_id: params[:character_id]
-    )
-    character.spells.last.to_json
+  post '/spells/:id' do
+    created_spell = Spell.create_me_a_spell(params)
+    if params[:id].to_i > 0
+      character = Character.find(params[:id])
+      character.spells << created_spell
+    end
+    get_hash = Character.create_me_an_everything_hash
+    get_hash.to_json
   end
 
   delete '/characters/:id' do

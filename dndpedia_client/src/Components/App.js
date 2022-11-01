@@ -20,14 +20,16 @@ function App() {
   // set state for the champion selected
   const [myFighter, setMyFighter] = useState({
     card: {
-      name: ''
+      name: '',
+      id: 0
     }
   })
 
   //set state for the opponent selected
   const [opponent, setOpponent] = useState({
     card: {
-      name: ''
+      name: '',
+      id: 0
     }
   })
 
@@ -42,7 +44,7 @@ function App() {
       .then((everything) => {
         setCharacters(everything.characters)
         setSpells(everything.spells)
-        // console.log('from app characters from useeffect', everything.characters)
+        // console.log('from app characters from useeffect', everything)
       })
   }, [])
 

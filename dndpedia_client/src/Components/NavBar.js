@@ -10,17 +10,17 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
+import Button from '@material-ui/core/Button';
 
 function NavBar() {
 
-  // grabs opponent and champion from context, the setter for this state is located in CharacterCards.js
-  const { opponent, myFighter } = useContext(LoggedContext)
+  // grabs opponent and champion from context, the setter for this state is also located in CharacterCards.js. The setters here place an empty object in state when
+  // deselected
+  const { opponent, myFighter, setMyFighter, setOpponent } = useContext(LoggedContext)
 
   // Holds a boolean to determine if a valid fighter or opponent is held in state
   const [validFighter, setValidFighter] = useState(false)
   const [validOpponent, setValidOpponent] = useState(false)
-  // console.log('fighter', myFighter)
-  // console.log('opponent', opponent)
 
   // On render and when myFighter is updated, this effect will set a state holding a boolean to true if a fighter is selected which displays the fighters information
   // in the return statement blow. The same is true for both effects.
@@ -30,6 +30,21 @@ function NavBar() {
   useEffect(() => {
     opponent.card.name ? setValidOpponent(true) : setValidOpponent(false)
   }, [opponent])
+
+  // handles deselecting the champion or fighter when deselct is clicked for either position
+  function handleDeselect(position) {
+    const cleanObj = {
+      card: {
+        name: '',
+        id: 0
+      }
+    }
+    if (position === 'opponent') {
+      setOpponent(cleanObj)
+    } else {
+      setMyFighter(cleanObj)
+    }
+  }
 
   // styling for the drawer including color and width.
   const drawerWidth = 175;
@@ -101,7 +116,20 @@ function NavBar() {
               `Your champion: ${myFighter.card.name} has ${myFighter.card.attack_points + myFighter.card.spell_points} hit points` :
               `No champion has been selected`}
             </p>
+            //
           </ListItem>
+          <Button
+            onClick={() => handleDeselect('champion')}
+            style={{
+              marginTop: '5px',
+              borderRadius: 5,
+              backgroundColor: "#ea2424",
+              color: "white",
+              padding: "10px 20px",
+              fontSize: "11px",
+              fontWeight: "bold"
+            }}
+          > Deselect Champion </Button>
         </List>
         <Divider />
         <List>
@@ -112,6 +140,18 @@ function NavBar() {
               `No opponent has been selected`}
             </p>
           </ListItem>
+          <Button
+            onClick={() => handleDeselect('opponent')}
+            style={{
+              marginTop: '5px',
+              borderRadius: 5,
+              backgroundColor: "#ea2424",
+              color: "white",
+              padding: "10px 20px",
+              fontSize: "11px",
+              fontWeight: "bold"
+            }}
+          > Deselect Opponent </Button>
         </List>
       </Drawer>
       {/* Outlet lets the children of the parent route "/" to be rendered */}
