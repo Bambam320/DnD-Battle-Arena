@@ -40,9 +40,8 @@ class ApplicationController < Sinatra::Base
     new_character.to_json
   end
 
-  # this will get a character id params and if its 0, no character will be udpated, just a spell will be created and the spell and characters will be updated
-  # if the character id is an actual number, then the character will be updated as well and both spell and characters will be updated.
-  post '/spells/:id' do
+  # This post to the spells table will create a spell on its own or create a spell and attach it to the provided character id by association
+  post '/spells/:charid' do
     created_spell = Spell.create_me_a_spell(params)
     if params[:id].to_i > 0
       character = Character.find(params[:id])
@@ -52,20 +51,13 @@ class ApplicationController < Sinatra::Base
     get_hash.to_json
   end
 
-  patch '/spells/:id' do
-    puts 'heeeeeeeeeyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy'
-    puts params
-    # character = Character.find(params[:id])
-    # character.spells << Spell.find()
+  
+  # finds the character provided by react and shovels the existing spell into that characters spells array
+  patch '/spells/:charid' do
+    character = Character.find(params[:charid])
+    character.spells << Spell.find(params[:id])
   end
-
-  # This will delete a character by finding its id and deleting that record
-  delete '/characters/:id' do
-    character = Character.find(params[:id])
-    character.destroy
-    character.to_json
-  end
-
+  
   # the patch request from react provides an id through params and the character class update method changes the values for the appropriate attributes
   # it then returns all the characters back to react with the updated information for the character included
   patch '/characters/:id' do
@@ -81,4 +73,11 @@ class ApplicationController < Sinatra::Base
     Character.all.to_json
   end
   
+  # This will delete a character by finding its id and deleting that record
+  delete '/characters/:id' do
+    character = Character.find(params[:id])
+    character.destroy
+    character.to_json
+  end
+
 end
