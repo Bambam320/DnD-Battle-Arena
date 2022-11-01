@@ -4,10 +4,8 @@ class Spell < ActiveRecord::Base
   # Creates a spell with only parameters that can be user entered from Spells.js
   # params come from active record post method
   def self.create_me_a_spell params
-    if params[:id].to_i == 0
-      puts "whoooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+    if params[:charid].to_i == 0
       params[:character_id] = nil
-      puts params[:character_id]
     end
     self.create(
       name: params[:name],

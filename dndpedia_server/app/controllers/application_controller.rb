@@ -9,48 +9,23 @@ class ApplicationController < Sinatra::Base
     get_hash.to_json
   end
 
-  # create methods in the model files so that most of this is handled there, also ruby will return all the characters to make it easier on react
+  # This creates a new character by passing params to the class method which returns the new character from the database and provides it back to react as a json
   post '/create_a_character' do
-    level = params[:level]
-    melee_weapon = Faker::Games::DnD.melee_weapon
-    melee_weapon_source = RestClient.get "https://www.dnd5eapi.co/api/equipment/#{melee_weapon.downcase.gsub(" ", "-")}"
-    melee_weapon_json = JSON.parse(melee_weapon_source)
-    melee_weapon_power = melee_weapon_json["range"].values[0] * melee_weapon_json["weight"]
-    ranged_weapon_location = Faker::Games::DnD.ranged_weapon
-    ranged_weapon = ranged_weapon_location == "Crossbow" || ranged_weapon_location == "Boomerang" ? "Blowgun" : ranged_weapon_location
-    ranged_weapon_source = RestClient.get "https://www.dnd5eapi.co/api/equipment/#{ranged_weapon.downcase.gsub(" ", "-")}"
-    ranged_weapon_json = JSON.parse(ranged_weapon_source)
-    ranged_weapon_power = ranged_weapon_json["range"].values[1] * ranged_weapon_json["weight"]
-    new_character = Character.create(
-      name: params[:name],
-      alignment: Faker::Games::DnD.alignment,
-      background: Faker::Games::DnD.background,
-      city: params[:city],
-      c_lass: Faker::Games::DnD.klass,
-      language: params[:language],
-      melee_weapon: melee_weapon,
-      pet: params[:pet],
-      race: Faker::Games::DnD.race,
-      ranged_weapon: ranged_weapon,
-      level: level,
-      attack_points: ranged_weapon_power * melee_weapon_power * level.to_i,
-      spell_points: 0,
-      avatar_url: params[:avatar_url]
-    )
+    new_character = Character.create_me_a_brand_new_character(params)
     new_character.to_json
   end
 
   # This post to the spells table will create a spell on its own or create a spell and attach it to the provided character id by association
+  # This returns a hash that includes all characters and spells and provides them back to the Spells.js component
   post '/spells/:charid' do
     created_spell = Spell.create_me_a_spell(params)
-    if params[:id].to_i > 0
-      character = Character.find(params[:id])
+    if params[:charid].to_i > 0
+      character = Character.find(params[:charid])
       character.spells << created_spell
     end
     get_hash = Character.create_me_an_everything_hash
     get_hash.to_json
   end
-
   
   # finds the character provided by react and shovels the existing spell into that characters spells array
   patch '/spells/:charid' do
