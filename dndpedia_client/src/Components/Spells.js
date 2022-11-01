@@ -51,28 +51,45 @@ function Spells() {
     });
   };
 
+  // creates local held state for a boolean that provides that info if a valid champion has been selected
+  const [validFighter, setValidFighter] = useState(false)
+
+  // on render and whenever the champion is changed, this sets the champion validity to true or false
+  useEffect(() => {
+    myFighter.card.name ? setValidFighter(true) : setValidFighter(false)
+  }, [myFighter])
+
   // holds state with logic that sets to true if a valid character is selected as champion and the user selects the spell to be added to the character
   const [addToCharacter, setAddToCharacter] = useState(false);
 
-  // This changes the boolean for the addToCharacter state switch and adds character id to formvalues if a character is available and returns an error if the 
-  // character is not available
+  // This changes the boolean for the addToCharacter state switch and adds character id to formvalues if the addcharacter switch is pressed
   const handleAddCharacterSwitchChange = (e) => {
-    console.log(myFighter.card.id)
-    if (Object.keys(myFighter.card).length > 1) {
+    if (validFighter) {
       setAddToCharacter(e.target.checked);
       setFormValues({ ...formValues, character_id: myFighter.card.id })
-    } else {
-      alert('You must select a champion first!')
     }
   }
+
+  // This useeffect listens for changes in fighter validity and if invalid, it shuts off the add character switch
+  useEffect(() => {
+    if (!validFighter) {
+      setAddToCharacter(false)
+    }
+  }, [validFighter])
 
   // sets the local state with the spell chosen from the select menu, initially it is set to have a key of id equal to an empty string so that the select element
   // can provide a default value to the list
   const [chosenSpell, setChosenSpell] = useState({ id: '' });
 
+  // sets state with a blank spell when the 'no spell option is selected from the select menu
+  function handleSpellDeselect() {
+    setChosenSpell({ id: '' })
+  }
+
   // Sets state with the selected spell from the drop down menu
   function handleSpellSelect(e) {
     let thisSpell = spells.find((spell) => spell.id === e.target.value)
+    console.log('from spells the spell id', thisSpell.id)
     setChosenSpell(thisSpell)
   }
 
@@ -83,8 +100,10 @@ function Spells() {
   // will disable the select element below and prevent it from being used
   useEffect(() => {
     let isSelected = false
-    for (const trait in formValues) {
-      if (Boolean(formValues[trait])) {
+    let basicFormValues = { ...formValues }
+    basicFormValues.character_id = 0
+    for (const trait in basicFormValues) {
+      if (Boolean(basicFormValues[trait])) {
         isSelected = true
       }
     }
@@ -94,28 +113,19 @@ function Spells() {
   // textField holds a boolean that controls the spell form, if a spell has been seleced, the forms are disabled
   const [textField, setTextField] = useState(false);
 
+  // when chosenSpell is updated, this sets the textField state to disable the text fields
   useEffect(() => {
     setTextField(Boolean(chosenSpell.id) ? true : false)
   }, [chosenSpell])
 
-
-
-
-
-
-
-  // give this a url with an id of the character and handle all this logic in ruby, just return the new set of spells and characters and update state
-  // this is what nancy meant by handling all the work in Ruby or doing the heavy lifting
-
-  // set the ID of the character to 0 if no fighter has been selected or the id of the fighter if it has, let ruby read the valid id and add it to characters
-  // otherwise let ruby read a 0 and add the spell to the spells table only, it'll update spells and characters no matter what
-
-  // write the post and the patch constants, then write an if conditional, if a character is selected and a pre-existing spell is selected, run the patch,
-  // if a character is selected and a pre-existing spell is not selected, run the post. 
+  // the handlesubmit function creates a fetch to active record, the server is addressed to spells and the character id are included as params
+  // a variable holding patch and post objects are created and their body's hold the appropriate information based on a new spell being 
+  // created for post or an existing spell being used for patch, a ternary decides whether this is a post or a patch and the returned json
+  // includes all characters and their associated spells and all spells
   function handleSubmit(e) {
     e.preventDefault();
-    let id = myFighter.card.id
-    const server = `http://localhost:9292/spells/${id}`
+    let charid = myFighter.card.id
+    const server = `http://localhost:9292/spells/${charid}`
     const post = {
       method: "POST",
       headers: {
@@ -123,43 +133,31 @@ function Spells() {
       },
       body: JSON.stringify(formValues)
     }
-    fetch(server, post)
+    console.log('chosenSpell', chosenSpell)
+    const patch = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(chosenSpell)
+    }
+    // ternary that will always post the fetch unless the user has selected to add a character and some information exists in the create a spell form
+    let postOrPatch = addToCharacter && !select ? patch : post
+    console.log('from spells postorpatch', postOrPatch)
+    fetch(server, postOrPatch)
       .then((r) => r.json())
-      .then((data) => console.log(data))
-      //   setSpells([...spells, data])
-      //   let updatedCharacters = characters.map((char) => {
-      //     if (char.id === myFighter.card.id) {
-      //       myFighter.card.spells.push(data)
-      //       myFighter.card.spell_points = myFighter.card.spell_points + (data.level * data.damage * data.description.length)
-      //       return myFighter.card
-      //     } else {
-      //       return char
-      //     }
-      //   });
-      //   setCharacters(updatedCharacters)
-      // });
-
-    // const patchServer = 'http://localhost:9292/'
-    // const patch = {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Contant-Type": "application/json",
-    //   },
-    //   body: JSON.stringify()
-    // }
+      .then((everything) => {
+        setCharacters(everything.characters)
+        setSpells(everything.spells)
+        setFormValues(defaultValues)
+      });
   };
-
-
-
-
-
-
 
   // Renders a menu item for each spell in the spell dropdown
   const listSpells = spells.map((spell) => {
     let id = spell.id
     return (
-      <MenuItem key={id} value={id} name='jew'>{`Level ${spell.level} ${spell.name} spell casts ${spell.damage} damage points`}</MenuItem>
+      <MenuItem key={id} value={id} >{`Level ${spell.level} ${spell.name} spell casts ${spell.damage} damage points`}</MenuItem>
     )
   });
 
@@ -294,6 +292,7 @@ function Spells() {
                 onChange={handleSpellSelect}
                 label="chosenSpell"
               >
+                <MenuItem value={chosenSpell.id} onClick={handleSpellDeselect}> No Spell </MenuItem>
                 {listSpells}
               </Select>
             </FormControl>
@@ -306,7 +305,7 @@ function Spells() {
                 control={
                   // The switch element provides a controlled state held logic to add a spell to a character or not
                   <Switch
-                    disabled={false}
+                    disabled={!validFighter}
                     checked={addToCharacter}
                     onChange={handleAddCharacterSwitchChange}
                     name="characterSwitch"

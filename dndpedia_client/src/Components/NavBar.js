@@ -16,7 +16,7 @@ function NavBar() {
 
   // grabs opponent and champion from context, the setter for this state is also located in CharacterCards.js. The setters here place an empty object in state when
   // deselected
-  const { opponent, myFighter, setMyFighter, setOpponent } = useContext(LoggedContext)
+  const { opponent, myFighter, setMyFighter, characters, setOpponent } = useContext(LoggedContext)
 
   // Holds a boolean to determine if a valid fighter or opponent is held in state
   const [validFighter, setValidFighter] = useState(false)
@@ -26,10 +26,10 @@ function NavBar() {
   // in the return statement blow. The same is true for both effects.
   useEffect(() => {
     myFighter.card.name ? setValidFighter(true) : setValidFighter(false)
-  }, [myFighter])
+  }, [myFighter, characters])
   useEffect(() => {
     opponent.card.name ? setValidOpponent(true) : setValidOpponent(false)
-  }, [opponent])
+  }, [opponent, characters])
 
   // handles deselecting the champion or fighter when deselct is clicked for either position
   function handleDeselect(position) {
@@ -110,48 +110,51 @@ function NavBar() {
         </List>
         <Divider />
         <List>
-          {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it displays that. */}
+          {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it says as much. */}
           <ListItem>
             <p className='characterFont'>{validFighter ?
               `Your champion: ${myFighter.card.name} has ${myFighter.card.attack_points + myFighter.card.spell_points} hit points` :
               `No champion has been selected`}
             </p>
-            //
           </ListItem>
-          <Button
-            onClick={() => handleDeselect('champion')}
-            style={{
-              marginTop: '5px',
-              borderRadius: 5,
-              backgroundColor: "#ea2424",
-              color: "white",
-              padding: "10px 20px",
-              fontSize: "11px",
-              fontWeight: "bold"
-            }}
-          > Deselect Champion </Button>
+          {/* A ternary operator to display the button based on a fighter being selected or not */}
+          {validFighter ?
+            <Button
+              onClick={() => handleDeselect('champion')}
+              style={{
+                marginTop: '5px',
+                borderRadius: 5,
+                backgroundColor: "#ea2424",
+                color: "white",
+                padding: "10px 20px",
+                fontSize: "11px",
+                fontWeight: "bold"
+              }}
+            > Deselect Champion </Button> : <></>}
         </List>
         <Divider />
         <List>
-          {/* a ternary operater checks if there is an opponent selected and presents that information but if no opponent is selected, it displays that. */}
+          {/* a ternary operater checks if there is an opponent selected and presents that information but if no opponent is selected, it says as much. */}
           <ListItem>
             <p className='characterFont'>{validOpponent ?
               `Your opponent: ${opponent.card.name} has ${opponent.card.attack_points + opponent.card.spell_points} hit points` :
               `No opponent has been selected`}
             </p>
           </ListItem>
-          <Button
-            onClick={() => handleDeselect('opponent')}
-            style={{
-              marginTop: '5px',
-              borderRadius: 5,
-              backgroundColor: "#ea2424",
-              color: "white",
-              padding: "10px 20px",
-              fontSize: "11px",
-              fontWeight: "bold"
-            }}
-          > Deselect Opponent </Button>
+          {/* A ternary operator to display the button based on a opponent being selected or not */}
+          {validOpponent ?
+            <Button
+              onClick={() => handleDeselect('opponent')}
+              style={{
+                marginTop: '5px',
+                borderRadius: 5,
+                backgroundColor: "#ea2424",
+                color: "white",
+                padding: "10px 20px",
+                fontSize: "11px",
+                fontWeight: "bold"
+              }}
+            > Deselect Opponent </Button> : <></>}
         </List>
       </Drawer>
       {/* Outlet lets the children of the parent route "/" to be rendered */}

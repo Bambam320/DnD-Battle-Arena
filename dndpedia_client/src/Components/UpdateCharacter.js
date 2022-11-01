@@ -53,6 +53,7 @@ function UpdateCharacter() {
   function handleSubmit(e) {
     e.preventDefault();
     let server = `http://localhost:9292/characters/${id}`
+
     const patch = {
       method: "PATCH",
       headers: {

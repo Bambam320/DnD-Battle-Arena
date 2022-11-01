@@ -17,21 +17,8 @@ function CharacterCards({ card, onDeleteCharacter }) {
   const { setOpponent, setMyFighter } = useContext(LoggedContext)
 
   //creates variables to store information from props to be used in displaying content
-  let id = card.id
-  let name = card.name
-  let alignment = card.alignment
-  let background = card.background
-  let city = card.city
-  let klass = card.c_lass
-  let language = card.language
-  let meleeWeapon = card.melee_weapon
-  let pet = card.pet
-  let race = card.race
-  let rangedWeapon = card.ranged_weapon
-  let level = card.level
-  let attackPoints = card.attack_points
-  let spellPoints = card.spell_points
-  let imageUrl = card.avatar_url
+  const { id, background, c_lass, name, city, level, language, alignment, melee_weapon, 
+    pet, race, ranged_weapon, avatar_url, attack_points, spell_points } = card
 
   // sets the myFighter and opponent state with the card for the character that is selected to be the one or the other
   // prevents the link component in the whole card from firing when one of the buttons inside of it is clicked
@@ -71,7 +58,7 @@ function CharacterCards({ card, onDeleteCharacter }) {
           component="img"
           height="200px"
           width="200px"
-          image={imageUrl}
+          image={avatar_url}
           alt={name}
         />
         <CardContent>
@@ -89,13 +76,13 @@ function CharacterCards({ card, onDeleteCharacter }) {
             {`City of Origin: ${city}`}
           </Typography>
           <Typography>
-            {`Character Class: ${klass}`}
+            {`Character Class: ${c_lass}`}
           </Typography>
           <Typography>
             {`Language: ${language}`}
           </Typography>
           <Typography>
-            {`Melee Weapon: ${meleeWeapon}`}
+            {`Melee Weapon: ${melee_weapon}`}
           </Typography>
           <Typography>
             {`Pet: ${pet}`}
@@ -104,16 +91,16 @@ function CharacterCards({ card, onDeleteCharacter }) {
             {`Race: ${race}`}
           </Typography>
           <Typography>
-            {`Ranged Weapon: ${rangedWeapon}`}
+            {`Ranged Weapon: ${ranged_weapon}`}
           </Typography>
           <Typography>
             {`Character Level: ${level}`}
           </Typography>
           <Typography>
-            {`Melee attack power: ${attackPoints} points`}
+            {`Melee attack power: ${attack_points} points`}
           </Typography>
           <Typography>
-            {`Spell attack power: ${spellPoints} points`}
+            {`Spell attack power: ${spell_points} points`}
           </Typography>
           {/* Renders buttons for adding this character as your fighter or opponent, deleting this character or updating this character. */}
           {/* The update character button is a link to this characters updatable traits. The link renders the UpdateCharacter component from app */}
