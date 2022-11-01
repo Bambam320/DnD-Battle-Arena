@@ -27,10 +27,13 @@ class ApplicationController < Sinatra::Base
     get_hash.to_json
   end
   
-  # finds the character provided by react and shovels the existing spell into that characters spells array
+  # finds the character provided by react and shovels the existing spell into that characters spells array and returns characters and spells
   patch '/spells/:charid' do
+    puts params[:charid]
     character = Character.find(params[:charid])
     character.spells << Spell.find(params[:id])
+    get_hash = Character.create_me_an_everything_hash
+    get_hash.to_json
   end
   
   # the patch request from react provides an id through params and the character class update method changes the values for the appropriate attributes
