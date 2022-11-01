@@ -52,6 +52,13 @@ class ApplicationController < Sinatra::Base
     get_hash.to_json
   end
 
+  patch '/spells/:id' do
+    puts 'heeeeeeeeeyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy'
+    puts params
+    # character = Character.find(params[:id])
+    # character.spells << Spell.find()
+  end
+
   delete '/characters/:id' do
     character = Character.find(params[:id])
     character.destroy
