@@ -59,6 +59,7 @@ class ApplicationController < Sinatra::Base
     # character.spells << Spell.find()
   end
 
+  # This will delete a character by finding its id and deleting that record
   delete '/characters/:id' do
     character = Character.find(params[:id])
     character.destroy
@@ -66,6 +67,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # the patch request from react provides an id through params and the character class update method changes the values for the appropriate attributes
+  # it then returns all the characters back to react with the updated information for the character included
   patch '/characters/:id' do
     character = Character.find(params[:id])
     character.update(
@@ -77,13 +79,6 @@ class ApplicationController < Sinatra::Base
       language: params[:language]
     )
     Character.all.to_json
-  end
-
-  # update a character with a new pre-existing spell and returns all characters
-  patch '/spells/:character_id/:spell_id' do
-    character = Character.find(params[:character_id])
-    character.spells << Spells.find(params[:spell_id])
-    character.to_json
   end
   
 end
