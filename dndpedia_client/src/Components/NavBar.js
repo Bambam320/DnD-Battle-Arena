@@ -99,8 +99,10 @@ function NavBar() {
           </ListItem>
         </List>
         <List>
+
+          {}
           <ListItem button>
-            <Link className='linkFont' style={{ textDecoration: "none" }} to="/create_a_character">Create A Character</Link>
+            <Link className='linkFont' style={{ textDecoration: "none" }} to="/characters/new">Create A Character</Link>
           </ListItem>
         </List>
         <Divider />
@@ -111,8 +113,10 @@ function NavBar() {
         </List>
         <Divider />
         <List>
+
+          {}
           <ListItem button>
-            <Link className='linkFont' style={{ textDecoration: "none" }} to="/fight">Fight</Link>
+            <Link className='linkFont' style={{ textDecoration: "none" }} to="/characters/fight">Fight</Link>
           </ListItem>
         </List>
         <Divider />

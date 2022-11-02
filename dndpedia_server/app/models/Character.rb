@@ -6,21 +6,23 @@ class Character < ActiveRecord::Base
     self.destroy_all
   end
 
+  #
   # grabs all characters with their associated spells and updates the characters spell points. Then grabs all spells and creates a hash
   # with both characters and spells poised as a json then returns the hash
-  def self.create_me_an_everything_hash
+  def self.create_me_a_character_hash_with_spells
     all_characters = Character.all
     all_characters.each { |char| char.update(spell_points: char.spells.map { |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
     character_json = all_characters.as_json(include: :spells)
-    all_spells = Spell.all
-    spells_json = all_spells.as_json
-    get_hash = {}
-    get_hash[:characters] = character_json
-    get_hash[:spells] = spells_json
-    get_hash
+    character_json
+    # all_spells = Spell.all
+    # spells_json = all_spells.as_json
+    # get_hash = {}
+    # get_hash[:characters] = character_json
+    # get_hash[:spells] = spells_json
+    # get_hash
   end
 
-  # This will take the information from params and distribute it through the keys of the character object, filling in data from the Faker gem where its needed.
+  # This will take the information from params and distribute it through the keys of the new character object, filling in data from the Faker gem where its needed.
   # Then it will return the new character from the database
   def self.create_me_a_brand_new_character params
     level = params[:level]

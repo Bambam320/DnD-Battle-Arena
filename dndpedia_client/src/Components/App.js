@@ -37,17 +37,29 @@ function App() {
   const [characters, setCharacters] = useState([])
   const [spells, setSpells] = useState([])
   
+  //
   // fetches on effect, the characters with their spells and all spells
   useEffect(() => {
     fetch('http://localhost:9292/characters')
       .then((r) => r.json())
-      .then((everything) => {
-        setCharacters(everything.characters)
-        setSpells(everything.spells)
+      .then((characters) => {
+        setCharacters(characters)
         // console.log('from app characters from useeffect', everything)
       })
   }, [])
 
+
+  ///
+  // useEffect for just all spells
+  useEffect(() => {
+    fetch('http://localhost:9292/spells')
+      .then((r) => r.json())
+      .then((spells) => {
+        setSpells(spells)
+      })
+  }, [])
+
+  ///
   //provides context for state declared above to all components and creates routes to match links that render the correct components
   return (
     <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter, characters, setCharacters, spells, setSpells }}>
@@ -60,8 +72,8 @@ function App() {
             <Route path=":id/update" element={<UpdateCharacter />} />
           </Route>
           <Route path="spells/" element={<Spells />} />
-          <Route path="create_a_character/" element={<CreateACharacter />} />
-          <Route path="fight/" element={<Fight />} />
+          <Route path="characters/new" element={<CreateACharacter />} />
+          <Route path="characters/fight" element={<Fight />} />
         </Route>
       </Routes>
     </LoggedContext.Provider>

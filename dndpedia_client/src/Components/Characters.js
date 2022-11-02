@@ -18,6 +18,8 @@ function Characters() {
     setCharacters(newCharacters)
   }
 
+  console.log('all characters from characters', characters)
+
   // lists a card for each character held in state, it passes card which represents each character and passes the delete function as props
   const listCharacters = characters.map((singleCharacter) => {
     return (

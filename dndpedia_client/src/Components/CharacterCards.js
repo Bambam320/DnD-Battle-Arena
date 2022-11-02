@@ -31,10 +31,11 @@ function CharacterCards({ card, onDeleteCharacter }) {
     setOpponent({ card })
   }
 
+  //
   // fetches a delete url from sinatra to delete a character from the database, the returned JSON is not used and the onDeleteCharacter function is called
   function handleDeleteCharacter(e) {
     e.preventDefault()
-    fetch(`http://localhost:9292/characters/${id}`, {
+    fetch(`http://localhost:9292/characters/${id}/delete`, {
       method: "DELETE",
     });
     onDeleteCharacter(id)

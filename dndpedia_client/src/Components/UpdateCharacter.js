@@ -14,7 +14,7 @@ import TextField from "@material-ui/core/TextField";
 function UpdateCharacter() {
 
   // grabs characters and setCharacters from context
-  const { characters, setCharacters } = useContext(LoggedContext)
+  const { characters, setCharacters, myFighter, setMyFighter } = useContext(LoggedContext)
 
   // creates the params variable to hold the id of the character from the URL
   const params = useParams()
@@ -48,11 +48,13 @@ function UpdateCharacter() {
     });
   };
 
+
+  ////
   // The submit button fires a patch fetch to sinatra which provides it the current character with the updated attributes and returns all characters wherein the
   // current character has been updated
   function handleSubmit(e) {
     e.preventDefault();
-    let server = `http://localhost:9292/characters/${id}`
+    let server = `http://localhost:9292/characters/${id}/update`
 
     const patch = {
       method: "PATCH",
@@ -63,8 +65,22 @@ function UpdateCharacter() {
     }
     fetch(server, patch)
       .then((r) => r.json())
-      .then((data) => setCharacters(data));
-  }
+      .then((patchedCharacter) => {
+        // console.log('updated character after patch from updatecharacter', patchedCharacter)
+        let updatedCharacters = characters.map((eachCharacter) => {
+          if (eachCharacter.id === patchedCharacter.id) {
+            return patchedCharacter
+          } else {
+            return eachCharacter
+          }
+        });
+        // console.log('updated characters before set to state in updatecharacter.js', updatedCharacters)
+        setCharacters(updatedCharacters)
+        setMyFighter({card: patchedCharacter})
+      });
+    }
+    // console.log('myfighter from updatecharacter', myFighter)
+    // console.log('characters state after update patch complete from updatecharacter.js', characters)
 
   // renders a card similar to CharacterSpells with the updateable attributes and their current value in a text field and a submit button to fire the patch
   return (

@@ -33,10 +33,11 @@ function CreateACharacter() {
     });
   };
 
+  //
   // change this so that ruby returns all the characters and we update state only once
   function handleSubmit(e) {
     e.preventDefault();
-    const server = 'http://localhost:9292/create_a_character'
+    const server = 'http://localhost:9292/characters/new'
     const post = {
       method: "POST",
       headers: {
@@ -46,9 +47,9 @@ function CreateACharacter() {
     }
     fetch(server, post)
       .then((r) => r.json())
-      .then((data) => setCharacters([...characters, data]));
+      .then((returnedCharacter) => setCharacters([...characters, returnedCharacter]));
     setFormValues(defaultValues)
-    navigate('/characters')
+    setTimeout(navigate('/characters'), 2000)
   };
 
 
