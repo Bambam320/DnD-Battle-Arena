@@ -36,9 +36,6 @@ function App() {
   //set state with all characters and all spells
   const [characters, setCharacters] = useState([])
   const [spells, setSpells] = useState([])
-
-  //
-  // const [seedNavBar, setSeedNavBar] = useState(false)
   
   // fetches on effect, the characters with their spells and all spells
   useEffect(() => {

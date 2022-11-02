@@ -16,7 +16,7 @@ class ApplicationController < Sinatra::Base
   end
 
   # This post to the spells table will create a spell on its own or create a spell and attach it to the provided character id by association
-  # This returns a hash that includes all characters and spells and provides them back to the Spells.js component
+  # This returns a hash that includes all characters and spells and provides them back to the Spells.js component. It also includes the updated
   post '/spells/:charid' do
     created_spell = Spell.create_me_a_spell(params)
     if params[:charid].to_i > 0
@@ -28,18 +28,18 @@ class ApplicationController < Sinatra::Base
     get_hash.to_json
   end
   
-  #
   # finds the character provided by react and shovels the existing spell into that characters spells array and returns characters and spells
+  # It also provides the character with spells updated as part of the returned hash
   patch '/spells/:charid' do
-    puts "params[:charid]", params[:charid]
-    puts "params[:id]", params[:id]
+    # puts "params[:charid]", params[:charid]
+    # puts "params[:id]", params[:id]
     character = Character.find(params[:charid])
-    puts "character.spells.count", character.spells.count
+    # puts "character.spells.count", character.spells.count
     spell = Spell.find(params[:id])
-    puts "spell.name", spell.name
-    puts "character", character
+    # puts "spell.name", spell.name
+    # puts "character", character
     character.spells << spell
-    puts "character.spells.count", character.spells.count
+    # puts "character.spells.count", character.spells.count
     get_hash = Character.create_me_an_everything_hash
     get_hash[:updatedFighter] = character.as_json(include: :spells)
     get_hash.to_json

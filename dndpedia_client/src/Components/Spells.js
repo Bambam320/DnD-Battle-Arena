@@ -1,7 +1,6 @@
 // functional imports
 import React, { useState, useContext, useEffect } from "react";
 import { LoggedContext } from "./LoggedContext";
-import { useNavigate } from "react-router-dom";
 
 // material ui imports
 import Grid from "@material-ui/core/Grid";
@@ -19,10 +18,8 @@ import Select from '@material-ui/core/Select';
 
 function Spells() {
 
-
-  //
   // grabs context from LoggedContext 
-  const { myFighter, setMyFighter, spells, setSpells, characters, setCharacters } = useContext(LoggedContext)
+  const { myFighter, setMyFighter, spells, setSpells, setCharacters } = useContext(LoggedContext)
 
   // sets defaultValues variable to hold an object containing keys that will be used to create the input fields for the spell
   const defaultValues = {
@@ -92,7 +89,7 @@ function Spells() {
   // Sets state with the selected spell from the drop down menu
   function handleSpellSelect(e) {
     let thisSpell = spells.find((spell) => spell.id === e.target.value)
-    console.log('from spells the spell id', thisSpell.id)
+    // console.log('from spells the spell id', thisSpell.id)
     setChosenSpell(thisSpell)
   }
 
@@ -121,11 +118,11 @@ function Spells() {
     setTextField(Boolean(chosenSpell.id) ? true : false)
   }, [chosenSpell])
 
-  //
   // the handlesubmit function creates a fetch to active record, the server is addressed to spells and the character id are included as params
   // a variable holding patch and post objects are created and their body's hold the appropriate information based on a new spell being 
-  // created for post or an existing spell being used for patch, a ternary decides whether this is a post or a patch and the returned json
-  // includes all characters and their associated spells and all spells
+  // created for post or an existing spell being used for patch, a ternary decides whether this is a post or a patch based on the addToChaaracter switch
+  // and the returned json includes all characters and their associated spells and all spells. It also includes the character with the updated spells
+  // which is used to track hit points for fighting
   function handleSubmit(e) {
     e.preventDefault();
     let charid = myFighter.card.id
@@ -145,7 +142,7 @@ function Spells() {
       },
       body: JSON.stringify(chosenSpell)
     }
-    // ternary that will always post the fetch unless the user has selected to add a character and some information exists in the create a spell form
+    // ternary that will always post the fetch unless the user has been selected to add a character and some information exists in the create a spell form
     let postOrPatch = addToCharacter && !select ? patch : post
     console.log('from spells postorpatch', postOrPatch)
     fetch(server, postOrPatch)
@@ -154,10 +151,11 @@ function Spells() {
         setCharacters(everything.characters)
         setSpells(everything.spells)
         setFormValues(defaultValues)
-        console.log('updated fighter from ruby spell count', everything.updatedFighter.spells.length)
-        console.log('everything.updatedFighter from ruby in spells', {card: everything.updatedFighter})
-        console.log('charid from patch in spells', charid)
-        setMyFighter({card: everything.updatedFighter})
+        setMyFighter({ card: everything.updatedFighter })
+        // console.log('spell count', spells.length)
+        // console.log('updated fighter from ruby spell count', everything.updatedFighter.spells.length)
+        // console.log('everything.updatedFighter from ruby in spells', {card: everything.updatedFighter})
+        // console.log('charid from patch in spells', charid)
       });
   };
 
