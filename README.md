@@ -5,6 +5,7 @@ This is a single-page application that allows the user to look through all the s
 only one victor. Spells can be created or chosen from a list and added to a character to give them a better chance at winning.
   
 
+updates
 ## Table of Contents
 
 
