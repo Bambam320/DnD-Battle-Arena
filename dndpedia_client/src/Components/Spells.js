@@ -1,6 +1,7 @@
 // functional imports
 import React, { useState, useContext, useEffect } from "react";
 import { LoggedContext } from "./LoggedContext";
+import { useNavigate } from "react-router-dom";
 
 // material ui imports
 import Grid from "@material-ui/core/Grid";
@@ -18,8 +19,10 @@ import Select from '@material-ui/core/Select';
 
 function Spells() {
 
+
+  //
   // grabs context from LoggedContext 
-  const { myFighter, spells, setSpells, characters, setCharacters } = useContext(LoggedContext)
+  const { myFighter, setMyFighter, spells, setSpells, characters, setCharacters } = useContext(LoggedContext)
 
   // sets defaultValues variable to hold an object containing keys that will be used to create the input fields for the spell
   const defaultValues = {
@@ -118,6 +121,7 @@ function Spells() {
     setTextField(Boolean(chosenSpell.id) ? true : false)
   }, [chosenSpell])
 
+  //
   // the handlesubmit function creates a fetch to active record, the server is addressed to spells and the character id are included as params
   // a variable holding patch and post objects are created and their body's hold the appropriate information based on a new spell being 
   // created for post or an existing spell being used for patch, a ternary decides whether this is a post or a patch and the returned json
@@ -150,6 +154,10 @@ function Spells() {
         setCharacters(everything.characters)
         setSpells(everything.spells)
         setFormValues(defaultValues)
+        console.log('updated fighter from ruby spell count', everything.updatedFighter.spells.length)
+        console.log('everything.updatedFighter from ruby in spells', {card: everything.updatedFighter})
+        console.log('charid from patch in spells', charid)
+        setMyFighter({card: everything.updatedFighter})
       });
   };
 

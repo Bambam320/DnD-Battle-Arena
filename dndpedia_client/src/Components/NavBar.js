@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 
 function NavBar() {
 
+  //
   // grabs opponent and champion from context, the setter for this state is also located in CharacterCards.js. The setters here place an empty object in state when
   // deselected
   const { opponent, myFighter, setMyFighter, characters, setOpponent } = useContext(LoggedContext)
@@ -22,6 +23,7 @@ function NavBar() {
   const [validFighter, setValidFighter] = useState(false)
   const [validOpponent, setValidOpponent] = useState(false)
 
+  //
   // On render and when myFighter is updated, this effect will set a state holding a boolean to true if a fighter is selected which displays the fighters information
   // in the return statement blow. The same is true for both effects.
   useEffect(() => {
@@ -45,6 +47,27 @@ function NavBar() {
       setMyFighter(cleanObj)
     }
   }
+
+
+
+
+  //
+  const fighterHitPoints = () => {
+    let hitPoints = myFighter.card.attack_points + myFighter.card.spell_points
+    console.log('fighter hit points fired hitpoints:', hitPoints)
+    return hitPoints
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   // styling for the drawer including color and width.
   const drawerWidth = 175;
@@ -110,10 +133,12 @@ function NavBar() {
         </List>
         <Divider />
         <List>
+
+          { }
           {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it says as much. */}
           <ListItem>
             <p className='characterFont'>{validFighter ?
-              `Your champion: ${myFighter.card.name} has ${myFighter.card.attack_points + myFighter.card.spell_points} hit points` :
+              `Your champion: ${myFighter.card.name} has ${fighterHitPoints()} hit points` :
               `No champion has been selected`}
             </p>
           </ListItem>

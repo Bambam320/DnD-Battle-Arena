@@ -24,15 +24,24 @@ class ApplicationController < Sinatra::Base
       character.spells << created_spell
     end
     get_hash = Character.create_me_an_everything_hash
+    get_hash[:updatedFighter] = character.as_json(include: :spells)
     get_hash.to_json
   end
   
+  #
   # finds the character provided by react and shovels the existing spell into that characters spells array and returns characters and spells
   patch '/spells/:charid' do
-    puts params[:charid]
+    puts "params[:charid]", params[:charid]
+    puts "params[:id]", params[:id]
     character = Character.find(params[:charid])
-    character.spells << Spell.find(params[:id])
+    puts "character.spells.count", character.spells.count
+    spell = Spell.find(params[:id])
+    puts "spell.name", spell.name
+    puts "character", character
+    character.spells << spell
+    puts "character.spells.count", character.spells.count
     get_hash = Character.create_me_an_everything_hash
+    get_hash[:updatedFighter] = character.as_json(include: :spells)
     get_hash.to_json
   end
   

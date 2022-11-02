@@ -20,19 +20,43 @@ function Fight() {
 
   //
   const [champion, setChampion] = useState({...myFighter})
-
-  let
   
   //
   const [challenger, setChallenger] = useState({...opponent})
 
+
+  //
+  function handleFight(e) {
+    e.preventDefault()
+    if (((champion.card.spell_points + champion.card.attack_points) * Math.random()) > ((opponent.card.spell_points + opponent.card.attack_points) * Math.random())) {
+      setChampion({...champion, card: {...champion.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif"}})
+      setChallenger({...challenger, card: {...challenger.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif"}})
+    } else {
+      setChampion({...champion, card: {...champion.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif"}})
+      setChallenger({...challenger, card: {...challenger.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif"}})
+    }
+  }
+
+
+
+
+  //
+  function handleReset(e) {
+    e.preventDefault()
+    setChampion({...myFighter})
+    setChallenger({...opponent})
+  }
+
+
+
+
+
   // lists two cards for each fighter by declaring variables and using material ui components for styling
   const listFighters = [champion, challenger].map((each, i) => {
+
     // creates variables to store information about each fighter to use in displaying content
     const { name, city, level, melee_weapon, pet, race,
       ranged_weapon, avatar_url, attack_points, spell_points } = each.card
-
-    console.log('each', each)
 
     return (
       <React.Fragment key={i}>
@@ -91,26 +115,6 @@ function Fight() {
     );
   });
 
-  //
-  function handleFIght(e) {
-    e.preventDefault()
-    if (((champion.card.spell_points + champion.card.attack_points) * Math.random()) > ((opponent.card.spell_points + opponent.card.attack_points) * Math.random())) {
-      setChampion({...champion, card: {...champion.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif"}})
-      setChallenger({...challenger, card: {...challenger.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif"}})
-    } else {
-      setChampion({...champion, card: {...champion.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif"}})
-      setChallenger({...challenger, card: {...challenger.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif"}})
-    }
-  }
-
-  //
-  function handleReset(e) {
-    e.preventDefault()
-    setChampion({...champion, card: {...champion.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif"}})
-  }
-
-
-
   return (
     <Container style={{ margin: '-600px', marginLeft: 'auto', marginRight: 'auto' }}>
       <Grid container
@@ -138,14 +142,13 @@ function Fight() {
           </Button>
         </form>
         <form onSubmit={handleReset}>
-          <Button style={{ marginTop: '450px', position: 'absolute', top: '47%', left: '53%', backgroundColor: '#ea2424', color: 'white' }} variant="contained" type="submit">
+          <Button style={{ marginTop: '500px', position: 'absolute', top: '47%', left: '53%', backgroundColor: '#ea2424', color: 'white' }} variant="contained" type="submit">
             Reset!
           </Button>
         </form>
       </Grid>
     </Container>
   )
-
 };
 
 export default Fight;

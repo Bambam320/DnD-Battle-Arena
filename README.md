@@ -1,8 +1,8 @@
 
-# Dungeon and Dragons Information and Battle Arena
+# Dungeon and Dragons Battle Arena
 
-This is a single-page application that allows the user to look through all the spells offered in the Dungeon and Dragons game. The spells can be added to pre-made characters available on the website or a newly created character, by the user. The characters can be placed in the arena where they will duke it out until there is
-only one victor. The spells can be removed from and added to a character to increase their chances of winning. 
+This is a single-page application that allows the user to look through all the spells offered in the Dungeon and Dragons game. The spells can be added to pre-made characters available in the App or a newly created character, by the user. The characters can be placed in the arena where they will duke it out until there is
+only one victor. Spells can be created or chosen from a list and added to a character to give them a better chance at winning.
   
 
 ## Table of Contents
