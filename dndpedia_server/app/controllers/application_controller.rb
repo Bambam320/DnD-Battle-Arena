@@ -48,9 +48,10 @@ class ApplicationController < Sinatra::Base
     character = Character.find(params[:charid])
     spell = Spell.find(params[:id])
     character.spells << spell
-    get_hash = Character.create_me_an_everything_hash
-    get_hash[:updatedFighter] = character.as_json(include: :spells)
-    get_hash.to_json
+    spell.to_json
+    # get_hash = Character.create_me_an_everything_hash
+    # get_hash[:updatedFighter] = character.as_json(include: :spells)
+    # get_hash.to_json
     # puts "params[:charid]", params[:charid]
     # puts "params[:id]", params[:id]
     # puts "character.spells.count", character.spells.count

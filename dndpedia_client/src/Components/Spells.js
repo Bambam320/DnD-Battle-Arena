@@ -19,7 +19,7 @@ import Select from '@material-ui/core/Select';
 function Spells() {
 
   // grabs context from LoggedContext 
-  const { myFighter, setMyFighter, spells, setSpells, setCharacters } = useContext(LoggedContext)
+  const { myFighter, setMyFighter, characters, spells, setSpells, setCharacters } = useContext(LoggedContext)
 
   // sets defaultValues variable to hold an object containing keys that will be used to create the input fields for the spell
   const defaultValues = {
@@ -132,7 +132,7 @@ function Spells() {
     e.preventDefault();
     let charid = myFighter.card.id
     const postServer = `http://localhost:9292/spells/${charid}/new`
-    const patchServer = `http://localhost:9292/spells/${charid}/patch`
+    const patchServer = `http://localhost:9292/spells/${charid}/update`
     const post = {
       method: "POST",
       headers: {
@@ -155,23 +155,56 @@ function Spells() {
     // ternary that will always post the fetch unless the user has been selected to add a character and some information exists in the create a spell form
     let postOrPatch = addToCharacter && !select ? patch : post
     let server = addToCharacter && !select ? patchServer : postServer
-    // console.log('from spells postorpatch', postOrPatch)
-    // console.log('from spells server', server)
+    console.log('from spells postorpatch', postOrPatch)
+    console.log('from spells server', server)
     console.log('spell count before fetch', spells.length)
+    console.log('textfield from spells.js', textField)
+    console.log('select from spells.js', select)
     fetch(server, postOrPatch)
       .then((r) => r.json())
       .then((spell) => {
-        console.log('spell from ruby after fetch', spell)
-        setSpells([...spells, spell])
-
-        // setCharacters(everything.characters)
-        // setFormValues(defaultValues)
-        // setMyFighter({ card: everything.updatedFighter })
-        // console.log('charid from patch in spells', charid)
+        if (addToCharacter && !select) {
+          let updatedCharacters = characters.map((character) => {
+            if (character.id === spell.character_id) {
+              character.spells.push(spell)
+              character.spell_points = character.spells.reduce((acc, val) => {
+                return acc += val.level * val.damage * val.description.length/8
+              }, 0)
+              return character
+            } else {
+              return character
+            }
+          }) 
+          setCharacters(updatedCharacters)
+        } else {
+          console.log('spell from ruby after fetch', spell)
+          console.log('myfighter spells from spell.js', myFighter.card.spells)
+          setSpells([...spells, spell])
+          setFormValues(defaultValues)
+          if (charid > 0 && addToCharacter) {
+            let updatedCharacters = characters.map((character) => {
+              if (character.id === charid) {
+                character.spells.push(spell)
+                character.spell_points = character.spells.reduce((acc, val) => {
+                  return acc += val.level * val.damage * val.description.length/8
+                }, 0)
+                return character
+              } else {
+                return character
+              }
+            })
+            setCharacters(updatedCharacters)
+          }
+        }
+        console.log('spell for patch returned', spell)
       });
     };
     
+    console.log('length of string in character spell description', characters[1].spells[2].description.length)
+    console.log('characters in spells', characters)
     console.log('spell count after fetch', spells.length)
+    console.log('spells after fetch', spells)
+    console.log('myfighter spells from spell.js', myFighter.card.spells)
 
 
 
