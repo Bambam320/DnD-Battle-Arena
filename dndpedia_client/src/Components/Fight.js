@@ -18,38 +18,30 @@ function Fight() {
   // grabs the characters held in state function for the opponent and the fighter
   const { opponent, myFighter } = useContext(LoggedContext)
 
-  //
-  const [champion, setChampion] = useState({...myFighter})
-  
-  //
-  const [challenger, setChallenger] = useState({...opponent})
+  // sets local state with myFighter
+  const [champion, setChampion] = useState({ ...myFighter })
 
+  // sets local state with the selected opponent
+  const [challenger, setChallenger] = useState({ ...opponent })
 
-  //
+  // This adds some randomness to the hit point values between the fighters and returns a loser or winner gif in place of the character avatar based on results
   function handleFight(e) {
     e.preventDefault()
     if (((champion.card.spell_points + champion.card.attack_points) * Math.random()) > ((opponent.card.spell_points + opponent.card.attack_points) * Math.random())) {
-      setChampion({...champion, card: {...champion.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif"}})
-      setChallenger({...challenger, card: {...challenger.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif"}})
+      setChampion({ ...champion, card: { ...champion.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif" } })
+      setChallenger({ ...challenger, card: { ...challenger.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif" } })
     } else {
-      setChampion({...champion, card: {...champion.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif"}})
-      setChallenger({...challenger, card: {...challenger.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif"}})
+      setChampion({ ...champion, card: { ...champion.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif" } })
+      setChallenger({ ...challenger, card: { ...challenger.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif" } })
     }
   }
 
-
-
-
-  //
+  // sets the local state of champion and challenger with the original characters to change their avatar url back to normal
   function handleReset(e) {
     e.preventDefault()
-    setChampion({...myFighter})
-    setChallenger({...opponent})
+    setChampion({ ...myFighter })
+    setChallenger({ ...opponent })
   }
-
-
-
-
 
   // lists two cards for each fighter by declaring variables and using material ui components for styling
   const listFighters = [champion, challenger].map((each, i) => {
@@ -122,15 +114,15 @@ function Fight() {
         justifyContent="center"
         alignItems="center"
       >
-        {Boolean(myFighter.card.name) && Boolean(opponent.card.name) ? listFighters : 
-          <Typography 
-            variant="h3" 
-            style={{ 
-              fontWeight: 'bold', 
-              textAlign: 'center', 
-              marginBottom: '25px', 
-              color: '#ea2424', 
-              textShadow: '3px 3px 5px #000000' 
+        {Boolean(myFighter.card.name) && Boolean(opponent.card.name) ? listFighters :
+          <Typography
+            variant="h3"
+            style={{
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginBottom: '25px',
+              color: '#ea2424',
+              textShadow: '3px 3px 5px #000000'
             }}
           >Select an Opponent for your Champion and go to battle!
           </Typography>}

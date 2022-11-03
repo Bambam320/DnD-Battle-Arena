@@ -118,21 +118,21 @@ function Spells() {
     setTextField(Boolean(chosenSpell.id) ? true : false)
   }, [chosenSpell])
 
-  ////////////
-  // console.log('formValues from spells before submit', formValues)
-
-
-  ////
-  // the handlesubmit function creates a fetch to active record, the server is addressed to spells and the character id are included as params
-  // a variable holding patch and post objects are created and their body's hold the appropriate information based on a new spell being 
-  // created for post or an existing spell being used for patch, a ternary decides whether this is a post or a patch based on the addToChaaracter switch
-  // and the returned json includes all characters and their associated spells and all spells. It also includes the character with the updated spells
-  // which is used to track hit points for fighting
+  // the handlesubmit function creates a fetch to active record, the server is addressed to post or patch the spell depending on form submission logic
+  // a variable holding patch and post objects and another variable holding the post or patch server address are applied based on this form logic
+  // If a new spell is created by the user it will be added to active record as a post
+  // If a new spell is created and added to a character, it will be added to active record as a post and the character will be updated
+  // If an existing spell is used to add to a character, the association will be udpated in active record.
+  // In all 3 situations, the spell is returned from active record and it is updated in state here
   function handleSubmit(e) {
     e.preventDefault();
+
+    // Variables for the selected character, post and patch server address
     let charid = myFighter.card.id
     const postServer = `http://localhost:9292/spells/${charid}/new`
     const patchServer = `http://localhost:9292/spells/${charid}/update`
+
+    // definitions for post and patch objects
     const post = {
       method: "POST",
       headers: {
@@ -140,11 +140,9 @@ function Spells() {
       },
       body: JSON.stringify(formValues)
     }
-
-    console.log('char id from spells for submit', charid)
-    console.log('formValues from spells.js after submit', formValues)
-    console.log('chosenSpell', chosenSpell)
-    
+    // console.log('char id from spells for submit', charid)
+    // console.log('formValues from spells.js after submit', formValues)
+    // console.log('chosenSpell', chosenSpell)
     const patch = {
       method: "PATCH",
       headers: {
@@ -152,30 +150,37 @@ function Spells() {
       },
       body: JSON.stringify(chosenSpell)
     }
+
     // ternary that will always post the fetch unless the user has been selected to add a character and some information exists in the create a spell form
     let postOrPatch = addToCharacter && !select ? patch : post
     let server = addToCharacter && !select ? patchServer : postServer
-    console.log('from spells postorpatch', postOrPatch)
-    console.log('from spells server', server)
-    console.log('spell count before fetch', spells.length)
-    console.log('textfield from spells.js', textField)
-    console.log('select from spells.js', select)
+    // console.log('from spells postorpatch', postOrPatch)
+    // console.log('from spells server', server)
+    // console.log('spell count before fetch', spells.length)
+    // console.log('textfield from spells.js', textField)
+    // console.log('select from spells.js', select)
+
+    // The address and object are filled in based on logic
     fetch(server, postOrPatch)
       .then((r) => r.json())
       .then((spell) => {
+
+        // the patch returns the spell and it updates characters along with updated the spell_points by reducing the new values from the spells array
         if (addToCharacter && !select) {
           let updatedCharacters = characters.map((character) => {
             if (character.id === spell.character_id) {
               character.spells.push(spell)
               character.spell_points = character.spells.reduce((acc, val) => {
-                return acc += val.level * val.damage * val.description.length/8
+                return acc += val.level * val.damage * val.description.length / 8
               }, 0)
               return character
             } else {
               return character
             }
-          }) 
+          })
           setCharacters(updatedCharacters)
+
+        // the post returns the spell and it updates the state held spells, resets formValues and updates characters if there is a valid character
         } else {
           console.log('spell from ruby after fetch', spell)
           console.log('myfighter spells from spell.js', myFighter.card.spells)
@@ -186,7 +191,7 @@ function Spells() {
               if (character.id === charid) {
                 character.spells.push(spell)
                 character.spell_points = character.spells.reduce((acc, val) => {
-                  return acc += val.level * val.damage * val.description.length/8
+                  return acc += val.level * val.damage * val.description.length / 8
                 }, 0)
                 return character
               } else {
@@ -196,18 +201,15 @@ function Spells() {
             setCharacters(updatedCharacters)
           }
         }
-        console.log('spell for patch returned', spell)
+        // console.log('spell for patch returned', spell)
       });
-    };
-    
-    console.log('length of string in character spell description', characters[1].spells[2].description.length)
-    console.log('characters in spells', characters)
-    console.log('spell count after fetch', spells.length)
-    console.log('spells after fetch', spells)
-    console.log('myfighter spells from spell.js', myFighter.card.spells)
+  };
 
-
-
+  // console.log('length of string in character spell description', characters[1].spells[2].description.length)
+  // console.log('characters in spells', characters)
+  // console.log('spell count after fetch', spells.length)
+  // console.log('spells after fetch', spells)
+  // console.log('myfighter spells from spell.js', myFighter.card.spells)
 
   // Renders a menu item for each spell in the spell dropdown
   const listSpells = spells.map((spell) => {

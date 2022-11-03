@@ -6,9 +6,7 @@ class Character < ActiveRecord::Base
     self.destroy_all
   end
 
-  #
-  # grabs all characters with their associated spells and updates the characters spell points. Then grabs all spells and creates a hash
-  # with both characters and spells poised as a json then returns the hash
+  # grabs all characters with their associated spells and updates each characters spell points. It then returns all the characters
   def self.create_me_a_character_hash_with_spells
     all_characters = Character.all
     all_characters.each { |char| char.update(spell_points: char.spells.map { |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}

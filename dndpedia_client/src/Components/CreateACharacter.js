@@ -33,8 +33,7 @@ function CreateACharacter() {
     });
   };
 
-  //
-  // change this so that ruby returns all the characters and we update state only once
+  // a post request to active record with the formValues for the new character returns the new character from the database and adds to curernt state for characters
   function handleSubmit(e) {
     e.preventDefault();
     const server = 'http://localhost:9292/characters/new'
@@ -51,7 +50,6 @@ function CreateACharacter() {
     setFormValues(defaultValues)
     setTimeout(navigate('/characters'), 2000)
   };
-
 
   return (
     <Container style={{ marginTop: '-600px' }}>

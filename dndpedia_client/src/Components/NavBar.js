@@ -99,8 +99,6 @@ function NavBar() {
           </ListItem>
         </List>
         <List>
-
-          {}
           <ListItem button>
             <Link className='linkFont' style={{ textDecoration: "none" }} to="/characters/new">Create A Character</Link>
           </ListItem>
@@ -113,16 +111,12 @@ function NavBar() {
         </List>
         <Divider />
         <List>
-
-          {}
           <ListItem button>
             <Link className='linkFont' style={{ textDecoration: "none" }} to="/characters/fight">Fight</Link>
           </ListItem>
         </List>
         <Divider />
         <List>
-
-          { }
           {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it says as much. */}
           <ListItem>
             <p className='characterFont'>{validFighter ?

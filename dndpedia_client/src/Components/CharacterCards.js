@@ -17,7 +17,7 @@ function CharacterCards({ card, onDeleteCharacter }) {
   const { setOpponent, setMyFighter } = useContext(LoggedContext)
 
   //creates variables to store information from props to be used in displaying content
-  const { id, background, c_lass, name, city, level, language, alignment, melee_weapon, 
+  const { id, background, c_lass, name, city, level, language, alignment, melee_weapon,
     pet, race, ranged_weapon, avatar_url, attack_points, spell_points } = card
 
   // sets the myFighter and opponent state with the card for the character that is selected to be the one or the other
@@ -31,7 +31,6 @@ function CharacterCards({ card, onDeleteCharacter }) {
     setOpponent({ card })
   }
 
-  //
   // fetches a delete url from sinatra to delete a character from the database, the returned JSON is not used and the onDeleteCharacter function is called
   function handleDeleteCharacter(e) {
     e.preventDefault()

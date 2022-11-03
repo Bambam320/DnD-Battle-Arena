@@ -36,9 +36,8 @@ function App() {
   //set state with all characters and all spells
   const [characters, setCharacters] = useState([])
   const [spells, setSpells] = useState([])
-  
-  //
-  // fetches on effect, the characters with their spells and all spells
+
+  // fetches on effect, the characters with their spells 
   useEffect(() => {
     fetch('http://localhost:9292/characters')
       .then((r) => r.json())
@@ -48,8 +47,6 @@ function App() {
       })
   }, [])
 
-
-  ///
   // useEffect for just all spells
   useEffect(() => {
     fetch('http://localhost:9292/spells')
@@ -59,7 +56,6 @@ function App() {
       })
   }, [])
 
-  ///
   //provides context for state declared above to all components and creates routes to match links that render the correct components
   return (
     <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter, characters, setCharacters, spells, setSpells }}>
