@@ -41,42 +41,31 @@ class ApplicationController < Sinatra::Base
   #characters/:char_id/spells
   # This post to the spells table will create a spell on its own or create a spell and attach it to the provided character id by association
   # This returns the newly created spell back to the frontend
-  post 'characters/:char_id/spells' do
+  post '/spells/:char_id/characters' do
+    puts 'post to characters is firing'
+    character = Character.find(params[:char_id])
+    puts 'params', params
+    puts 'character spell count', character.spells.count
     created_spell = Spell.create_me_a_spell(params)
-    if params[:charid].to_i > 0
-      character = Character.find(params[:charid])
-      character.spells << created_spell
-    end
+    puts 'created spell', created_spell
+    puts 'character spell count', character.spells.count
     created_spell.to_json 
-    # puts 'created spell', created_spell.name
-    # get_hash = Character.create_me_an_everything_hash
-    # get_hash[:updatedFighter] = character.as_json(include: :spells)
-    # get_hash.to_json
   end
-
+  
   
   # characters/:char_id/spells
   # finds the character provided by react and shovels the existing spell into that characters spells array and returns the new spell including the
   # character id
-  patch '/characters/:charid/spells' do
-    character = Character.find(params[:charid])
+  patch '/characters/:char_id/spells' do
+    character = Character.find(params[:char_id])
     spell = Spell.find(params[:id])
     character.spells << spell
     spell.to_json
-    # get_hash = Character.create_me_an_everything_hash
-    # get_hash[:updatedFighter] = character.as_json(include: :spells)
-    # get_hash.to_json
-    # puts "params[:charid]", params[:charid]
-    # puts "params[:id]", params[:id]
-    # puts "character.spells.count", character.spells.count
-    # puts "spell.name", spell.name
-    # puts "character", character
-    # puts "character.spells.count", character.spells.count
   end
   
-
-
   
+  
+
   # charcters/:char_id
   # the patch request from react provides an id through params and the character class update method changes the values for the appropriate attributes
   # it then returns all the characters back to react with the updated information for the character included
@@ -100,3 +89,28 @@ class ApplicationController < Sinatra::Base
   end
 
 end
+    
+
+
+
+
+
+
+
+
+# reusable code from patch '/characters/:charid/spells'
+# get_hash = Character.create_me_an_everything_hash
+# get_hash[:updatedFighter] = character.as_json(include: :spells)
+# get_hash.to_json
+# puts "params[:charid]", params[:charid]
+# puts "params[:id]", params[:id]
+# puts "character.spells.count", character.spells.count
+# puts "spell.name", spell.name
+# puts "character", character
+# puts "character.spells.count", character.spells.count
+
+# reusable code from post '/characters/:charid/spells
+# puts 'created spell', created_spell.name
+# get_hash = Character.create_me_an_everything_hash
+# get_hash[:updatedFighter] = character.as_json(include: :spells)
+# get_hash.to_json

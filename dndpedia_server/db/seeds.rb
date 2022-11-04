@@ -26,8 +26,8 @@ puts "🌱 Seeding the spell tables..."
 puts "Spells have been sewn, seeding Characters..."
 
 # # character table seed
-# characters = 12
-# characters.times do
+# characters_count = 15
+# characters_count.times do
 #   level = rand(0..10)
 #   melee_weapon = Faker::Games::DnD.melee_weapon
 #   melee_weapon_source = RestClient.get "https://www.dnd5eapi.co/api/equipment/#{melee_weapon.downcase.gsub(" ", "-")}"
@@ -56,8 +56,8 @@ puts "Spells have been sewn, seeding Characters..."
 #   )
 # end
 
-# # Associate a character with 5 spells
-# spells_per_character = 6
+# # Associate a character with 12 spells
+# spells_per_character = 12
 # Character.all.each do |each_character|
 #   spells_per_character.times do
 #     spell_num = rand(1..319)
