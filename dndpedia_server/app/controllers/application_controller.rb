@@ -42,13 +42,9 @@ class ApplicationController < Sinatra::Base
   # This post to the spells table will create a spell on its own or create a spell and attach it to the provided character id by association
   # This returns the newly created spell back to the frontend
   post '/spells/:char_id/characters' do
-    puts 'post to characters is firing'
     character = Character.find(params[:char_id])
-    puts 'params', params
-    puts 'character spell count', character.spells.count
     created_spell = Spell.create_me_a_spell(params)
-    puts 'created spell', created_spell
-    puts 'character spell count', character.spells.count
+    puts 'created_spell from controller', created_spell.character_id
     created_spell.to_json 
   end
   
@@ -65,7 +61,7 @@ class ApplicationController < Sinatra::Base
   
   
   
-
+##
   # charcters/:char_id
   # the patch request from react provides an id through params and the character class update method changes the values for the appropriate attributes
   # it then returns all the characters back to react with the updated information for the character included
@@ -79,7 +75,8 @@ class ApplicationController < Sinatra::Base
       avatar_url: params[:avatar_url],
       language: params[:language]
     )
-    character.to_json
+    puts 'character spells from update patch', character.spells
+    character.to_json(include: :spells)
   end
   
   # This will delete a character by finding its id and deleting that record

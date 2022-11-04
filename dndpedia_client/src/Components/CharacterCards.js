@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button'
 
 function CharacterCards({ card, onDeleteCharacter }) {
 
+
   // grabs the setter state function for the opponent and the fighter
   const { setOpponent, setMyFighter } = useContext(LoggedContext)
 

@@ -180,6 +180,7 @@ function Spells() {
       updatedCharacter.spell_points = character.spells.reduce((acc, val) => {
         return acc += val.level * val.damage * val.description.length / 8
       }, 0)
+      setMyFighter({card: updatedCharacter})
       return updatedCharacter
     }
 
@@ -213,11 +214,12 @@ function Spells() {
             if (character.id === char_id) {
               console.log('updateTheCharacter', updateTheCharacter(character, spell))
               return updateTheCharacter(character, spell)
-
+              
             } else {
               return character
             }
           })
+          console.log('updated characters after fetch', updatedCharacters)
           setCharacters(updatedCharacters)
 
 

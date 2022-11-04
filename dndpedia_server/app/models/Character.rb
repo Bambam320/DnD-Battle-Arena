@@ -9,7 +9,10 @@ class Character < ActiveRecord::Base
   # grabs all characters with their associated spells and updates each characters spell points. It then returns all the characters
   def self.create_me_a_character_hash_with_spells
     all_characters = Character.all
-    all_characters.each { |char| char.update(spell_points: char.spells.map { |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
+    puts 'Character first after attack points update', Character.first.attack_points
+    all_characters.each{ |char| char.update(attack_points: char.level * char.attack_points)}
+    puts 'Character first after attack points update', Character.first.attack_points
+    all_characters.each{ |char| char.update(spell_points: char.spells.map{ |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
     character_json = all_characters.as_json(include: :spells)
     character_json
     # all_spells = Spell.all
@@ -51,8 +54,6 @@ class Character < ActiveRecord::Base
       spell_points: 0,
       avatar_url: params[:avatar_url],
     )
-    new_character << Spell.find(1)
-    new_character << Spell.find(2)
     new_character
   end
 

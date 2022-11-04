@@ -48,11 +48,13 @@ function UpdateCharacter() {
     });
   };
 
+
+  //
   // The submit button fires a patch fetch to active record which provides it the current character with the updated attributes and 
   // returns the patched character then updates the state held characters with the nely updated character
   function handleSubmit(e) {
     e.preventDefault();
-    let server = `http://localhost:9292/characters/${char_id}/update`
+    let server = `http://localhost:9292/characters/${char_id}`
 
     const patch = {
       method: "PATCH",
@@ -61,20 +63,26 @@ function UpdateCharacter() {
       },
       body: JSON.stringify(character)
     }
+
+
+
     fetch(server, patch)
       .then((r) => r.json())
       .then((patchedCharacter) => {
-        // console.log('updated character after patch from updatecharacter', patchedCharacter)
+        const updatedCharacter = { ...patchedCharacter }
+        updatedCharacter.spell_points = patchedCharacter.spells.reduce((acc, val) => {
+            return acc += val.level * val.damage * val.description.length / 8
+          }, 0)
+        updatedCharacter.attack_points = updatedCharacter.level * updatedCharacter.attack_points
+        setMyFighter({card: updatedCharacter})
         let updatedCharacters = characters.map((eachCharacter) => {
           if (eachCharacter.id === patchedCharacter.id) {
-            return patchedCharacter
+            return updatedCharacter
           } else {
             return eachCharacter
           }
         });
-        // console.log('updated characters before set to state in updatecharacter.js', updatedCharacters)
         setCharacters(updatedCharacters)
-        setMyFighter({ card: patchedCharacter })
       });
   }
   // console.log('myfighter from updatecharacter', myFighter)
