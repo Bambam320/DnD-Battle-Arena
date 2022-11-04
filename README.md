@@ -595,7 +595,7 @@ The ```<Fight>``` component renders a couple of cards for each fighter and oppon
 ## Video-Describing-Functionality
 
     
-   [![Watch the video](https://imgur.com/a/3fA6Z9P)](https://youtu.be/eUogGOHnCl4)
+   [![Watch the video](https://i.imgur.com/bWUcmyd.png)](https://youtu.be/eUogGOHnCl4)
 
   
 
