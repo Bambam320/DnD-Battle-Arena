@@ -13,7 +13,6 @@ import Button from '@material-ui/core/Button'
 
 function CharacterCards({ card, onDeleteCharacter }) {
 
-
   // grabs the setter state function for the opponent and the fighter
   const { setOpponent, setMyFighter } = useContext(LoggedContext)
 
@@ -21,6 +20,7 @@ function CharacterCards({ card, onDeleteCharacter }) {
   const { id, background, c_lass, name, city, level, language, alignment, melee_weapon,
     pet, race, ranged_weapon, avatar_url, attack_points, spell_points } = card
 
+  // sets char_id to be used for the rest of the component
   let char_id = id
 
   // sets the myFighter and opponent state with the card for the character that is selected to be the one or the other
@@ -116,7 +116,7 @@ function CharacterCards({ card, onDeleteCharacter }) {
           <Button onClick={handleDeleteCharacter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginBottom: "20px" }}>
             Delete This Character
           </Button>
-          <Button component={Link} to={`/characters/${char_id}/update`} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold" }}>
+          <Button component={Link} to={`/characters/${char_id}/edit`} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold" }}>
             Update This Character
           </Button>
         </CardContent>

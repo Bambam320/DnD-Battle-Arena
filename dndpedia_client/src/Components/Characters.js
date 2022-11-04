@@ -10,24 +10,19 @@ import Grid from '@material-ui/core/Grid';
 
 function Characters() {
 
-////////////////////
-  ////////////////
+  // sets navigate to be used after the delete action is updated in state
   const navigate = useNavigate()
-
 
   // grabs all the characters from context
   const { characters, setCharacters } = useContext(LoggedContext)
 
-
-  //
-  // function is passed back as props from CharacterCards, this updates the characters held in state to remove the user requested deleted character
+  // function is passed back as props from CharacterCards, this updates the characters held in state to remove the user requested deleted character, then navigates
+  // back to characters
   function handleDeleteCharacter(id) {
     const newCharacters = characters.filter((character) => character.id != id)
     setCharacters(newCharacters)
     navigate('/characters')
   }
-
-  console.log('all characters from characters', characters)
 
   // lists a card for each character held in state, it passes card which represents each character and passes the delete function as props
   const listCharacters = characters.map((singleCharacter) => {

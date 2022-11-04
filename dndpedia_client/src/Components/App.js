@@ -65,7 +65,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="characters/" element={<Characters />} >
             <Route path=":id/spells" element={<CharacterSpells />} />
-            <Route path=":id/update" element={<UpdateCharacter />} />
+            <Route path=":id/edit" element={<UpdateCharacter />} />
           </Route>
           <Route path="spells/" element={<Spells />} />
           <Route path="characters/new" element={<CreateACharacter />} />

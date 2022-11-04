@@ -48,14 +48,12 @@ function UpdateCharacter() {
     });
   };
 
-
-  //
   // The submit button fires a patch fetch to active record which provides it the current character with the updated attributes and 
-  // returns the patched character then updates the state held characters with the nely updated character
+  // returns the patched character then updates the state held characters and the main fighter
+  // It also updates the characters spell and attack points to separate variables held in state
   function handleSubmit(e) {
     e.preventDefault();
     let server = `http://localhost:9292/characters/${char_id}`
-
     const patch = {
       method: "PATCH",
       headers: {
@@ -63,18 +61,15 @@ function UpdateCharacter() {
       },
       body: JSON.stringify(character)
     }
-
-
-
     fetch(server, patch)
       .then((r) => r.json())
       .then((patchedCharacter) => {
         const updatedCharacter = { ...patchedCharacter }
         updatedCharacter.spell_points = patchedCharacter.spells.reduce((acc, val) => {
-            return acc += val.level * val.damage * val.description.length / 8
-          }, 0)
+          return acc += val.level * val.damage * val.description.length / 8
+        }, 0)
         updatedCharacter.attack_points = updatedCharacter.level * updatedCharacter.attack_points
-        setMyFighter({card: updatedCharacter})
+        setMyFighter({ card: updatedCharacter })
         let updatedCharacters = characters.map((eachCharacter) => {
           if (eachCharacter.id === patchedCharacter.id) {
             return updatedCharacter
@@ -85,8 +80,6 @@ function UpdateCharacter() {
         setCharacters(updatedCharacters)
       });
   }
-  // console.log('myfighter from updatecharacter', myFighter)
-  // console.log('characters state after update patch complete from updatecharacter.js', characters)
 
   // renders a card similar to CharacterSpells with the updateable attributes and their current value in a text field and a submit button to fire the patch
   return (

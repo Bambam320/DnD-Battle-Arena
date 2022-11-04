@@ -20,9 +20,9 @@ function Background() {
   return (
     <div style={backgroundStyle}>
       <Container maxWidth={false} >
-      <Typography className='gradient-text' variant='h3' style={{ fontWeight: '800', textAlign: 'center', marginBottom: '25px' }}>
-        Dungeon & Dragons Battle Arena
-      </Typography>
+        <Typography className='gradient-text' variant='h3' style={{ fontWeight: '800', textAlign: 'center', marginBottom: '25px' }}>
+          Dungeon & Dragons Battle Arena
+        </Typography>
       </Container>
     </div>
   )

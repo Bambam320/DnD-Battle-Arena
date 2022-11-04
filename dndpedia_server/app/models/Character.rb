@@ -15,17 +15,10 @@ class Character < ActiveRecord::Base
     all_characters.each{ |char| char.update(spell_points: char.spells.map{ |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
     character_json = all_characters.as_json(include: :spells)
     character_json
-    # all_spells = Spell.all
-    # spells_json = all_spells.as_json
-    # get_hash = {}
-    # get_hash[:characters] = character_json
-    # get_hash[:spells] = spells_json
-    # get_hash
   end
 
-
-  ##
   # This will take the information from params and distribute it through the keys of the new character object, filling in data from the Faker gem where its needed.
+  # This also updates the spell and attack power based on the weapons from faker and the spells if 1 and 2 added towards the end.
   # Then it will return the new character from the database
   def self.create_me_a_brand_new_character params
     level = params[:level]
@@ -54,6 +47,9 @@ class Character < ActiveRecord::Base
       spell_points: 0,
       avatar_url: params[:avatar_url],
     )
+    new_character.spells << Spell.find(1)
+    new_character.spells << Spell.find(2)
+    new_character.update(spell_points: new_character.spells.map{ |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))
     new_character
   end
 

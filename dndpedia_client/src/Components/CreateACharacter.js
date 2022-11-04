@@ -12,7 +12,11 @@ import Typography from '@material-ui/core/Typography';
 
 
 function CreateACharacter() {
+
+  // grabs characters and setCharacters from state
   const { characters, setCharacters } = useContext(LoggedContext)
+
+  // sets an object with default values
   const defaultValues = {
     name: "",
     pet: "",
@@ -22,9 +26,14 @@ function CreateACharacter() {
     language: "",
     spells: []
   };
+
+  // sets formValues for the page and sets it to default values
   const [formValues, setFormValues] = useState(defaultValues);
+
+  // creates variable for navigate
   const navigate = useNavigate()
 
+  // handles updating the formValues as they're entered
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -33,8 +42,6 @@ function CreateACharacter() {
     });
   };
 
-
-  //
   // a post request to active record with the formValues for the new character returns the new character from the database and adds to curernt state for characters
   function handleSubmit(e) {
     e.preventDefault();
