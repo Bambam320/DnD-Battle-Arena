@@ -591,24 +591,17 @@ The ```<Fight>``` component renders a couple of cards for each fighter and oppon
 ```
 
 
-  
-
-
-
 
 ## Video-Describing-Functionality
 
     
-   [![Watch the video](https://i.imgur.com/EolkAcU.png)](https://youtu.be/093kWJALBUU)
+   [![Watch the video](https://imgur.com/a/3fA6Z9P)](https://youtu.be/eUogGOHnCl4)
 
   
 
 ## Credits
 
-This project uses the free API from [openLibrary](https://openlibrary.org/developers)
-
-D&D 5e API - The 5th Edition Dungeons and Dragons API
-https://www.dnd5eapi.co/api
+This project uses the free API from D&D 5e API - The 5th Edition Dungeons and Dragons API [dnd5eapi](https://www.dnd5eapi.co/api)
 
 
 
@@ -630,4 +623,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
   
 
-![](https://img.shields.io/github/commit-activity/w/Bambam320/phase-2-miniSchool-project)
+![](https://img.shields.io/github/commit-activity/w/Bambam320/phase-3-dndpedia-project)
