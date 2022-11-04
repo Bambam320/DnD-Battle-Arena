@@ -2,10 +2,8 @@
 # Dungeon and Dragons Battle Arena
 
 This is a single-page application that allows the user to look through all the spells offered in the Dungeon and Dragons game. The spells can be added to pre-made characters available in the App or a newly created character, by the user. The characters can be placed in the arena where they will duke it out until there is
-only one victor. Spells can be created or chosen from a list and added to a character to give them a better chance at winning.
+only one victor. Spells can be created or chosen from a list and added to a character to give them a better chance at winning. A spell can also be created without adding it to a character. Each character can be deleted or have its attributes updated.
   
-
-updates
 ## Table of Contents
 
 
@@ -31,23 +29,21 @@ updates
 
 ## Features
 
-  
 
-1. From the home page, the user can view a random book from each of the 5 English courses available from the SPA. Upon render of the home page, a new random number selects a different book from each course and displays it as a card. Clicking on each card will direct the user to the login page. Each card has a link that will direct the user **outside of the SPA** to a website with a pdf of the book.
+1. The home page is very basic with just an informative message describing some of the functions of the website.
 
-2. The login page offers a link to a signup page. The signup page checks for a valid password and upon a successful sign up will redirect to the login page. The login page takes a username, password, and user role, then will redirect to the correct users' page, either faculty or student.
+2. The character page offers a list of all characters in the database. Each character displays severla different attributes pertaining to that character. There are 4 buttons available for each character card, the fighter and the opponent in the arena may be set as such and there information is displayed in the NavBar along with their attack points. There is a delete button which deletes that character and an update button which creates a separate card filled with the current information for some of the attributes of the character in a form. This form can be altered and submitted to the character. The entire card is a link to separate card which displays all of the spells that belong to that character.
 
-3. The faculty page lists a menu for all courses, expanding the course item will list a menu of each book in the course. Each book item in the expanded list is a link to render a card including that book's information. The information for the card is derived from the parameters of the URL. Each card allows the teacher to enter a question and submit it to the curriculum for that book.
+3. The create a character page offers a small form that may be filled in with some attributes of a character. Upon submit that character will be randomly assigned some weapons and taught the "Acid Arrow" and "Acid Splash" spells. The character will be available in the characters page.
 
-4. The student page lists a menu for all courses, expanding the course item will list a menu of each book in the course. Each book item in the expanded list is a link to render a card including the book's information. The information for the card is derived from the parameters of the URL. Each card allows the student to list the next question assigned to the book that has not been answered. The student is then able to submit an answer to that question.
+4. The create and add a spell page offers many functions. The first is that a spell may be created through a form where its damage and level could be provided. This spell may be submitted and will be added as an existing spell in the drop down menu below the spell form. The spell form may be used on its own or it may be used to add to a character upon submit. This requires selected a character as your champpion and selecting the "Add To Character" switch to on before submitting. The same is true when selecting a spell from the existing list of spells and selecting the "Add To Character" switch before pressing the submit button. This will add the existin spell to the character selected as the champion.
 
-  
+5. The fight page is very straightforward. A champion and an opponent must be selected and they will be displayed along with a fight and reset button. The victors card image will change to a funny winner gif and the losers card image will also change but to a funny loser gif. The reset button displays the correct images to the cards again. The fight involves a great deal of chance because during the fight, the hit points of each character are multiplied by a random percentage which makes the fight more interesting.
 
 ## Installation
 
-  
-
-This is a SPA that simulates a learning experience on canvas or a similar online school. Clone the repository to your machine and follow the steps below to install the necessary dependencies and run the application and server.
+This SPA requires both a front and back end and for that reason, there are a few installation commands that need to be used to set the application up for use.
+The first step after cloning the repository is to find the ```dndpedia_client``` directory and from within, run the command for installing the nodes using the following.
 ```js
 npm install
 ```
@@ -55,14 +51,19 @@ It is built with the React framework and must be initialized by running the foll
 ```js
 npm start
 ```
-It is accessible through a local browser and the data is established on a local JSON file using relative paths. The JSON server must be started before use by running the following command.
+The best method for setting up the back end requires opening a new terminal and preparing the backend by first, running the bundle installation.
 ```js
-npm run server
+bundle install
 ```
-ADD RUBY COMMANS HERE FOR BUNDLE AND SERVER
-Now you're ready to learn or teach at an English program in a made-up school.
+The next steps are optional, since there are already records in both tables in this application, if you prefer, you may delete the records by removing them directly from the table or by rolling back the migrations and migrating them again. In this situation, run ```bundle exec rake db:seed``` when the tables have been migrated again to seed the spells table with all spells and the characters with 12 new characters.
+After the tables are sufficiently prepared for you purposes, run the following command in order to run a special gem called "rerun" that will listen for changes and utilize the ```dndpedia_server``` backend as the server for the front end. 
+```js
+bundle exec rake server
+```
 
-Clone the repo [from Github here](https://github.com/Bambam320/phase-2-miniSchool-project)
+Now you're ready to create charcters, change their information, including their spells and send them to the arena.
+
+Clone the repo [from Github here](https://github.com/Bambam320/phase-3-dndpedia-project)
 
   
 
@@ -72,7 +73,7 @@ The SPA's functions are described below with imagery and code to best demonstrat
 
 ***SPA Component Tree***
 
-#### The component tree includes an index file that attaches the react app to the DOM. Then an "App" component provides context and routing for all children's elements. The first is a "NavBar" component that lists links and is parent to the "LogginIn" component. The second is the "Home" component which displays the main page and calls the "HomeCard" child which lists a card for each book provided to it. The third is the "Faculty" component which displays a menu handled by its children, "FacultyCourses" and "FacultyCoursesExpanded". "FactoryCards" is a component from a nested route that lists the book information selected. The "Student" component and its children work in the same way. The fifth component is Login which takes user input information and loads it to the context used by the entire SPA. The sixth component, "Signup" is available through a nested link in "Login" and takes in the users' information.
+#### The component tree includes an index file that attaches the react app to the DOM. Then an "App" component provides context and routing for all children's elements. The first is a "Background" component that places some imagery and title text on all pages. The next is the "NavBar" component that lists links and stores some information from the selected fighters. The second is the "Home" component which displays the main page with a title. 
 ```
 Index from the src folder
 └── App from component folder
