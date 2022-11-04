@@ -13,10 +13,6 @@ only one victor. Spells can be created or chosen from a list and added to a char
 
 - [Usage](#usage)
 
-- [Description](#Description)
-
-- [Instructional-GIF](#Instructional-GIF)
-
 - [Video-Describing-Functionality](#Video-Describing-Functionality)
 
 - [Credits](#Credits)
@@ -73,309 +69,531 @@ The SPA's functions are described below with imagery and code to best demonstrat
 
 ***SPA Component Tree***
 
-#### The component tree includes an index file that attaches the react app to the DOM. Then an "App" component provides context and routing for all children's elements. The first is a "Background" component that places some imagery and title text on all pages. The next is the "NavBar" component that lists links and stores some information from the selected fighters. The second is the "Home" component which displays the main page with a title. 
+#### The component tree includes an index file that attaches the react app to the DOM. Then an ```<App>``` component provides context and routing for all children's elements. The first is a ```<Background>``` component that places some imagery and title text on all pages. The next is the ```<NavBar>``` component that lists links and stores some information from the selected fighters. The next is the ```<Home>``` component which displays the main page with a title. The next is the ```<Characters>``` component which has children called ```<CharacterSpells>```, ```<UpdateCharacter>``` and ```<CharacterCards>``` these are reponsible for listing characters and when selected, their spells or a form to update them. The next is the ```<Spells>``` component which offers a form and drop down for creating or adding spells to a character. The next is the ```<CreateACharacter>``` component which offers a form to input attributes to a character that will be created. The last is the ```<Fight>``` component, which lists cards for both fighters and allows them to fight.
 ```
 Index from the src folder
 └── App from component folder
-    ├── NavBar
-	|   └── LoggedIn
-	├── Home
-	|   └── HomeCard
-    ├── Faculty
-	|   ├── FacultyCards
-    |   |   FacultyCourses
-    |   └── FacultyCoursesExpanded
-    ├── Student
-    |   ├── StudentCards
-    |   |   StudentCourses
-    |   └── StudentCoursesExpanded
-	├── Login
-    └── Signup
+  ├── Background
+  ├── NavBar
+  ├── Home   
+  ├── Characters
+  |   └── CharacterCards
+  |   └── CharacterSpells
+  |   └── UpdateCharacter
+  ├── Spells
+  ├── CreateACharacter
+  └── Fight
 ```
 ***Home Page***
 
 ![](images/Homepage.png  "Home Page Example")
 
-####The following components are responsible for the Home page. Although NavBar and its child are available on every page of the SPA.
+The Home component renders via the link ```<Home>``` from the NavBar, the other components shown here are the ```<Background>``` and ```<NavBar>``` components. They are shown on every single page and are available to all components.
 ```
 Index from the src folder
 └── App from component folder
-    ├── NavBar
-	|   └── LoggedIn
-	├── Home
-	|   └── HomeCard
+  ├── Background
+  ├── NavBar
+  ├── Home   
 ```
 
-####The App component provides routes to all the other main components in the app. The default path at "/" will display the NavBar component and unless there is a path after the default path, then the Home component will be rendered as well. The NavBar component displays an "AppBar" material component for styling and calls 2 children components, NavBarLinks and LoggedIn. As shown above, there are 4 links returned by the NavBarLinks component. A status message that displays the current users' login information and a logout button is returned by the LoggedIn component.
+The ```<App>``` component provides routes to all the other main components in the app. The default path at ```"/"``` will display the NavBar component and unless there is a path after the default path, then the Home component will be rendered as well. The ```<App>``` will provide routes to all components and provides context to all components for the state of all characters, spells and the chosen opponent and fighter. It holds to effect functions that get all characters and all spells and set state with them. The fighter and opponent states are filled with default values until they are set with characters from other component.
 
 ```js
-function  App() {
-//provides context to and route to the entire app
+  //provides context for state declared above to all components and creates routes to match links that render the correct components
   return (
-    <LoggedUserContext.Provider  value={{ currentUser, setCurrentUser }}>
-      <div  style={{ background:  'radial-gradient(#ffe6cc, #fff2e6)' }}>
-		<Routes>
-			{/* sets "/" to default with NavBar component and indexes home to it */}
-	      <Route  path="/"  element={<NavBar  />}>
-			<Route  index  element={<Home  />}  />
-		    <Route  path="faculty/*"  element={<Faculty  />}  /> //root for faculty tree
-			<Route  path="student/*"  element={<Student  />}  />
-			{/* <Route path="explore" element={<Explore />} /> */}
-			<Route  path="login"  element={<Login  />}  />
-			<Route  path="signup"  element={<Signup  />}  />
-		  </Route>
-		</Routes>
-	  </div>
-	</LoggedUserContext.Provider>
-  )
-}
-```
-
-####The Home component uses the effect hook to build an array where it grabs a random book from each course passed to the forEach() method used. That book array is then used to render the HomeCard component.
-
-```js
-const  eng101 = ['OL4444289M', 'OL32520899M', 'OL24777120M', 'OL26639962M', 'OL39222415M']
-const  courses = ["eng101", "eng202", "eng303", "eng404", "eng505"]
-/Grab a random book from each course and push it to an array which sets the card state
-useEffect(() => {
-  const  host = `http://localhost:3001/`
-  let  bookarray = []
-  courses.forEach((course) => {
-    fetch(`${host}${course}`)
-      .then((r) =>  r.json())
-      .then((data) => {
-        bookarray.push(data[Math.ceil(Math.random() * 4)])
-        if (bookarray.length === 5) {
-          return  setCardState(bookarray, course)
-        }
-      })
-  })
-}, [])
-```
-####The Homecard component is called for each card in the array. Then Homecard uses several variables and the Card and Typography components from Material UI to display the information provided.
-
-```js
-const  listBooks = cards.map((card, i) => {
-  return (card ?
-    <Grid  item={4}>
-      <Homecard  key={i}  card={card}  />
-    </Grid>
-  })
-```
-
-***Faculty page***
-
-![](images/Faculty.png  "Faculty Page Example")
-
-####The faculty branch of the app.
-```
-    ├── Faculty
-	|   ├── FacultyCards
-    |   |   FacultyCourses
-    |   └── FacultyCoursesExpanded
-```
-####The next main branch of components begins with Faculty, rendered when path matches "/faculty", it returns a list in the main container that calls ```{listCourses}``` . That will render a FacultyCourses component for each course available on the server which is displayed as an expandable item in a list. Then FacultyCourses will call FacultyCoursesExpanded which displays a list item for each book in that course.
-
-```js
-return (
-  <>
-  {currentUser && currentUser.role === 'professor' ?
-    <Container  style={{ marginTop:  '100px', marginBottom:  '100px' }}>
-      <List
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader  component="div"  id="nested-list-subheader">
-            Your courses!
-          </ListSubheader>
-        }
-        className={classes.root}
-      >
-      {listCourses}
-      </List>
+    <LoggedContext.Provider value={{ opponent, setOpponent, myFighter, setMyFighter, characters, setCharacters, spells, setSpells }}>
+      <Background />
       <Routes>
-        <Route  path=":course/:bookId/:jsonId"  element={<FacultyCards  />}  />
+        <Route path="/" element={<NavBar />}>
+          <Route index element={<Home />} />
+          <Route path="characters/" element={<Characters />} >
+            <Route path=":id/spells" element={<CharacterSpells />} />
+            <Route path=":id/edit" element={<UpdateCharacter />} />
+          </Route>
+          <Route path="spells/" element={<Spells />} />
+          <Route path="characters/new" element={<CreateACharacter />} />
+          <Route path="characters/fight" element={<Fight />} />
+        </Route>
       </Routes>
-    </Container>
-  : currentUser && currentUser.role === 'student' ? 
-  <h3  style={{ marginTop:  '100px' }}>Get out of here, you're here to learn!</h3> : 
-  <h3  style={{ marginTop:  '100px' }}>Please login to view this content!</h3>}
-  </>
-)
-```
-
-####Each item in the expanded list of books is a link, for each list item that is returned by FacultyCoursesExpanded, a link component is added to it. When that item is clicked, it will create a URL with 3 parameters, the course that the book belongs to, the open library API id of the boo,k, and the id of the book from the JSON server. That path is routed to, in the above Route component from ```react-router-dom``` where each parameter is to be available to the useParams hook in the FacultyCards element that is rendered.
-
- ```js
-function  handleSubmit(e) {
-  e.preventDefault()
-  const  questionId = book.questions.length + 1
-  const  questions = book.questions.push({ id:  questionId, question:  formValues, answer:  '')}
-  const  putBook = Object.assign(book, questions)
-  const  put = {
-    method:  'PUT',
-    headers: {
-      "Content-Type":  "application/json",
-      "Accept":  "application/json"
-    },
-    body:  JSON.stringify(putBook)
-  }
-  fetch(`http://localhost:3001/${course}/${id}`, put)
-    .then((r) =>  r.json())
-    .then((data) =>  clearForm(data))
-  setSnackOpen(true)
-}
-```
-
-####The FacultyCards component provides some information about the selected book and provides a text field and button to allow the faculty member to enter a question and submit it. The ```handleSubmit``` function above takes the value entered in the text field through the ```formValues``` state. It creates an object and pushes it to the current array of questions in the book state variable. The book state is set as an effect of loading the FacultyCards component. The effect will also rerun every time the params are changed so the book variable holds the currently appropriate data. The book that is stored on the JSON server is replaced with a new object created by assigning a variable with the book from a state with its array of questions updated.
-
-***Student page***
-
-![](images/Student.png  "Student Page Example")
-
-####The Student branch of the app.
-```
-    ├── Student
-    |   ├── StudentCards
-    |   |   StudentCourses
-    |   └── StudentCoursesExpanded
-```
-####The next branch uses the parent component Student, it's almost identical to the faculty branch. It is rendered when the path of the URL matches "/student", it also renders its child component, StudentCourses which in turn renders its child component, StudentCoursesExpanded. This makes the same list of books in each course stored on the JSON server available to the user in the expandable menu list. There are some differences and one of those is described below.
-
-```js
-const  handleClick = () => {
-  let  ques = {}
-  if (book.questions.length > 1) {
-    ques = book.questions.find((question) =>  question.question !== '' && question.answer === '')
-  } else  if (book.questions.length === 1) {
-    ques = {question:  'No assignments found for this book'}
-  }
-  setQuestion(ques === undefined ? 'All assignments have been completed for this book' : ques.question)
-  setShowQuestion(true)
-}
-```
-
-####The book card available to the student renders a text field, a text display field, and a button that will return the ```handleClick``` function above. The JSX for it is shown below, where the ```{question}``` is only shown if a ```showQuestion``` state variable holding a boolean is true. In ```handleClick``` the current length of the questions array pertaining to the book displayed in the card is measured and the first question is skipped if there is more than one question.  It then finds the question in the array of questions that don't have an answer, then the local ques variable is filled with that question. The state variable holding the question returned by the ```.find()``` is updated with the new question and it will be displayed when the showQuestion boolean is set to true.
-
-```js
-<Button  style={{ backgroundColor:  'lightgreen' }}  onClick={handleClick}>
-  Get new assignment!
-</Button>
-{showQuestion ? <p>{question}</p> : <p></p>}
-<form  onSubmit={handleSubmit}>
-<TextareaAutosize
-  style={{ width:  460 }}
-  maxRows={20}
-  aria-label="maximum height"
-  placeholder="Write Answers here."
-  defaultValue="Answering..."
-  value={formValues}
-  onChange={handleInputChange}
-/>
-```
-
-***Login page***
-
-![](images/Login.png  "Login Page Example")
-
-![](images/Signup.png  "Signup Page Example")
-
-####The faculty branch of the app.
-```
-	├── Login
-    └── Signup
-```
-
-####The login and signup pages are styled similarly save for an additional text field shown on the signup page that mimics a mainstreams website password validation process. Their function differs in several ways. The Signup component which renders when a link from the Login component is clicked,  will take the input information and validate that the passwords match and a role is selected and will add it to the JSON server with a POST method. The ```handleSignupSubmit``` function below will perform a fetch with a POST method to add the users' information to the login JSON and then clear the input form if valid. If the signup information was invalid, a Dialog component from the Material UI will display an error message. If the login information was valid, another function ```cleanUpForm``` function will be called that will clear the input forms, set a SnackBar component to open, run a timeout method to navigate to the appropriate page in a few seconds and sets the state with the login users name and role to use for the SnackBar component.
-
-```js
-const  handleSignupSubmit = (event) => {
-  event.preventDefault();
-  const  post = {
-    method:  'POST',
-    headers: {
-      "Content-Type":  "application/json",
-      "Accept":  "application/json"
-    },
-    body:  JSON.stringify(formValues)
-  }
-  if (formValues.password === formValues.passwordAuth && formValues.password !== '') {
-  fetch(`http://localhost:3001/login`, post)
-    .then((r) =>  r.json())
-    .then((data) => (data))
-  return  cleanUpForm(formValues.username, formValues.role)
-  } else  if (formValues.password !== formValues.passwordAuth) {
-    return  handleDialog()
-  } else  return  null
+    </LoggedContext.Provider>
+  )
 };
 ```
 
-####The login page uses a GET method to compare the state held ```formValues``` variable containing the username, password, and role of the users' input information to all the objects containing the currently stored users from the JSON servers login location. The switch case statement calls functions depending on who the user is and if it is a valid credential. It also clears the input login form. Both the ```professorLogin``` and ```studentLogin``` functions operate the same but send the user to their role appropriate areas of the SPA. They both navigate the user to their appropriate page, create a SnackBar and set the context held state variable with the currently logged-in user's information. This information is used by several other components including the LoggedIn component.
+The backend receives the ```GET``` requests and returns all spells as they are. The Get request calls the ```create_me_a_character_hash_with_spells``` which updates the characters ```attack_points``` and ```spell_points```, then poises all the characters including their spells as a ```JSON``` and returns it to the characters ```GET``` request and returns it back to the front end in ```JSON``` format.
+```rb
+  get '/characters' do
+    characters = Character.create_me_a_character_hash_with_spells
+    characters.to_json
+  end
+
+  get '/spells' do
+    spells = Spell.all
+    spells.to_json
+  end
+  
+    def self.create_me_a_character_hash_with_spells
+    all_characters = Character.all
+    all_characters.each{ |char| char.update(attack_points: char.level * char.attack_points)}
+    all_characters.each{ |char| char.update(spell_points: char.spells.map{ |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
+    character_json = all_characters.as_json(include: :spells)
+    character_json
+  end
+```
+The Background component loads the background image and the title at the top of the page.
 
 ```js
-const  handleLoginSubmit = (event) => {
-  event.preventDefault();
-  fetch(`http://localhost:3001/login`)
-    .then((r) =>  r.json())
-    .then((loginCredentials) => {
-  let  validCred = loginCredentials.find((loginCred) => (loginCred.username === formValues.username && (loginCred.password === formValues.password && (loginCred.role === formValues.role))))
-  switch (true) {
-    case  validCred && validCred.role === 'professor': professorLogin(validCred)
-    break;
-    case  validCred && validCred.role === 'student': studentLogin(validCred)
-    break;
-    case  validCred === undefined : falseLogin()
-    break;
-    default: return  null
+  // sets the style of the background image
+  const backgroundStyle = {
+    backgroundImage: `url(${image})`,
+    height: '100vh',
+    width: '100vw',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+  };
+
+  // returns the background image and a title that lives on every component of this SPA
+  return (
+    <div style={backgroundStyle}>
+      <Container maxWidth={false} >
+        <Typography className='gradient-text' variant='h3' style={{ fontWeight: '800', textAlign: 'center', marginBottom: '25px' }}>
+          Dungeon & Dragons Battle Arena
+        </Typography>
+      </Container>
+    </div>
+  )
+};
+```
+The ```<NavBar>``` component provides all the links for this SPA. It lists the currently selected fighter and opponent through the following example. The ```validFighter``` boolean lists the information about the selected fighter or lets the user know that now fighter has been selected. 
+
+```js
+        <List>
+          {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it says as much. */}
+          <ListItem>
+            <p className='characterFont'>{validFighter ?
+              `Your champion: ${myFighter.card.name} has ${fighterHitPoints()} hit points` :
+              `No champion has been selected`}
+            </p>
+          </ListItem>
+          {/* A ternary operator to display the button based on a fighter being selected or not */}
+          {validFighter ?
+            <Button
+              onClick={() => handleDeselect('champion')}
+              style={{
+                marginTop: '5px',
+                borderRadius: 5,
+                backgroundColor: "#ea2424",
+                color: "white",
+                padding: "10px 20px",
+                fontSize: "11px",
+                fontWeight: "bold"
+              }}
+            > Deselect Champion </Button> : <></>}
+        </List>
+```
+
+***Characters page***
+
+![](images/Characters.png  "Characters Page Example")
+
+The Characters branch of the app.
+```
+  ├── Characters
+  |   └── CharacterCards
+  |   └── CharacterSpells
+  |   └── UpdateCharacter
+```
+The Character branch of the app renders its child ```<CharacterCards>``` and provides each characters held in state. It also handles the delete from the delete button from its child, ```<CharacterCards>```.
+
+```js
+  // function is passed back as props from CharacterCards, this updates the characters held in state to remove the user requested deleted character, then navigates
+  // back to characters
+  function handleDeleteCharacter(id) {
+    const newCharacters = characters.filter((character) => character.id != id)
+    setCharacters(newCharacters)
+    navigate('/characters')
   }
-})
-setFormValues(defaultValues)
+
+  // lists a card for each character held in state, it passes card which represents each character and passes the delete function as props
+  const listCharacters = characters.map((singleCharacter) => {
+    return (
+      <React.Fragment key={singleCharacter.id} >
+        <Grid item={4}>
+          <Charactercards card={singleCharacter} onDeleteCharacter={handleDeleteCharacter} />
+        </Grid>
+      </React.Fragment>
+    )
+  })
+
+  // returns a container and grid for spacing then calls listCharacters to render a component for each card
+  return (
+    <>
+      <Container style={{ margin: '-600px', marginLeft: 'auto', marginRight: 'auto' }}>
+        <Grid container spacing={10} justifyContent="space-evenly" columnspacing={10}>
+          {listCharacters}
+        </Grid>
+      </Container>
+      <Outlet />
+    </>
+  )
 };
 ```
 
-## Description
+The ```CharacterCards``` components takes each character from the ```<Character>``` component and lists all the pertitent attributes from the character's information, it also provides, 5 buttons. The first is the entire card, which when clicked will link to the child ```<CharacterSpells>``` which displays all of the spells associated with the character. It is a nested link which renders from the app.
+
+```js
+///CharacterCards
+<CardActionArea component={Link} to={`/characters/${char_id}/spells`}>
+```
+
+The next two buttons include the "Set As My Character" and "Set as Opponent" which take the current character and save them to the ```myFighter``` and ```opponent``` states to be used by other components such as ```<Fight>``` and ```<Spells>```.
+
+```js
+          <Button onClick={handleAddMainFighter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginTop: "10px", marginBottom: "20px" }}>
+            Set As My Character
+          </Button>
+          <Button onClick={handleAddOpponentFighter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginBottom: "20px" }}>
+            Set As Opponent
+          </Button>
+```
+
+The fourth button is the ```deleteCharacter``` button which fires the ```handleDeleteCharacter``` function that sends a ```DELETE``` request to the backend. The character of the id is then passed as a prop to the onDeleteCharacter function which updates state in the ```<Character>``` component. 
+
+```js
+          <Button onClick={handleDeleteCharacter} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold", marginBottom: "20px" }}>
+            Delete This Character
+          </Button>
+          
+          // fetches a delete url from sinatra to delete a character from the database, the returned JSON is not used and the onDeleteCharacter function is called
+          function handleDeleteCharacter(e) {
+            e.preventDefault()
+            fetch(`http://localhost:9292/characters/${char_id}`, {
+              method: "DELETE",
+            });
+            onDeleteCharacter(char_id)
+          }
+```
+The fetch method to the backend is a ```DELETE``` action which destroys the character by finding it by its id.
+```rb
+  delete '/characters/:char_id' do
+    character = Character.find(params[:char_id])
+    character.destroy
+  end
+```
+
+The last button is the "Update This Character" button which is a link that renders ```<UpdateCharacter>```. That provides a form to update the character and passes the characters id as a prop.
+
+```js
+      <Button component={Link} to={`/characters/${char_id}/edit`} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold" }}>
+        Update This Character
+      </Button>
+```
+
+The update character component uses a submit function to provide a ```PATCH``` request to the backend, the entire character is sent which holds the selected character in a controlled form updated as a user enters information into the fields. The returned character is used to update all the characters held in state, and the currently selected fighter. It also updates the characters spell points.
+
+```js
+  function handleSubmit(e) {
+    e.preventDefault();
+    let server = `http://localhost:9292/characters/${char_id}`
+    const patch = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(character)
+    }
+    fetch(server, patch)
+      .then((r) => r.json())
+      .then((patchedCharacter) => {
+        const updatedCharacter = { ...patchedCharacter }
+        updatedCharacter.spell_points = patchedCharacter.spells.reduce((acc, val) => {
+          return acc += val.level * val.damage * val.description.length / 8
+        }, 0)
+        updatedCharacter.attack_points = updatedCharacter.level * updatedCharacter.attack_points
+        setMyFighter({ card: updatedCharacter })
+        let updatedCharacters = characters.map((eachCharacter) => {
+          if (eachCharacter.id === patchedCharacter.id) {
+            return updatedCharacter
+          } else {
+            return eachCharacter
+          }
+        });
+        setCharacters(updatedCharacters)
+      });
+  }
+```
+The backend receives the updated attributes throught parameters, finds the character by its ```[:char_id]``` and uses active record to update those new parameters. The returned character includes all spells in that character.
+```rb
+  patch '/characters/:char_id' do
+    character = Character.find(params[:char_id])
+    character.update(
+      name: params[:name],
+      pet: params[:pet],
+      level: params[:level],
+      city: params[:city],
+      avatar_url: params[:avatar_url],
+      language: params[:language]
+    )
+    character.to_json(include: :spells)
+  end
+```
+
+***Create A Character page***
+
+![](images/Create_A_Character.png  "Create A Character Example")
+
+The Create a Character component.
+```
+  ├── CreateACharacter
+```
+The ```<CreateACharacter>``` component renders a small form with 6 inputs that allow the user to input character attributes including, name and level. Level is actually used in computing a characters hitpoints. The ```handleSubmit``` function provides a ```POST``` request to the backend and has the new character returned. It then adds it to state holding all characters. Then it resets the form values and navigates back to characters after 2 seconds.
+
+```js
+  // a post request to active record with the formValues for the new character returns the new character from the database and adds to curernt state for characters
+  function handleSubmit(e) {
+    e.preventDefault();
+    const server = 'http://localhost:9292/characters'
+    const post = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formValues)
+    }
+    fetch(server, post)
+      .then((r) => r.json())
+      .then((returnedCharacter) => {
+        setCharacters([...characters, returnedCharacter])
+        setFormValues(defaultValues)
+        setTimeout(navigate('/characters'), 2000)
+      });
+  };
+```
+
+The back end receives the request and sends the params to ```create_me_a_brand_new_character``` which uses the ```Faker``` ruby gem to fill all the other data for the character. This includes the weapons and other DnD terminology. It also adds a couple of spells and calcultes both the characters ```attack_points``` and ```spell_points```. This is used in determining a winner for the fight. It returns the new character in ```JSON``` format. 
+
+```rb
+  post '/characters' do 
+    new_character = Character.create_me_a_brand_new_character(params)
+    new_character.to_json
+  end
+  
+    def self.create_me_a_brand_new_character params
+    level = params[:level]
+    melee_weapon = Faker::Games::DnD.melee_weapon
+    melee_weapon_source = RestClient.get "https://www.dnd5eapi.co/api/equipment/#{melee_weapon.downcase.gsub(" ", "-")}"
+    melee_weapon_json = JSON.parse(melee_weapon_source)
+    melee_weapon_power = melee_weapon_json["range"].values[0] * melee_weapon_json["weight"]
+    ranged_weapon_location = Faker::Games::DnD.ranged_weapon
+    ranged_weapon = ranged_weapon_location == "Crossbow" || ranged_weapon_location == "Boomerang" ? "Blowgun" : ranged_weapon_location
+    ranged_weapon_source = RestClient.get "https://www.dnd5eapi.co/api/equipment/#{ranged_weapon.downcase.gsub(" ", "-")}"
+    ranged_weapon_json = JSON.parse(ranged_weapon_source)
+    ranged_weapon_power = ranged_weapon_json["range"].values[1] * ranged_weapon_json["weight"]
+    new_character = Character.create(
+      name: params[:name],
+      alignment: Faker::Games::DnD.alignment,
+      background: Faker::Games::DnD.background,
+      city: params[:city],
+      c_lass: Faker::Games::DnD.klass,
+      language: params[:language],
+      melee_weapon: melee_weapon,
+      pet: params[:pet],
+      race: Faker::Games::DnD.race,
+      ranged_weapon: ranged_weapon,
+      level: level,
+      attack_points: ranged_weapon_power * melee_weapon_power * level.to_i,
+      spell_points: 0,
+      avatar_url: params[:avatar_url],
+    )
+    new_character.spells << Spell.find(1)
+    new_character.spells << Spell.find(2)
+    new_character.update(spell_points: new_character.spells.map{ |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))
+    new_character
+  end
+```
+
+***Spells page***
+
+![](images/Spells.png  "Spells Page Example")
+
+The Spells page of the app.
+```
+	├── Spells
+```
+
+The ```<Spells>``` component offers a lot of functionality. It will process a ```POST``` to spells without adding it to a character. It will ```POST``` a spell to the spells table while adding it to a character. It will also ```PATCH``` a character with a spell selected from existing spells, provided from the state held spells.
+
+The ```handleSubmit``` function below creates variables holding the ```PATCH``` or ```POST``` objects, server URLs and the switch statement and ternary operator selectes which to use based on user input. If the form is used, the ```POST``` will be fired, if the existing spell is selected, the ```PATCH``` is fired. Also, the user can select to add a spell to a character. The returned spell is then added to spells held in state or updates the champion and characters state by adding the spell to the character selected.
+
+```js
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // Variables for the selected character, post and patch server address
+    let char_id = myFighter.card.id
+    const postToSpellsServer = `http://localhost:9292/spells`
+    const postToCharServer = `http://localhost:9292/spells/${char_id}/characters`
+    const patchServer = `http://localhost:9292/characters/${char_id}/spells`
+
+    // definitions for post and patch objects
+    const post = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formValues)
+    }
+    const patch = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(chosenSpell)
+    }
+
+    // ternary that will always post the fetch unless the user has been selected to add a character and some information exists in the create a spell form
+    // switch statement that will provide the correct RESTful url depending on whether its a post with or without a character or a patch
+    let postOrPatch = addToCharacter && !select ? patch : post
+    let server = ''
+    switch (true) {
+      case addToCharacter && !select:
+        server = patchServer;
+        break;
+      case addToCharacter && !textField:
+        server = postToCharServer;
+        break;
+      default:
+        server = postToSpellsServer;
+    }
+
+    // function for updating the spell power of the updated character and setting the my fighter state with it
+    function updateTheCharacter(character, spell) {
+      const updatedCharacter = { ...character, spells: [...character.spells, spell] }
+      updatedCharacter.spell_points = character.spells.reduce((acc, val) => {
+        return acc += val.level * val.damage * val.description.length / 8
+      }, 0)
+      setMyFighter({ card: updatedCharacter })
+      return updatedCharacter
+    }
+
+    // The address and object are filled in based on logic
+    fetch(server, postOrPatch)
+      .then((r) => r.json())
+      .then((spell) => {
+
+        // the patch returns the spell and it updates characters along with updating the spell_points by reducing the new values from the spells array
+        if (addToCharacter && !select) {
+          let updatedCharacters = characters.map((character) => {
+            if (character.id === spell.character_id) {
+              return updateTheCharacter(character, spell)
+            } else {
+              return character
+            }
+          })
+          setCharacters(updatedCharacters)
+
+          // the post returns the spell and it updates the state held spells, resets formValues and updates characters, using the updateTheCharacter function
+          // it updates the spell power of the updated character
+        } else if (addToCharacter && select) {
+          setSpells([...spells, spell])
+          setFormValues(defaultValues)
+          let updatedCharacters = characters.map((character) => {
+            if (character.id === char_id) {
+              return updateTheCharacter(character, spell)
+            } else {
+              return character
+            }
+          })
+          setCharacters(updatedCharacters)
+
+          // posts a new spell to the database from the form provided on the page
+        } else {
+          setSpells([...spells, spell])
+          setFormValues(defaultValues)
+        }
+      });
+  };
+```
+
+The backend will receive the spell parameters for the ```POST``` requests and call the ```create_me_a_spell``` method from the Spell model which returns the newly recorded spell after its attributes have been added to the database including the ```character_id``` which is set from the champion selected in the front end as required.
+
+```rb
+  post '/spells' do
+    created_spell = Spell.create_me_a_spell(params)
+    created_spell.to_json
+  end
+  
+    def self.create_me_a_spell params
+    if params[:char_id].to_i == 0
+      params[:character_id] = nil
+    else
+      params[:character_id] = params[:char_id]
+    end
+    puts 'from spell.rb params', params
+    new_spell = Spell.create(
+      name: params[:name],
+      description: params[:description],
+      range: params[:range],
+      material: params[:material],
+      duration: params[:duration],
+      casting_time: params[:casting_time],
+      level: params[:level],
+      damage: params[:damage],
+      character_id: params[:character_id]
+    )
+    new_spell
+  end
+```
+The ```POST``` for a new spell added to a character finds that character and adds the new spell as an association to that character.
+
+The ```PATCH``` adds an existing spell to a character by adding the that characters id to the spells table as aa foreign key.
+
+```rb
+  # This post to the spells table will create a spell and attach it to the provided character id by association
+  # This returns the newly created spell back to the frontend
+  post '/spells/:char_id/characters' do
+    character = Character.find(params[:char_id])
+    created_spell = Spell.create_me_a_spell(params)
+    created_spell.to_json 
+  end
+
+  # finds the character provided by react and shovels the existing spell into that characters spells array and returns the new spell including the
+  # character id
+  patch '/characters/:char_id/spells' do
+    character = Character.find(params[:char_id])
+    spell = Spell.find(params[:id])
+    character.spells << spell
+    spell.to_json
+  end
+```
+
+***Fight page***
+
+![](images/Fight.png  "Fight Page Example")
+
+The Fight page of the app.
+```
+	├── Fight
+```
+The ```<Fight>``` component renders a couple of cards for each fighter and opponent and offers a "Fight" and "Reset" button which pits the seleced challengers against each other and offers a victor in the form of a gif depicting a winner or a loser. Below is the ```handleFight``` function which determines the winner and changes that characters ```avatar_url``` attribute to a gif.
+```js
+  function handleFight(e) {
+    e.preventDefault()
+    if (((champion.card.spell_points + champion.card.attack_points) * Math.random()) > ((opponent.card.spell_points + opponent.card.attack_points) * Math.random())) {
+      setChampion({ ...champion, card: { ...champion.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif" } })
+      setChallenger({ ...challenger, card: { ...challenger.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif" } })
+    } else {
+      setChampion({ ...champion, card: { ...champion.card, avatar_url: "https://media.tenor.com/eTqdoJ96YP4AAAAM/failure-fail.gif" } })
+      setChallenger({ ...challenger, card: { ...challenger.card, avatar_url: "https://media.tenor.com/BA4S2y58lbEAAAAS/chris-farley-academy-awards.gif" } })
+    }
+  }
+```
+
 
   
 
-- I chose the openLibrary API because each book had the perfect kind of information that I could use to build, "courses" in the mini-school SPA. I had to add some additional information to it to fit the needs of assigning questions and answers to each book. 
 
-- The client-side routing involved in this SPA was mostly educational. The nested routes were not required but they proved to be very valuable in supporting the mental model I now have of them. I also had to react-router version 6 because version 5 was not compatible with the framework. That proved to be another challenge as several changes were made between versions 5 and 6 which changed which components I would import from the router.
-
-- This SPA uses the Material UI framework which makes it the best-looking website that I have ever created. I used some of the readily available examples from the Material ui docs and altered some of them because I needed additional styling or functionality. Using the API docs for components to obtain the correct props was a great learning experience.
-
-- I chose to use the GET, POST and PATCH HTTP methods to provide all of the functionality in assigning information to a JSON object. The teacher can create a question and POST it as a new object while a student can PATCH the answer to that question to the same object where the question was declared.
-
-- This SPA uses all of the information I've recently learned in Phase 2 to provide a teaching and learning experience using several hooks, routes, and components.
-
-  
-
-## Instructional-GIF
-
-  
-
-![](https://media.giphy.com/media/rxZyUNxOXo4931Kz0m/giphy.gif)
-
-***Home page - Random display of books upon render***
-
-![](https://media.giphy.com/media/zuFx44MqNcNNLXbIad/giphy.gif)
-
-***Student Page***
-
-![](https://media.giphy.com/media/vgHoLpt9wv5i3AC8fK/giphy.gif)
-
-***Faculty Page***
-
-![](https://media.giphy.com/media/L6pS8flfljDxcctiJo/giphy.gif)
-  
-***Posting a question as a teacher and answering it as a student***
-
-![](https://media.giphy.com/media/a1ch0WzeCCN97wfyYn/giphy.gif)
-
-***Login page - On successful login, render role appropriate work page***
-
-![](https://media.giphy.com/media/nNNAXRqcfNxJonwRQI/giphy.gif)
-
-  ***Signup Page***
 
 
 ## Video-Describing-Functionality

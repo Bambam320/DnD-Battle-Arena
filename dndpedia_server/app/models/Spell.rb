@@ -21,7 +21,6 @@ class Spell < ActiveRecord::Base
       damage: params[:damage],
       character_id: params[:character_id]
     )
-    # puts 'new_spell from Spell.rb', new_spell
     new_spell
   end
 
