@@ -128,9 +128,10 @@ function Spells() {
     e.preventDefault();
 
     // Variables for the selected character, post and patch server address
-    let charid = myFighter.card.id
-    const postServer = `http://localhost:9292/spells/${charid}/new`
-    const patchServer = `http://localhost:9292/spells/${charid}/update`
+    let char_id = myFighter.card.id
+    const postServer = `http://localhost:9292/spells`
+    const postToCharServer = `http://localhost:9292/spells`
+    const patchServer = `http://localhost:9292/spells/${char_id}/update`
 
     // definitions for post and patch objects
     const post = {
@@ -140,7 +141,7 @@ function Spells() {
       },
       body: JSON.stringify(formValues)
     }
-    // console.log('char id from spells for submit', charid)
+    // console.log('char id from spells for submit', char_id)
     // console.log('formValues from spells.js after submit', formValues)
     // console.log('chosenSpell', chosenSpell)
     const patch = {
@@ -165,6 +166,7 @@ function Spells() {
       .then((r) => r.json())
       .then((spell) => {
 
+        //PATCH
         // the patch returns the spell and it updates characters along with updated the spell_points by reducing the new values from the spells array
         if (addToCharacter && !select) {
           let updatedCharacters = characters.map((character) => {
@@ -180,33 +182,47 @@ function Spells() {
           })
           setCharacters(updatedCharacters)
 
-        // the post returns the spell and it updates the state held spells, resets formValues and updates characters if there is a valid character
-        } else {
-          console.log('spell from ruby after fetch', spell)
-          console.log('myfighter spells from spell.js', myFighter.card.spells)
+          //POST TO CHAR
+          // the post returns the spell and it updates the state held spells, resets formValues and updates characters if there is a valid character
+        } else if (addToCharacter && select) {
+          // console.log('spell from ruby after fetch', spell)
+          // console.log('myfighter spells from spell.js', myFighter.card.spells)
           setSpells([...spells, spell])
           setFormValues(defaultValues)
-          if (charid > 0 && addToCharacter) {
+          if (char_id > 0 && addToCharacter) {
             let updatedCharacters = characters.map((character) => {
-              if (character.id === charid) {
-                character.spells.push(spell)
-                character.spell_points = character.spells.reduce((acc, val) => {
+              if (character.id === char_id) {
+                const updatedCharacter = { ...character, spells: [...character.spells, spell] }
+                updatedCharacter.spell_points = character.spells.reduce((acc, val) => {
                   return acc += val.level * val.damage * val.description.length / 8
                 }, 0)
-                return character
+                return updatedCharacter
+                // character.spells.push(spell)
+                // character.spell_points = character.spells.reduce((acc, val) => {
+                //   return acc += val.level * val.damage * val.description.length / 8
+                // }, 0)
+                // return character
               } else {
                 return character
               }
             })
             setCharacters(updatedCharacters)
           }
+
+          // POST to spells only
+        } else {
+
         }
+
         // console.log('spell for patch returned', spell)
       });
   };
 
+
+
+  //////////
   // console.log('length of string in character spell description', characters[1].spells[2].description.length)
-  // console.log('characters in spells', characters)
+  console.log('characters in spells', characters)
   // console.log('spell count after fetch', spells.length)
   // console.log('spells after fetch', spells)
   // console.log('myfighter spells from spell.js', myFighter.card.spells)

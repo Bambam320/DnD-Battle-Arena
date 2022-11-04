@@ -1,12 +1,11 @@
+// functional imports
 import React, { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import { LoggedContext } from "./LoggedContext";
 
+// material ui imports
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Typography from '@material-ui/core/Typography';
@@ -20,7 +19,8 @@ function CreateACharacter() {
     level: "",
     city: "",
     avatar_url: "",
-    language: ""
+    language: "",
+    spells: []
   };
   const [formValues, setFormValues] = useState(defaultValues);
   const navigate = useNavigate()
@@ -33,10 +33,12 @@ function CreateACharacter() {
     });
   };
 
+
+  //
   // a post request to active record with the formValues for the new character returns the new character from the database and adds to curernt state for characters
   function handleSubmit(e) {
     e.preventDefault();
-    const server = 'http://localhost:9292/characters/new'
+    const server = 'http://localhost:9292/characters'
     const post = {
       method: "POST",
       headers: {
@@ -46,9 +48,11 @@ function CreateACharacter() {
     }
     fetch(server, post)
       .then((r) => r.json())
-      .then((returnedCharacter) => setCharacters([...characters, returnedCharacter]));
-    setFormValues(defaultValues)
-    setTimeout(navigate('/characters'), 2000)
+      .then((returnedCharacter) => {
+        setCharacters([...characters, returnedCharacter])
+        setFormValues(defaultValues)
+        setTimeout(navigate('/characters'), 2000)
+      });
   };
 
   return (

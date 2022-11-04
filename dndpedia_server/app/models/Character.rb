@@ -20,6 +20,8 @@ class Character < ActiveRecord::Base
     # get_hash
   end
 
+
+  ##
   # This will take the information from params and distribute it through the keys of the new character object, filling in data from the Faker gem where its needed.
   # Then it will return the new character from the database
   def self.create_me_a_brand_new_character params
@@ -47,8 +49,10 @@ class Character < ActiveRecord::Base
       level: level,
       attack_points: ranged_weapon_power * melee_weapon_power * level.to_i,
       spell_points: 0,
-      avatar_url: params[:avatar_url]
+      avatar_url: params[:avatar_url],
     )
+    new_character << Spell.find(1)
+    new_character << Spell.find(2)
     new_character
   end
 

@@ -26,7 +26,7 @@ function UpdateCharacter() {
   const [character, setCharacter] = useState(card)
 
   // stores the id of the character to be used for params
-  let id = card.id
+  let char_id = card.id
 
   // Creates a new copy of character traits in charObject, maps over the keys of the character traits array intended to be displayed and for each trait, it finds 
   // the matching trait value from the character and updates the charObject, then updates the local state for character with the new copy of the charObject 
@@ -52,7 +52,7 @@ function UpdateCharacter() {
   // returns the patched character then updates the state held characters with the nely updated character
   function handleSubmit(e) {
     e.preventDefault();
-    let server = `http://localhost:9292/characters/${id}/update`
+    let server = `http://localhost:9292/characters/${char_id}/update`
 
     const patch = {
       method: "PATCH",

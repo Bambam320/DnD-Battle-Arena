@@ -1,5 +1,5 @@
 class Spell < ActiveRecord::Base
-  belongs_to :Character
+  belongs_to :character
 
   # Creates a spell with only parameters that can be user entered from Spells.js then returns the newly created spell, if no character is provided to this new
   # spell then its id will be set to null in the table
