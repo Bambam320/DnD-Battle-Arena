@@ -1,8 +1,7 @@
 
 # Dungeon and Dragons Battle Arena
 
-This is a single-page application that allows the user to look through all the spells offered in the Dungeon and Dragons game. The spells can be added to pre-made characters available in the App or a newly created character, by the user. The characters can be placed in the arena where they will duke it out until there is
-only one victor. Spells can be created or chosen from a list and added to a character to give them a better chance at winning. A spell can also be created without adding it to a character. Each character can be deleted or have its attributes updated.
+This is a single-page application that allows the user to look through all the spells offered in the Dungeon and Dragons game. The spells can be added to pre-made characters available in the App or a newly created character, by the user. The characters can be placed in the arena where they will duke it out until there is only one victor. Spells can be created or chosen from a list and added to a character to give them a better chance at winning. A spell can also be created without adding it to a character. Each character can be deleted or have its attributes updated.
   
 ## Table of Contents
 
@@ -12,6 +11,10 @@ only one victor. Spells can be created or chosen from a list and added to a char
 - [Installation](#installation)
 
 - [Usage](#usage)
+
+- [Description](#Description)
+
+- [Instructional-GIF](#Instructional-GIF)
 
 - [Video-Describing-Functionality](#Video-Describing-Functionality)
 
@@ -26,38 +29,39 @@ only one victor. Spells can be created or chosen from a list and added to a char
 ## Features
 
 
-1. The home page is very basic with just an informative message describing some of the functions of the website.
+1. The home page is basic with just an informative message describing some of the functions of the website.
 
-2. The character page offers a list of all characters in the database. Each character displays severla different attributes pertaining to that character. There are 4 buttons available for each character card, the fighter and the opponent in the arena may be set as such and there information is displayed in the NavBar along with their attack points. There is a delete button which deletes that character and an update button which creates a separate card filled with the current information for some of the attributes of the character in a form. This form can be altered and submitted to the character. The entire card is a link to separate card which displays all of the spells that belong to that character.
+2. The character page offers a list of all characters in the database. Each character displays several different attributes pertaining to that character. There are 4 buttons available for each character card, the fighter and the opponent in the arena may be set as such and their information is displayed in the NavBar along with their attack points. There is a delete button which deletes that character and an update button which creates a separate card filled with the current information for some of the attributes of the character in a form. This form can be altered and submitted to the character. The entire card is a link to a separate card which displays all of the spells that belong to that character.
 
 3. The create a character page offers a small form that may be filled in with some attributes of a character. Upon submit that character will be randomly assigned some weapons and taught the "Acid Arrow" and "Acid Splash" spells. The character will be available in the characters page.
 
-4. The create and add a spell page offers many functions. The first is that a spell may be created through a form where its damage and level could be provided. This spell may be submitted and will be added as an existing spell in the drop down menu below the spell form. The spell form may be used on its own or it may be used to add to a character upon submit. This requires selected a character as your champpion and selecting the "Add To Character" switch to on before submitting. The same is true when selecting a spell from the existing list of spells and selecting the "Add To Character" switch before pressing the submit button. This will add the existin spell to the character selected as the champion.
+4. The create and add a spell page offers many functions. The first is that a spell may be created through a form where its damage and level could be provided. This spell may be submitted and will be added as an existing spell in the drop down menu below the spell form. The spell form may be used on its own or it may be used to add to a character upon submit. This requires selecting a character as your champion and selecting the "Add To Character" switch to on before submitting. The same is true when selecting a spell from the existing list of spells and selecting the "Add To Character" switch before pressing the submit button. This will add the existing spell to the character selected as the champion.
 
-5. The fight page is very straightforward. A champion and an opponent must be selected and they will be displayed along with a fight and reset button. The victors card image will change to a funny winner gif and the losers card image will also change but to a funny loser gif. The reset button displays the correct images to the cards again. The fight involves a great deal of chance because during the fight, the hit points of each character are multiplied by a random percentage which makes the fight more interesting.
+5. The fight page is straightforward. A champion and an opponent must be selected and they will be displayed along with a fight and reset button. The victor's card image will change to a funny winner gif and the losers card image will also change to a funny loser gif. The reset button displays the correct images to the cards again. The fight involves a great deal of chance because during the fight, the hit points of each character are multiplied by a random percentage which makes the fight more interesting.
 
 ## Installation
 
 This SPA requires both a front and back end and for that reason, there are a few installation commands that need to be used to set the application up for use.
+
 The first step after cloning the repository is to find the ```dndpedia_client``` directory and from within, run the command for installing the nodes using the following.
 ```js
-npm install
+$ npm install
 ```
 It is built with the React framework and must be initialized by running the following command.
 ```js
-npm start
+$ npm start
 ```
-The best method for setting up the back end requires opening a new terminal and preparing the backend by first, running the bundle installation.
+The best method for setting up the back end requires opening a new terminal and preparing the backend first, by finding the ```dndpedia_server``` directory and from within running the bundle installation.
 ```js
-bundle install
+$ bundle install
 ```
 The next steps are optional, since there are already records in both tables in this application, if you prefer, you may delete the records by removing them directly from the table or by rolling back the migrations and migrating them again. In this situation, run ```bundle exec rake db:seed``` when the tables have been migrated again to seed the spells table with all spells and the characters with 12 new characters.
-After the tables are sufficiently prepared for you purposes, run the following command in order to run a special gem called "rerun" that will listen for changes and utilize the ```dndpedia_server``` backend as the server for the front end. 
+After the tables are sufficiently prepared for your purposes, run the following command in order to run a special gem called "rerun" that will listen for changes and utilize the ```dndpedia_server``` backend as the server for the front end. 
 ```js
-bundle exec rake server
+$ bundle exec rake server
 ```
 
-Now you're ready to create charcters, change their information, including their spells and send them to the arena.
+Now you're ready to create characters, change their information, including their spells and send them to the arena.
 
 Clone the repo [from Github here](https://github.com/Bambam320/phase-3-dndpedia-project)
 
@@ -69,7 +73,7 @@ The SPA's functions are described below with imagery and code to best demonstrat
 
 ***SPA Component Tree***
 
-#### The component tree includes an index file that attaches the react app to the DOM. Then an ```<App>``` component provides context and routing for all children's elements. The first is a ```<Background>``` component that places some imagery and title text on all pages. The next is the ```<NavBar>``` component that lists links and stores some information from the selected fighters. The next is the ```<Home>``` component which displays the main page with a title. The next is the ```<Characters>``` component which has children called ```<CharacterSpells>```, ```<UpdateCharacter>``` and ```<CharacterCards>``` these are reponsible for listing characters and when selected, their spells or a form to update them. The next is the ```<Spells>``` component which offers a form and drop down for creating or adding spells to a character. The next is the ```<CreateACharacter>``` component which offers a form to input attributes to a character that will be created. The last is the ```<Fight>``` component, which lists cards for both fighters and allows them to fight.
+The component tree includes an index file that attaches the react app to the DOM. Then an ```<App>``` component provides context and routing for all children's elements. The first is a ```<Background>``` component that places some imagery and title text on all pages. The next is the ```<NavBar>``` component that lists links and stores some information from the selected fighters. The next is the ```<Home>``` component which displays the main page with a title. The next is the ```<Characters>``` component which has children called ```<CharacterSpells>```, ```<UpdateCharacter>``` and ```<CharacterCards>``` these are reponsible for listing characters and when selected, their spells or a form to update them. The next is the ```<Spells>``` component which offers a form and drop down for creating or adding spells to a character. The next is the ```<CreateACharacter>``` component which offers a form to input attributes to a character that will be created. The last is the ```<Fight>``` component, which lists cards for both fighters and allows them to fight.
 ```
 Index from the src folder
 └── App from component folder
@@ -97,7 +101,7 @@ Index from the src folder
   ├── Home   
 ```
 
-The ```<App>``` component provides routes to all the other main components in the app. The default path at ```"/"``` will display the NavBar component and unless there is a path after the default path, then the Home component will be rendered as well. The ```<App>``` will provide routes to all components and provides context to all components for the state of all characters, spells and the chosen opponent and fighter. It holds to effect functions that get all characters and all spells and set state with them. The fighter and opponent states are filled with default values until they are set with characters from other component.
+The ```<App>``` component provides routes to all the other main components in the app. The default path at ```"/"``` will display the NavBar component and unless there is a path after the default path, then the Home component will be rendered as well. The ```<App>``` will provide routes to all components and provides context to all components for the state of all characters, spells and the chosen opponent and fighter. It holds to effect functions that get all characters and all spells and set state with them. The fighter and opponent states are filled with default values until they are set with characters from other components.
 
 ```js
   //provides context for state declared above to all components and creates routes to match links that render the correct components
@@ -169,7 +173,7 @@ The ```<NavBar>``` component provides all the links for this SPA. It lists the c
 
 ```js
         <List>
-          {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it says as much. */}
+          {/* a ternary operator checks if there is a fighter selected and presents that information but if no fighter is selected, it says as much. */}
           <ListItem>
             <p className='characterFont'>{validFighter ?
               `Your champion: ${myFighter.card.name} has ${fighterHitPoints()} hit points` :
@@ -204,7 +208,7 @@ The Characters branch of the app.
   |   └── CharacterSpells
   |   └── UpdateCharacter
 ```
-The Character branch of the app renders its child ```<CharacterCards>``` and provides each characters held in state. It also handles the delete from the delete button from its child, ```<CharacterCards>```.
+The Character branch of the app renders its child ```<CharacterCards>``` and provides each character held in state. It also handles the delete from the delete button from its child, ```<CharacterCards>```.
 
 ```js
   // function is passed back as props from CharacterCards, this updates the characters held in state to remove the user requested deleted character, then navigates
@@ -240,7 +244,7 @@ The Character branch of the app renders its child ```<CharacterCards>``` and pro
 };
 ```
 
-The ```CharacterCards``` components takes each character from the ```<Character>``` component and lists all the pertitent attributes from the character's information, it also provides, 5 buttons. The first is the entire card, which when clicked will link to the child ```<CharacterSpells>``` which displays all of the spells associated with the character. It is a nested link which renders from the app.
+The ```CharacterCards``` component takes each character from the ```<Character>``` component and lists all the pertinent attributes from the character's information; it also provides 5 buttons. The first is the entire card, which when clicked will link to the child ```<CharacterSpells>``` which displays all of the spells associated with the character. It is a nested link which renders from the app.
 
 ```js
 ///CharacterCards
@@ -282,7 +286,7 @@ The fetch method to the backend is a ```DELETE``` action which destroys the char
   end
 ```
 
-The last button is the "Update This Character" button which is a link that renders ```<UpdateCharacter>```. That provides a form to update the character and passes the characters id as a prop.
+The last button is the "Update This Character" button which is a link that renders ```<UpdateCharacter>```. That provides a form to update the character and passes the character's id as a prop.
 
 ```js
       <Button component={Link} to={`/characters/${char_id}/edit`} style={{ borderRadius: 5, backgroundColor: "#21b6ae", color: "white", padding: "10px 20px", fontSize: "11px", fontWeight: "bold" }}>
@@ -323,7 +327,7 @@ The update character component uses a submit function to provide a ```PATCH``` r
       });
   }
 ```
-The backend receives the updated attributes throught parameters, finds the character by its ```[:char_id]``` and uses active record to update those new parameters. The returned character includes all spells in that character.
+The backend receives the updated attributes through parameters, finds the character by its ```[:char_id]``` and uses active record to update those new parameters. The returned character includes all spells in that character.
 ```rb
   patch '/characters/:char_id' do
     character = Character.find(params[:char_id])
@@ -347,10 +351,10 @@ The Create a Character component.
 ```
   ├── CreateACharacter
 ```
-The ```<CreateACharacter>``` component renders a small form with 6 inputs that allow the user to input character attributes including, name and level. Level is actually used in computing a characters hitpoints. The ```handleSubmit``` function provides a ```POST``` request to the backend and has the new character returned. It then adds it to state holding all characters. Then it resets the form values and navigates back to characters after 2 seconds.
+The ```<CreateACharacter>``` component renders a small form with 6 inputs that allow the user to input character attributes including, name and level. Level is actually used in computing a character's hit points. The ```handleSubmit``` function provides a ```POST``` request to the backend and has the new character returned. It then adds it to state holding all characters. Then it resets the form values and navigates back to characters after 2 seconds.
 
 ```js
-  // a post request to active record with the formValues for the new character returns the new character from the database and adds to curernt state for characters
+  // a post request to active record with the formValues for the new character returns the new character from the database and adds to current state for characters
   function handleSubmit(e) {
     e.preventDefault();
     const server = 'http://localhost:9292/characters'
@@ -371,7 +375,7 @@ The ```<CreateACharacter>``` component renders a small form with 6 inputs that a
   };
 ```
 
-The back end receives the request and sends the params to ```create_me_a_brand_new_character``` which uses the ```Faker``` ruby gem to fill all the other data for the character. This includes the weapons and other DnD terminology. It also adds a couple of spells and calcultes both the characters ```attack_points``` and ```spell_points```. This is used in determining a winner for the fight. It returns the new character in ```JSON``` format. 
+The back end receives the request and sends the params to ```create_me_a_brand_new_character``` which uses the ```Faker``` ruby gem to fill all the other data for the character. This includes the weapons and other DnD terminology. It also adds a couple of spells and calculates both the characters ```attack_points``` and ```spell_points```. This is used in determining a winner for the fight. It returns the new character in ```JSON``` format. 
 
 ```rb
   post '/characters' do 
@@ -424,7 +428,7 @@ The Spells page of the app.
 
 The ```<Spells>``` component offers a lot of functionality. It will process a ```POST``` to spells without adding it to a character. It will ```POST``` a spell to the spells table while adding it to a character. It will also ```PATCH``` a character with a spell selected from existing spells, provided from the state held spells.
 
-The ```handleSubmit``` function below creates variables holding the ```PATCH``` or ```POST``` objects, server URLs and the switch statement and ternary operator selectes which to use based on user input. If the form is used, the ```POST``` will be fired, if the existing spell is selected, the ```PATCH``` is fired. Also, the user can select to add a spell to a character. The returned spell is then added to spells held in state or updates the champion and characters state by adding the spell to the character selected.
+The ```handleSubmit``` function below creates variables holding the ```PATCH``` or ```POST``` objects, server URLs and the switch statement and ternary operator selects which to use based on user input. If the form is used, the ```POST``` will be fired, if the existing spell is selected, the ```PATCH``` is fired. Also, the user can select to add a spell to a character. The returned spell is then added to spells held in state or updates the champion and characters state by adding the spell to the character selected.
 
 ```js
   function handleSubmit(e) {
@@ -547,7 +551,7 @@ The backend will receive the spell parameters for the ```POST``` requests and ca
 ```
 The ```POST``` for a new spell added to a character finds that character and adds the new spell as an association to that character.
 
-The ```PATCH``` adds an existing spell to a character by adding the that characters id to the spells table as aa foreign key.
+The ```PATCH``` adds an existing spell to a character by adding that character's id to the spells table as aa foreign key.
 
 ```rb
   # This post to the spells table will create a spell and attach it to the provided character id by association
@@ -576,7 +580,7 @@ The Fight page of the app.
 ```
 	├── Fight
 ```
-The ```<Fight>``` component renders a couple of cards for each fighter and opponent and offers a "Fight" and "Reset" button which pits the seleced challengers against each other and offers a victor in the form of a gif depicting a winner or a loser. Below is the ```handleFight``` function which determines the winner and changes that characters ```avatar_url``` attribute to a gif.
+The ```<Fight>``` component renders a couple of cards for each fighter and opponent and offers a "Fight" and "Reset" button which puts the selected challengers against each other and offers a victor in the form of a gif depicting a winner or a loser. Below is the ```handleFight``` function which determines the winner and changes that characters ```avatar_url``` attribute to a gif.
 ```js
   function handleFight(e) {
     e.preventDefault()
@@ -591,6 +595,52 @@ The ```<Fight>``` component renders a couple of cards for each fighter and oppon
 ```
 
 
+
+## Description
+
+
+- The Faker gem offered in Ruby is one of my favorite, incorporating it into this project was step 1. It is used to fill in information about characters in the SPA. Mostly for fantastical sounding names and background information. The seed file is filled with the use of this gem. 
+
+- The DnD API that was used to provide information about a character's weapons. This added some difficulty in the way the front end was coded. The backend uses the api to grab all spells and weapon information for the character. This information is then updated to state while the attack and spell power of each character is updated by multiplying each spells level and damage power. There were a lot of learning opportunites because of this added functionality.
+
+- This SPA uses the Material UI framework which makes it the best-looking website that I have ever created, since the last one. I used some of the readily available examples from the Material ui docs and altered some of them because I needed additional styling or functionality. Using the API docs for components to obtain the correct props was a great learning experience.
+
+- This SPA uses two separate GET requests to the backend, each returning all of the characters with their associated spells or all spells. There are three POST requests, the first two allow the user to enter information about a spell or character. The new spell or character uses the data input by the user to create the new instance and record but it also fetches information from the dnd API to give a user and character actual values in their total attack power. The third is a POST request to the spells table but the url includes the "characters" as a resource, so the structure would be resource/identifier/resource.
+
+- There are two PATCH requests, both to characters. The general request to the "/characters/id" url may have the attributes of that character changed and saved to the table. The specific patch to the "/characters/id/spells" url will only add an existing spell to a characters spells.
+
+
+  
+
+## Instructional-GIF
+
+  
+
+![](https://media.giphy.com/media/rxZyUNxOXo4931Kz0m/giphy.gif)
+
+***Home and Character page - List, update, delete, set, view spells of Characters***
+
+#########################COMPLETE FROM HERE
+
+![](https://media.giphy.com/media/zuFx44MqNcNNLXbIad/giphy.gif)
+
+***Student Page***
+
+![](https://media.giphy.com/media/vgHoLpt9wv5i3AC8fK/giphy.gif)
+
+***Faculty Page***
+
+![](https://media.giphy.com/media/L6pS8flfljDxcctiJo/giphy.gif)
+  
+***Posting a question as a teacher and answering it as a student***
+
+![](https://media.giphy.com/media/a1ch0WzeCCN97wfyYn/giphy.gif)
+
+***Login page - On successful login, render role appropriate work page***
+
+![](https://media.giphy.com/media/nNNAXRqcfNxJonwRQI/giphy.gif)
+
+###############TO HERE
 
 ## Video-Describing-Functionality
 
@@ -614,7 +664,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, E ,AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGE, S OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR  ,T OR OTHERWISE, ARISING FROM,
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, E ,AND NON INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGE, S OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TOR  ,T OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
   
@@ -624,3 +674,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
   
 
 ![](https://img.shields.io/github/commit-activity/w/Bambam320/phase-3-dndpedia-project)
+

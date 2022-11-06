@@ -26,7 +26,7 @@ end
 puts "Spells have been sewn, seeding Characters..."
 
 # # character table seed
-characters_count = 15
+characters_count = 20
 characters_count.times do
   level = rand(0..10)
   melee_weapon = Faker::Games::DnD.melee_weapon
@@ -56,7 +56,7 @@ characters_count.times do
   )
 end
 
-# # Associate a character with 12 spells
+# # Associate a character with spells
 spells_per_character = 12
 Character.all.each do |each_character|
   spells_per_character.times do

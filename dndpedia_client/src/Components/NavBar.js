@@ -49,7 +49,6 @@ function NavBar() {
   // creates a variable that stores the selected champions spell and attack point total for display
   const fighterHitPoints = () => {
     let hitPoints = myFighter.card.attack_points + myFighter.card.spell_points
-    console.log('fighter hit points fired hitpoints:', hitPoints)
     return hitPoints
   }
 
