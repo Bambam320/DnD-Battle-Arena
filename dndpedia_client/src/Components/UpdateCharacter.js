@@ -14,7 +14,7 @@ import TextField from "@material-ui/core/TextField";
 function UpdateCharacter() {
 
   // grabs characters and setCharacters from context
-  const { characters, setCharacters, myFighter, setMyFighter } = useContext(LoggedContext)
+  const { characters, setCharacters, myFighter, setMyFighter, opponent, setOpponent } = useContext(LoggedContext)
 
   // creates the params variable to hold the id of the character from the URL
   const params = useParams()
@@ -69,7 +69,12 @@ function UpdateCharacter() {
           return acc += val.level * val.damage * val.description.length / 8
         }, 0)
         updatedCharacter.attack_points = updatedCharacter.level * updatedCharacter.attack_points
-        setMyFighter({ card: updatedCharacter })
+        if (char_id === myFighter.card.id) {
+          setMyFighter({ card: updatedCharacter })
+        }
+        if (char_id === opponent.card.id) {
+          setOpponent({ card: updatedCharacter })
+        }
         let updatedCharacters = characters.map((eachCharacter) => {
           if (eachCharacter.id === patchedCharacter.id) {
             return updatedCharacter

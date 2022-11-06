@@ -610,37 +610,7 @@ The ```<Fight>``` component renders a couple of cards for each fighter and oppon
 - There are two PATCH requests, both to characters. The general request to the "/characters/id" url may have the attributes of that character changed and saved to the table. The specific patch to the "/characters/id/spells" url will only add an existing spell to a characters spells.
 
 
-  
 
-## Instructional-GIF
-
-  
-
-![](https://media.giphy.com/media/rxZyUNxOXo4931Kz0m/giphy.gif)
-
-***Home and Character page - List, update, delete, set, view spells of Characters***
-
-#########################COMPLETE FROM HERE
-
-![](https://media.giphy.com/media/zuFx44MqNcNNLXbIad/giphy.gif)
-
-***Student Page***
-
-![](https://media.giphy.com/media/vgHoLpt9wv5i3AC8fK/giphy.gif)
-
-***Faculty Page***
-
-![](https://media.giphy.com/media/L6pS8flfljDxcctiJo/giphy.gif)
-  
-***Posting a question as a teacher and answering it as a student***
-
-![](https://media.giphy.com/media/a1ch0WzeCCN97wfyYn/giphy.gif)
-
-***Login page - On successful login, render role appropriate work page***
-
-![](https://media.giphy.com/media/nNNAXRqcfNxJonwRQI/giphy.gif)
-
-###############TO HERE
 
 ## Video-Describing-Functionality
 

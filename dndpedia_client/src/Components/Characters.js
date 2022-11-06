@@ -28,7 +28,8 @@ function Characters() {
           id: 0
         }
       })
-    } else if (opponent.card.id === id) {
+    } 
+    if (opponent.card.id === id) {
       setOpponent({
         card: {
           name: '',
