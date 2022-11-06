@@ -90,6 +90,7 @@ Index from the src folder
 ```
 ***Entity Relationship Model***
 
+Each character in the schema has many spells and each spell belongs to a single character.
 
 ![](images/Entity_Relationship_Model.png  "Entity Relationship Model")
 
