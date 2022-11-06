@@ -88,6 +88,11 @@ Index from the src folder
   ├── CreateACharacter
   └── Fight
 ```
+***Entity Relationship Model***
+
+
+![](images/Entity_Relationship_Model.png  "Entity Relationship Model")
+
 ***Home Page***
 
 ![](images/Homepage.png  "Home Page Example")
@@ -611,37 +616,38 @@ The ```<Fight>``` component renders a couple of cards for each fighter and oppon
 
 ## Instructional-GIF
 
-![](https://media.giphy.com/media/1wEa9ED3VG0bSLwUKf/giphy.gif)
-
 ***Create a Character***
 
-![](https://media.giphy.com/media/ZST0K2MMA36sLtDxgw/giphy.gif)
+![](https://media.giphy.com/media/1wEa9ED3VG0bSLwUKf/giphy.gif)
 
 ***Set a character as challenger or delete them***
 
-![](https://media.giphy.com/media/KjYIHKs9qFTuwSID10/giphy.gif)
+![](https://media.giphy.com/media/ZST0K2MMA36sLtDxgw/giphy.gif)
 
 ***Add an existing spell to a character***
 
-![](https://media.giphy.com/media/vtodu4IVIwXXTTlDeV/giphy.gif)
+![](https://media.giphy.com/media/KjYIHKs9qFTuwSID10/giphy.gif)
 
 ***Update a character***
 
-![](https://media.giphy.com/media/dR0PYWVoO1BbfJahs7/giphy.gif)
+![](https://media.giphy.com/media/vtodu4IVIwXXTTlDeV/giphy.gif)
 
 ***List each characters spells***
 
-![](https://media.giphy.com/media/Y8a2peA7EtBwCY3dac/giphy.gif)
+![](https://media.giphy.com/media/dR0PYWVoO1BbfJahs7/giphy.gif)
 
 ***Create a new spell***
 
-![](https://media.giphy.com/media/JOG1g2CX9k6Itp0TdX/giphy.gif)
+![](https://media.giphy.com/media/Y8a2peA7EtBwCY3dac/giphy.gif)
 
 ***Create a new spell and add it to a character***
 
-![](https://media.giphy.com/media/VeduDaJLcuiI2ikkOB/giphy.gif)
+![](https://media.giphy.com/media/JOG1g2CX9k6Itp0TdX/giphy.gif)
 
 ***Character battle arena***
+
+![](https://media.giphy.com/media/VeduDaJLcuiI2ikkOB/giphy.gif)
+
 
 
 ## Video-Describing-Functionality
