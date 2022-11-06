@@ -609,7 +609,39 @@ The ```<Fight>``` component renders a couple of cards for each fighter and oppon
 
 - There are two PATCH requests, both to characters. The general request to the "/characters/id" url may have the attributes of that character changed and saved to the table. The specific patch to the "/characters/id/spells" url will only add an existing spell to a characters spells.
 
+## Instructional-GIF
 
+![](https://media.giphy.com/media/1wEa9ED3VG0bSLwUKf/giphy.gif)
+
+***Create a Character***
+
+![](https://media.giphy.com/media/ZST0K2MMA36sLtDxgw/giphy.gif)
+
+***Set a character as challenger or delete them***
+
+![](https://media.giphy.com/media/KjYIHKs9qFTuwSID10/giphy.gif)
+
+***Add an existing spell to a character***
+
+![](https://media.giphy.com/media/vtodu4IVIwXXTTlDeV/giphy.gif)
+
+***Update a character***
+
+![](https://media.giphy.com/media/dR0PYWVoO1BbfJahs7/giphy.gif)
+
+***List each characters spells***
+
+![](https://media.giphy.com/media/Y8a2peA7EtBwCY3dac/giphy.gif)
+
+***Create a new spell***
+
+![](https://media.giphy.com/media/JOG1g2CX9k6Itp0TdX/giphy.gif)
+
+***Create a new spell and add it to a character***
+
+![](https://media.giphy.com/media/VeduDaJLcuiI2ikkOB/giphy.gif)
+
+***Character battle arena***
 
 
 ## Video-Describing-Functionality
