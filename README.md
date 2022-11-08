@@ -52,12 +52,13 @@ It is built with the React framework and must be initialized by running the foll
 $ npm start
 ```
 The best method for setting up the back end requires opening a new terminal and preparing the backend first, by finding the ```dndpedia_server``` directory and from within running the bundle installation.
-```js
+```rb
 $ bundle install
 ```
-The next steps are optional, since there are already records in both tables in this application, if you prefer, you may delete the records by removing them directly from the table or by rolling back the migrations and migrating them again. In this situation, run ```bundle exec rake db:seed``` when the tables have been migrated again to seed the spells table with all spells and the characters with 12 new characters.
-After the tables are sufficiently prepared for your purposes, run the following command in order to run a special gem called "rerun" that will listen for changes and utilize the ```dndpedia_server``` backend as the server for the front end. 
-```js
+Before running the server and using this SPA, consider seeding new spells and characters, there are already some records in the spells and characters tables. If you prefer, you may roll back the migrations and migrate them again. In this situation, run ```bundle exec db:rollback```, twice to roll back the characters tables and thrice to roll back the spells table as well. Once the table(s) have been cleared, run ```bundle exec db:migrate```. Now that the tables have been cleared, you may run the following command, ```bundle exec rake db:seed``` to seed the tables with spells and characters.
+
+Last step, After the tables are sufficiently prepared for your purposes, run the following command in order to run a special gem called "rerun" that will listen for changes and utilize the ```dndpedia_server``` backend as the server for the front end. 
+```rb
 $ bundle exec rake server
 ```
 
