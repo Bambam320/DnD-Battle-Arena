@@ -68,7 +68,7 @@ function UpdateCharacter() {
         updatedCharacter.spell_points = patchedCharacter.spells.reduce((acc, val) => {
           return acc += val.level * val.damage * val.description.length / 8
         }, 0)
-        updatedCharacter.attack_points = updatedCharacter.level * updatedCharacter.attack_points
+        updatedCharacter.attack_points = updatedCharacter.level * updatedCharacter.calc_power
         if (char_id === myFighter.card.id) {
           setMyFighter({ card: updatedCharacter })
         }

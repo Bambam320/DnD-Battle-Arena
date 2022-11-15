@@ -19,9 +19,7 @@ function CharacterSpells() {
 
   // sets variables for card which find the character based on the id in params and for name which is the characters name to use for rendering it.
   let card = characters.find((character) => character.id === parseInt(params.id))
-  console.log('card from characterSpells', card)
   let name = card.name
-
   // Returns text information about the spells attributes, there are several spells that belong to a character so it must be mapped over.
   const listSpells = card.spells.map((spell, i) => {
     let name = spell.name

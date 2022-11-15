@@ -1,3 +1,5 @@
+require 'pry'
+
 class Character < ActiveRecord::Base
   has_many :spells
 
@@ -9,7 +11,7 @@ class Character < ActiveRecord::Base
   # grabs all characters with their associated spells and updates each characters spell points. It then returns all the characters
   def self.create_me_a_character_hash_with_spells
     all_characters = Character.all
-    all_characters.each{ |char| char.update(attack_points: char.level * char.attack_points)}
+    all_characters.each{ |char| char.update(attack_points: char.level * char.calc_power)}
     all_characters.each{ |char| char.update(spell_points: char.spells.map{ |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))}
     character_json = all_characters.as_json(include: :spells)
     character_json
@@ -41,6 +43,7 @@ class Character < ActiveRecord::Base
       race: Faker::Games::DnD.race,
       ranged_weapon: ranged_weapon,
       level: level,
+      calc_power: ranged_weapon_power * melee_weapon_power,
       attack_points: ranged_weapon_power * melee_weapon_power * level.to_i,
       spell_points: 0,
       avatar_url: params[:avatar_url],
@@ -48,7 +51,7 @@ class Character < ActiveRecord::Base
     new_character.spells << Spell.find(1)
     new_character.spells << Spell.find(2)
     new_character.update(spell_points: new_character.spells.map{ |spell| spell["level"] * spell["damage"] * spell["description"].length/8 }.reduce(:+))
-    new_character
+    new_character.as_json(include: :spells)
   end
 
 end

@@ -28,7 +28,7 @@ puts "Spells have been sewn, seeding Characters..."
 # # character table seed
 characters_count = 20
 characters_count.times do
-  level = rand(0..10)
+  level = rand(1..10)
   melee_weapon = Faker::Games::DnD.melee_weapon
   melee_weapon_source = RestClient.get "https://www.dnd5eapi.co/api/equipment/#{melee_weapon.downcase.gsub(" ", "-")}"
   melee_weapon_json = JSON.parse(melee_weapon_source)
@@ -50,6 +50,7 @@ characters_count.times do
     race: Faker::Games::DnD.race,
     ranged_weapon: ranged_weapon,
     level: level,
+    calc_power: melee_weapon_power * ranged_weapon_power,
     attack_points: level * melee_weapon_power * ranged_weapon_power,
     spell_points: 0,
     avatar_url: Faker::Avatar.image
@@ -57,7 +58,7 @@ characters_count.times do
 end
 
 # # Associate a character with spells
-spells_per_character = 12
+spells_per_character = 6
 Character.all.each do |each_character|
   spells_per_character.times do
     spell_num = rand(1..319)

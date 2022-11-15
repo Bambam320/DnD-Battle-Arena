@@ -46,10 +46,10 @@ function NavBar() {
     }
   }
 
-  // creates a variable that stores the selected champions spell and attack point total for display
-  const fighterHitPoints = () => {
-    let hitPoints = myFighter.card.attack_points + myFighter.card.spell_points
-    return hitPoints
+  // a function that provides the selected champions and opponents spell and attack point total for display
+  const hitPoints = (attack_points, spell_points) => {
+    let points = attack_points + spell_points
+    return Math.trunc(points).toLocaleString()
   }
 
   // styling for the drawer including color and width.
@@ -119,7 +119,7 @@ function NavBar() {
           {/* a ternary operater checks if there is a fighter selected and presents that information but if no fighter is selected, it says as much. */}
           <ListItem>
             <p className='characterFont'>{validFighter ?
-              `Your champion: ${myFighter.card.name} has ${fighterHitPoints()} hit points` :
+              `Your champion: ${myFighter.card.name} has ${hitPoints(myFighter.card.attack_points, myFighter.card.spell_points)} hit points` :
               `No champion has been selected`}
             </p>
           </ListItem>
@@ -143,7 +143,7 @@ function NavBar() {
           {/* a ternary operater checks if there is an opponent selected and presents that information but if no opponent is selected, it says as much. */}
           <ListItem>
             <p className='characterFont'>{validOpponent ?
-              `Your opponent: ${opponent.card.name} has ${opponent.card.attack_points + opponent.card.spell_points} hit points` :
+              `Your opponent: ${opponent.card.name} has ${hitPoints(opponent.card.attack_points, opponent.card.spell_points)} hit points` :
               `No opponent has been selected`}
             </p>
           </ListItem>
