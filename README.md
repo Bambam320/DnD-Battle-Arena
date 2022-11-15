@@ -55,7 +55,7 @@ The best method for setting up the back end requires opening a new terminal and 
 ```rb
 $ bundle install
 ```
-Before running the server and using this SPA, consider seeding new spells and characters, there are already some records in the spells and characters tables. If you prefer, you may roll back the migrations and migrate them again. In this situation, run ```bundle exec db:rollback```, twice to roll back the characters tables and thrice to roll back the spells table as well. Once the table(s) have been cleared, run ```bundle exec db:migrate```. Now that the tables have been cleared, you may run the following command, ```bundle exec rake db:seed``` to seed the tables with spells and characters.
+OPTIONAL: Before running the server and using this SPA, consider seeding new spells and characters, there are already some records in the spells and characters tables. If you prefer, you may roll back the migrations and migrate them again. In this situation, run ```bundle exec db:rollback```, threefold to roll back the characters tables and fourfold to roll back the spells table as well. Once the table(s) have been cleared, run ```bundle exec db:migrate```. Now that the tables have been cleared, you may run the following command, ```bundle exec rake db:seed``` to seed the tables with spells and characters.
 
 Last step, After the tables are sufficiently prepared for your purposes, run the following command in order to run a special gem called "rerun" that will listen for changes and utilize the ```dndpedia_server``` backend as the server for the front end. 
 ```rb
